@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: ghcr.io/ligre-lod/query-interface/frontend:latest
+    pull_policy: always
+    # build: apps/frontend
+    ports:
+      - "8080:8000"
+    configs:
+      - source: config.toml
+        target: /config.toml
+    environment:
+      - SERVER_CONFIG_FILE=/config.toml
+    restart: unless-stopped
+
+configs:
+  config.toml:
+    content: |
+      [general]
+      host = "0.0.0.0"
+      port = 8000
+      log-level = "info"

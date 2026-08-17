@@ -1,0 +1,7 @@
+procs:
+  fe-runner:
+    cwd: ./apps/frontend/
+    shell: "direnv exec . nix develop --command pnpm run dev"
+  fe-tester:
+    cwd: ./apps/frontend/
+    shell: "direnv exec . nix develop --command pnpm run test"
