@@ -1,0 +1,45 @@
+# Minimal OWL vocabulary for the terms minted by mapping.ttl under the
+# ligre-erc.eu placeholder namespace. Kept intentionally small -- just
+# enough to self-describe the classes/properties/individuals used, not a
+# full linguistic ontology like lila: or nomisma:.
+@prefix ligre:   <http://ligre-erc.eu/ontologies/ligre/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://ligre-erc.eu/ontologies/ligre/> a owl:Ontology .
+
+ligre:Lemma a owl:Class ;
+    rdfs:label "Lemma" .
+
+ligre:hasPOS a owl:ObjectProperty ;
+    rdfs:domain ligre:Lemma ;
+    rdfs:label "has part of speech" .
+
+ligre:hasGender a owl:ObjectProperty ;
+    rdfs:domain ligre:Lemma ;
+    rdfs:label "has gender" .
+
+# Part-of-speech individuals (mirrors POS_MAP in rdf/dump_rdf.py)
+ligre:adjective a owl:NamedIndividual ; rdfs:label "adjective" .
+ligre:adposition a owl:NamedIndividual ; rdfs:label "adposition" .
+ligre:adverb a owl:NamedIndividual ; rdfs:label "adverb" .
+ligre:auxiliary a owl:NamedIndividual ; rdfs:label "auxiliary" .
+ligre:coordinating_conjunction a owl:NamedIndividual ; rdfs:label "coordinating conjunction" .
+ligre:determiner a owl:NamedIndividual ; rdfs:label "determiner" .
+ligre:interjection a owl:NamedIndividual ; rdfs:label "interjection" .
+ligre:noun a owl:NamedIndividual ; rdfs:label "noun" .
+ligre:numeral a owl:NamedIndividual ; rdfs:label "numeral" .
+ligre:particle a owl:NamedIndividual ; rdfs:label "particle" .
+ligre:pronoun a owl:NamedIndividual ; rdfs:label "pronoun" .
+ligre:proper_noun a owl:NamedIndividual ; rdfs:label "proper noun" .
+ligre:punctuation a owl:NamedIndividual ; rdfs:label "punctuation" .
+ligre:subordinating_conjunction a owl:NamedIndividual ; rdfs:label "subordinating conjunction" .
+ligre:symbol a owl:NamedIndividual ; rdfs:label "symbol" .
+ligre:verb a owl:NamedIndividual ; rdfs:label "verb" .
+ligre:other a owl:NamedIndividual ; rdfs:label "other" .
+
+# Gender individuals (mirrors GENDER_RULES in rdf/dump_rdf.py)
+ligre:masculine a owl:NamedIndividual ; rdfs:label "masculine" .
+ligre:feminine a owl:NamedIndividual ; rdfs:label "feminine" .
+ligre:neuter a owl:NamedIndividual ; rdfs:label "neuter" .

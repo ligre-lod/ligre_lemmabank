@@ -1,0 +1,37 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: ligre-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ligre_db
+      MARIADB_USER: ligre
+      MARIADB_PASSWORD: ligre
+    ports:
+      - "3306:3306"
+    volumes:
+      - ligre_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d:ro
+
+  ontop:
+    image: ontop/ontop:5.5.0
+    container_name: ligre-ontop
+    depends_on:
+      - mariadb
+    environment:
+      ONTOP_DB_URL: jdbc:mariadb://mariadb:3306/ligre_db
+      ONTOP_DB_USER: ligre
+      ONTOP_DB_PASSWORD: ligre
+      ONTOP_MAPPING_FILE: /opt/ontop/input/mapping.ttl
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/ontology.ttl
+      ONTOP_PROPERTIES_FILE: /opt/ontop/input/ontop.properties
+      ONTOP_CORS_ALLOWED_ORIGINS: "*"
+    volumes:
+      - ./ontop/input:/opt/ontop/input
+      - ./ontop/jdbc:/opt/ontop/jdbc
+    ports:
+      - "8081:8080"
+    command: ./ontop endpoint
+
+volumes:
+  ligre_data:
