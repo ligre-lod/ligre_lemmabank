@@ -12,6 +12,28 @@ services:
     volumes:
       - ligre_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  lemma-loader:
+    build: ./database
+    container_name: ligre-lemma-loader
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3306
+      MARIADB_USER: ligre
+      MARIADB_PASSWORD: ligre
+      MARIADB_DATABASE: ligre_db
+    volumes:
+      - ./final_lemmaList.tsv:/app/final_lemmaList.tsv:ro
+      - ./lemma_annotations.numbers:/app/lemma_annotations.numbers:ro
+    restart: "no"
 
   ontop:
     image: ontop/ontop:5.5.0
