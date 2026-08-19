@@ -19,7 +19,7 @@ services:
       retries: 30
 
   lemma-loader:
-    build: ./database
+    build: ./dataloader
     container_name: ligre-lemma-loader
     depends_on:
       mariadb:
@@ -31,8 +31,26 @@ services:
       MARIADB_PASSWORD: ligre
       MARIADB_DATABASE: ligre_db
     volumes:
-      - ./final_lemmaList.tsv:/app/final_lemmaList.tsv:ro
-      - ./lemma_annotations.numbers:/app/lemma_annotations.numbers:ro
+      - ./data:/app/data:ro
+    restart: "no"
+
+  conllu-loader:
+    build: ./dataloader
+    container_name: ligre-conllu-loader
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      lemma-loader:
+        condition: service_completed_successfully
+    environment:
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3306
+      MARIADB_USER: ligre
+      MARIADB_PASSWORD: ligre
+      MARIADB_DATABASE: ligre_db
+    volumes:
+      - ./data:/app/data:ro
+    command: ["python", "dataloader/load_conllu.py"]
     restart: "no"
 
   ontop:
