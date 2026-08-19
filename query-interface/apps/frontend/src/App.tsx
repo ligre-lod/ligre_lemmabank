@@ -32,7 +32,7 @@ const App: React.FC = () => {
       >
         <AppBar position="static" elevation={0}>
           <Toolbar sx={{ justifyContent: 'center', py: 2 }}>
-            <FloatingLogo />
+            {/*<FloatingLogo />*/}
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="h1" component="h1" sx={{ mb: 0.5 }}>
                 LiGre Query Interface

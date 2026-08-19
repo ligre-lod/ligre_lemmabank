@@ -90,12 +90,12 @@ const Filters: React.FC<FiltersProps> = ({ onFiltersChange }) => {
           onChange={setLemma}
         />
 
-        <FilterSelect
-          label="Inflection Type"
-          value={inflectionType}
-          fetchOptions={getInflectionOptions}
-          onChange={setInflectionType}
-        />
+        {/*<FilterSelect*/}
+        {/*  label="Inflection Type"*/}
+        {/*  value={inflectionType}*/}
+        {/*  fetchOptions={getInflectionOptions}*/}
+        {/*  onChange={setInflectionType}*/}
+        {/*/>*/}
 
         <FilterSelect
           label="POS"

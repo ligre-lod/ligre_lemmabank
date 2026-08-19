@@ -146,23 +146,23 @@ const NavigationLinks: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}>
-      <Link
-        href="https://ligre.it"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={{
-          color: 'inherit',
-          textDecoration: 'none',
-          fontSize: '0.875rem',
-          opacity: 0.8,
-          '&:hover': {
-            opacity: 1,
-            textDecoration: 'underline',
-          },
-        }}
-      >
-        Back to Home
-      </Link>
+      {/*<Link*/}
+      {/*  href="https://ligre.it"*/}
+      {/*  target="_blank"*/}
+      {/*  rel="noopener noreferrer"*/}
+      {/*  sx={{*/}
+      {/*    color: 'inherit',*/}
+      {/*    textDecoration: 'none',*/}
+      {/*    fontSize: '0.875rem',*/}
+      {/*    opacity: 0.8,*/}
+      {/*    '&:hover': {*/}
+      {/*      opacity: 1,*/}
+      {/*      textDecoration: 'underline',*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Back to Home*/}
+      {/*</Link>*/}
       <ButtonMenu
         label="LiGre Toolkit"
         items={toolkitItems}
