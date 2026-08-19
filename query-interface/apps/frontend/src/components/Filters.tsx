@@ -6,7 +6,6 @@ import type { SearchFilters } from '../utils/sparql';
 import {
   generateSparqlQuery,
   getGenderOptions,
-  getInflectionOptions,
   getPosOptions,
 } from '../utils/sparql';
 import FilterRegexp from './FilterRegexp';
@@ -18,7 +17,7 @@ interface FiltersProps {
 
 const Filters: React.FC<FiltersProps> = ({ onFiltersChange }) => {
   const [lemma, setLemma] = useState<string>('');
-  const [inflectionType, setInflectionType] = useState<string>('');
+  const [inflectionType] = useState<string>('');
   const [pos, setPos] = useState<string>('');
   const [gender, setGender] = useState<string>('');
 
@@ -89,14 +88,6 @@ const Filters: React.FC<FiltersProps> = ({ onFiltersChange }) => {
           value={lemma}
           onChange={setLemma}
         />
-
-        {/*<FilterSelect*/}
-        {/*  label="Inflection Type"*/}
-        {/*  value={inflectionType}*/}
-        {/*  fetchOptions={getInflectionOptions}*/}
-        {/*  onChange={setInflectionType}*/}
-        {/*/>*/}
-
         <FilterSelect
           label="POS"
           value={pos}
