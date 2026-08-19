@@ -13,7 +13,6 @@ try:
 except ImportError:
     sys.exit("Missing dependency: pip install pymysql")
 
-INCLUDED_POS = {"ADJ", "ADP", "ADV", "CCONJ", "NOUN", "PART", "SCONJ", "VERB"}
 GENDERS = ("*", "f", "m", "n")
 CHUNK_SIZE = 1000
 
@@ -44,8 +43,6 @@ def dedup(rows, duplicates_out):
     kept = []
     skipped = []
     for row_num, label, pos, gender in rows:
-        if pos not in INCLUDED_POS:
-            continue
         key = (label, pos, gender)
         if key in seen:
             skipped.append((row_num, label, pos, gender, seen[key]))
@@ -126,7 +123,7 @@ def connect(retries=30, delay=2):
             time.sleep(delay)
     raise last_err
 
-def load_into_db(conn, final_lemmas, variants):
+def load_into_db(conn, final_lemmas, variants, pos_tags):
     with conn.cursor() as cur:
         cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("TRUNCATE TABLE `lemma_wr`")
@@ -136,7 +133,7 @@ def load_into_db(conn, final_lemmas, variants):
         cur.executemany(
             "INSERT INTO `universal_pos_tag` (`upostag`) VALUES (%s) "
             "ON DUPLICATE KEY UPDATE `upostag` = VALUES(`upostag`)",
-            [(p,) for p in sorted(INCLUDED_POS)],
+            [(p,) for p in pos_tags],
         )
         cur.executemany(
             "INSERT INTO `gender` (`gen`) VALUES (%s) "
@@ -184,6 +181,7 @@ def main():
     args = parser.parse_args()
 
     raw_rows = load_tsv_rows(args.tsv)
+    pos_tags = sorted({pos for _rn, _label, pos, _gender in raw_rows})
     lemma_entries, skipped = dedup(raw_rows, args.duplicates_out)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
@@ -198,7 +196,7 @@ def main():
     variants_by_final_key = {(l, p, gen_for(p, g)): v for (l, p, g), v in variants.items()}
 
     print(f"tsv data rows: {len(raw_rows)}")
-    print(f"excluded (unsupported pos): {sum(1 for r in raw_rows if r[2] not in INCLUDED_POS)}")
+    print(f"distinct POS tags found: {len(pos_tags)} -> {pos_tags}")
     print(f"exact duplicates skipped: {len(skipped)}")
     print(f"WR merge groups applied: {len(variants)} "
           f"({sum(len(v) for v in variants.values())} lemmas absorbed as wr variants)")
@@ -207,7 +205,7 @@ def main():
     print("connecting to MariaDB...")
     conn = connect()
     try:
-        wr_count = load_into_db(conn, final_lemmas, variants_by_final_key)
+        wr_count = load_into_db(conn, final_lemmas, variants_by_final_key, pos_tags)
         print(f"loaded {len(final_lemmas)} lemma rows and {wr_count} lemma_wr rows")
     finally:
         conn.close()
