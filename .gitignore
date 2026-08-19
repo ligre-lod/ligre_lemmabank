@@ -1,1 +1,4 @@
 .idea
+/data/final_lemmaList.tsv
+/data/grc_perseus-ud-test.conllu
+/data/lemma_annotations.numbers
