@@ -5,13 +5,8 @@ import os
 import sys
 import time
 from pathlib import Path
-
 from numbers_parser import Document
-
-try:
-    import pymysql
-except ImportError:
-    sys.exit("Missing dependency: pip install pymysql")
+import pymysql
 
 GENDERS = ("*", "f", "m", "n")
 CHUNK_SIZE = 1000
@@ -58,7 +53,6 @@ def dedup(rows, duplicates_out):
                 writer.writerow([row_num, label, pos, gender, kept_row_num])
 
     return kept, skipped
-
 
 def load_wr_clusters(numbers_path):
     doc = Document(numbers_path)
