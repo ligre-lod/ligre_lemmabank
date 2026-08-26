@@ -290,7 +290,7 @@ def main():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--conllu", type=Path,
-                         default=repo_root / "data" / "grc_perseus-ud-test.conllu")
+                         default=repo_root / "data" / "grc_perseus_all.conllu")
     args = parser.parse_args()
 
     sentences = list(parse_conllu(args.conllu))
