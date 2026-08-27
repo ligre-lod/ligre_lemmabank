@@ -1,5 +1,3 @@
 .idea
 /data/final_lemmaList.tsv
-/data/grc_perseus-ud-test.conllu
-/data/grc_perseus-ud_all.conllu
 /data/lemma_annotations.numbers
