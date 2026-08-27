@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getRuntimeConfig } from '../utils/config';
 import type { SearchFilters, SearchResult } from '../utils/sparql';
 import { generateSparqlQuery, searchWithFilters } from '../utils/sparql';
 
@@ -69,6 +70,13 @@ const Results: React.FC<ResultsProps> = ({ filters }) => {
       }
     };
   }, [filters, performSearch]);
+
+  const openLemmaPage = async (subject: string) => {
+    const { lodviewUrl } = await getRuntimeConfig();
+    const iriSuffix = subject.split('/').pop();
+    const pageUrl = `${lodviewUrl}/${iriSuffix}`;
+    window.open(pageUrl, '_blank', 'noopener,noreferrer');
+  };
 
   const handleDownloadCsv = () => {
     const query = generateSparqlQuery(filters);
@@ -129,13 +137,7 @@ const Results: React.FC<ResultsProps> = ({ filters }) => {
                   <TableCell sx={{ width: '48px' }}>
                     <IconButton
                       size="small"
-                      onClick={() =>
-                        window.open(
-                          result.subject,
-                          '_blank',
-                          'noopener,noreferrer',
-                        )
-                      }
+                      onClick={() => openLemmaPage(result.subject)}
                       title={result.subject}
                     >
                       <OpenInNew fontSize="small" />

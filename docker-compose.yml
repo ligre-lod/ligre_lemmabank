@@ -56,5 +56,18 @@ services:
       - "8081:8080"
     command: ./ontop endpoint
 
+  lodview:
+    image: ghcr.io/teamdigitale/dati-semantic-lodview:latest
+    container_name: ligre-lodview
+    depends_on:
+      - ontop
+    environment:
+      LodViewendpoint: http://ontop:8080/sparql
+      LodViewendpointInternal: http://ontop:8080/sparql
+      LodViewIRInamespace: http://ligre-erc.eu/data/id/lemma/
+    ports:
+      - "8082:8080"
+    restart: unless-stopped
+
 volumes:
   ligre_data:

@@ -10,6 +10,8 @@ services:
     configs:
       - source: config.toml
         target: /config.toml
+      - source: runtime-config.json
+        target: /public/query-interface/config.json
     environment:
       - SERVER_CONFIG_FILE=/config.toml
     restart: unless-stopped
@@ -21,3 +23,8 @@ configs:
       host = "0.0.0.0"
       port = 8000
       log-level = "info"
+  runtime-config.json:
+    content: |
+      {
+        "lodviewUrl": "${LODVIEW_URL:-http://localhost:8082}"
+      }
