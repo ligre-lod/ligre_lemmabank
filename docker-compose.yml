@@ -36,30 +36,12 @@ services:
     command: ["python", "dataloader/generate_lemma_data.py", "--duplicates-out", "/app/out/duplicates.csv"]
     restart: "no"
 
-  conllu-loader:
-    build: ./dataloader
-    container_name: ligre-conllu-loader
-    depends_on:
-      mariadb:
-        condition: service_healthy
-      lemma-loader:
-        condition: service_completed_successfully
-    environment:
-      MARIADB_HOST: mariadb
-      MARIADB_PORT: 3306
-      MARIADB_USER: ligre
-      MARIADB_PASSWORD: ligre
-      MARIADB_DATABASE: ligre_db
-    volumes:
-      - ./data:/app/data:ro
-    command: ["python", "dataloader/load_conllu.py"]
-    restart: "no"
-
   ontop:
     image: ontop/ontop:5.5.0
     container_name: ligre-ontop
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     environment:
       ONTOP_DB_URL: jdbc:mariadb://mariadb:3306/ligre_db
       ONTOP_DB_USER: ligre
