@@ -47,7 +47,6 @@ services:
       ONTOP_DB_USER: ligre
       ONTOP_DB_PASSWORD: ligre
       ONTOP_MAPPING_FILE: /opt/ontop/input/mapping.ttl
-      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/ontology.ttl
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/ontop.properties
       ONTOP_CORS_ALLOWED_ORIGINS: "*"
     volumes:

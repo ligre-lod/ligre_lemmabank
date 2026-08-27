@@ -53,9 +53,9 @@ function uriToPosLabel(uri: string): string {
 }
 
 const GENDER_URI_TO_LABEL: Record<string, string> = {
-  'http://ligre-erc.eu/ontologies/ligre/feminine': 'Feminine',
-  'http://ligre-erc.eu/ontologies/ligre/masculine': 'Masculine',
-  'http://ligre-erc.eu/ontologies/ligre/neuter': 'Neuter',
+  'http://lila-erc.eu/ontologies/lila/feminine': 'Feminine',
+  'http://lila-erc.eu/ontologies/lila/masculine': 'Masculine',
+  'http://lila-erc.eu/ontologies/lila/neuter': 'Neuter',
 };
 
 const INFLECTION_TYPE_URI_TO_LABEL: Record<string, string> = {
@@ -74,25 +74,25 @@ const INFLECTION_TYPE_URI_TO_LABEL: Record<string, string> = {
 };
 
 const POS_URI_TO_LABEL: Record<string, string> = {
-  'http://ligre-erc.eu/ontologies/ligre/adjective': 'Adjective',
-  'http://ligre-erc.eu/ontologies/ligre/adposition': 'Adposition',
-  'http://ligre-erc.eu/ontologies/ligre/adverb': 'Adverb',
-  'http://ligre-erc.eu/ontologies/ligre/auxiliary': 'Auxiliary',
-  'http://ligre-erc.eu/ontologies/ligre/coordinating_conjunction':
+  'http://lila-erc.eu/ontologies/lila/adjective': 'Adjective',
+  'http://lila-erc.eu/ontologies/lila/adposition': 'Adposition',
+  'http://lila-erc.eu/ontologies/lila/adverb': 'Adverb',
+  'http://lila-erc.eu/ontologies/lila/auxiliary': 'Auxiliary',
+  'http://lila-erc.eu/ontologies/lila/coordinating_conjunction':
     'Coordinating Conjunction',
-  'http://ligre-erc.eu/ontologies/ligre/determiner': 'Determiner',
-  'http://ligre-erc.eu/ontologies/ligre/interjection': 'Interjection',
-  'http://ligre-erc.eu/ontologies/ligre/noun': 'Noun',
-  'http://ligre-erc.eu/ontologies/ligre/numeral': 'Numeral',
-  'http://ligre-erc.eu/ontologies/ligre/other': 'Other',
-  'http://ligre-erc.eu/ontologies/ligre/particle': 'Particle',
-  'http://ligre-erc.eu/ontologies/ligre/pronoun': 'Pronoun',
-  'http://ligre-erc.eu/ontologies/ligre/proper_noun': 'Proper Noun',
-  'http://ligre-erc.eu/ontologies/ligre/punctuation': 'Punctuation',
-  'http://ligre-erc.eu/ontologies/ligre/subordinating_conjunction':
+  'http://lila-erc.eu/ontologies/lila/determiner': 'Determiner',
+  'http://lila-erc.eu/ontologies/lila/interjection': 'Interjection',
+  'http://lila-erc.eu/ontologies/lila/noun': 'Noun',
+  'http://lila-erc.eu/ontologies/lila/numeral': 'Numeral',
+  'http://lila-erc.eu/ontologies/lila/other': 'Other',
+  'http://lila-erc.eu/ontologies/lila/particle': 'Particle',
+  'http://lila-erc.eu/ontologies/lila/pronoun': 'Pronoun',
+  'http://lila-erc.eu/ontologies/lila/proper_noun': 'Proper Noun',
+  'http://lila-erc.eu/ontologies/lila/punctuation': 'Punctuation',
+  'http://lila-erc.eu/ontologies/lila/subordinating_conjunction':
     'Subordinating Conjunction',
-  'http://ligre-erc.eu/ontologies/ligre/symbol': 'Symbol',
-  'http://ligre-erc.eu/ontologies/ligre/verb': 'Verb',
+  'http://lila-erc.eu/ontologies/lila/symbol': 'Symbol',
+  'http://lila-erc.eu/ontologies/lila/verb': 'Verb',
 };
 
 export interface FilterOption {
@@ -115,13 +115,13 @@ async function getFilterOptions(predicate: string): Promise<FilterOption[]> {
       let label: string;
 
       // Choose the appropriate label mapping based on the predicate
-      if (predicate === 'http://ligre-erc.eu/ontologies/ligre/hasGender') {
+      if (predicate === 'http://lila-erc.eu/ontologies/lila/hasGender') {
         label = uriToGenderLabel(uri);
       } else if (
-        predicate === 'http://ligre-erc.eu/ontologies/ligre/hasInflectionType'
+        predicate === 'http://lila-erc.eu/ontologies/lila/hasInflectionType'
       ) {
         label = uriToInflectionTypeLabel(uri);
-      } else if (predicate === 'http://ligre-erc.eu/ontologies/ligre/hasPOS') {
+      } else if (predicate === 'http://lila-erc.eu/ontologies/lila/hasPOS') {
         label = uriToPosLabel(uri);
       } else {
         // Fallback to the original URI or last part of URI
@@ -141,16 +141,16 @@ async function getFilterOptions(predicate: string): Promise<FilterOption[]> {
 
 export async function getInflectionOptions(): Promise<FilterOption[]> {
   return getFilterOptions(
-    'http://ligre-erc.eu/ontologies/ligre/hasInflectionType',
+    'http://lila-erc.eu/ontologies/lila/hasInflectionType',
   );
 }
 
 export async function getPosOptions(): Promise<FilterOption[]> {
-  return getFilterOptions('http://ligre-erc.eu/ontologies/ligre/hasPOS');
+  return getFilterOptions('http://lila-erc.eu/ontologies/lila/hasPOS');
 }
 
 export async function getGenderOptions(): Promise<FilterOption[]> {
-  return getFilterOptions('http://ligre-erc.eu/ontologies/ligre/hasGender');
+  return getFilterOptions('http://lila-erc.eu/ontologies/lila/hasGender');
 }
 
 export interface SearchFilters {
@@ -173,19 +173,19 @@ export function generateSparqlQuery(filters: SearchFilters): string {
   // Add filter conditions based on provided values
   if (filters.gender) {
     conditions.push(
-      `?subject <http://ligre-erc.eu/ontologies/ligre/hasGender> <${filters.gender}> .`,
+      `?subject <http://lila-erc.eu/ontologies/lila/hasGender> <${filters.gender}> .`,
     );
   }
 
   if (filters.inflectionType) {
     conditions.push(
-      `?subject <http://ligre-erc.eu/ontologies/ligre/hasInflectionType> <${filters.inflectionType}> .`,
+      `?subject <http://lila-erc.eu/ontologies/lila/hasInflectionType> <${filters.inflectionType}> .`,
     );
   }
 
   if (filters.pos) {
     conditions.push(
-      `?subject <http://ligre-erc.eu/ontologies/ligre/hasPOS> <${filters.pos}> .`,
+      `?subject <http://lila-erc.eu/ontologies/lila/hasPOS> <${filters.pos}> .`,
     );
   }
 
@@ -203,7 +203,7 @@ SELECT ?subject ?wrs ?pos ?lexicons where {
   {SELECT ?subject ?poslink ?pos (group_concat(distinct ?wr ; separator=" ") as ?wrs) (group_concat(distinct ?lexicon ; separator=" ") as ?lexicons) WHERE {
       ?subject <http://purl.org/dc/terms/isPartOf> <http://ligre-erc.eu/data/id/lemma/LemmaBank> .
       ${conditionsString}
-      ?subject <http://ligre-erc.eu/ontologies/ligre/hasPOS> ?poslink .
+      ?subject <http://lila-erc.eu/ontologies/lila/hasPOS> ?poslink .
       BIND(?poslink AS ?pos) .
       ?subject <http://www.w3.org/ns/lemon/ontolex#writtenRep> ?wr .
       optional {
