@@ -73,8 +73,8 @@ const Results: React.FC<ResultsProps> = ({ filters }) => {
 
   const openLemmaPage = async (subject: string) => {
     const { lodviewUrl } = await getRuntimeConfig();
-    const iriSuffix = subject.split('/').pop();
-    const pageUrl = `${lodviewUrl}/${iriSuffix}`;
+    const iriPath = new URL(subject).pathname;
+    const pageUrl = `${lodviewUrl}${iriPath}`;
     window.open(pageUrl, '_blank', 'noopener,noreferrer');
   };
 
