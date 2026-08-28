@@ -1,18 +1,12 @@
-# R2RML mapping from the ligre_db `lemma` table to RDF.
-
-@prefix :        <http://ligre-erc.eu/data/id/lemma/> .
 @prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr:      <http://www.w3.org/ns/r2rml#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix lila:    <http://lila-erc.eu/ontologies/lila/> .
+@prefix lemma:   <http://ligre-erc.eu/data/id/lemma/> .
 
-##############
-# LEMMA (core fields)
-##############
-
-:LEMMA
+lemma:LEMMA
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma, label FROM lemma""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ;
@@ -24,15 +18,9 @@
                             rr:objectMap [ rr:column   "label" ;
                                            rr:language "grc" ] ] ;
     rr:predicateObjectMap [ rr:predicate dcterms:isPartOf ;
-                            rr:objectMap [ rr:constant <http://ligre-erc.eu/data/id/lemma/LemmaBank> ] ] .
+                            rr:objectMap [ rr:constant lemma:LemmaBank ] ] .
 
-##############
-# LEMMA: written representation variants (from lemma_wr, incl. the canonical
-# label itself -- see dataloader/generate_lemma_data.py). Adds one extra
-# ontolex:writtenRep triple per row on the same lemma subject as :LEMMA.
-##############
-
-:LEMMA-WR
+lemma:LEMMA-WR
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma, wr FROM lemma_wr""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
@@ -40,133 +28,126 @@
                             rr:objectMap [ rr:column   "wr" ;
                                            rr:language "grc" ] ] .
 
-##############
-# LEMMA: POS mapping
-##############
-
-:LEMMA-POS-ADJ
+lemma:LEMMA-POS-ADJ
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'ADJ'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:adjective ] ] .
 
-:LEMMA-POS-ADP
+lemma:LEMMA-POS-ADP
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'ADP'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:adposition ] ] .
 
-:LEMMA-POS-ADV
+lemma:LEMMA-POS-ADV
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'ADV'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:adverb ] ] .
 
-:LEMMA-POS-AUX
+lemma:LEMMA-POS-AUX
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'AUX'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:auxiliary ] ] .
 
-:LEMMA-POS-CCONJ
+lemma:LEMMA-POS-CCONJ
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'CCONJ'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:coordinating_conjunction ] ] .
 
-:LEMMA-POS-DET
+lemma:LEMMA-POS-DET
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'DET'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:determiner ] ] .
 
-:LEMMA-POS-INTJ
+lemma:LEMMA-POS-INTJ
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'INTJ'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:interjection ] ] .
 
-:LEMMA-POS-NOUN
+lemma:LEMMA-POS-NOUN
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'NOUN'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:noun ] ] .
 
-:LEMMA-POS-NUM
+lemma:LEMMA-POS-NUM
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'NUM'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:numeral ] ] .
 
-:LEMMA-POS-PART
+lemma:LEMMA-POS-PART
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'PART'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:particle ] ] .
 
-:LEMMA-POS-PRON
+lemma:LEMMA-POS-PRON
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'PRON'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:pronoun ] ] .
 
-:LEMMA-POS-PROPN
+lemma:LEMMA-POS-PROPN
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'PROPN'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:proper_noun ] ] .
 
-:LEMMA-POS-PUNCT
+lemma:LEMMA-POS-PUNCT
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'PUNCT'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:punctuation ] ] .
 
-:LEMMA-POS-SCONJ
+lemma:LEMMA-POS-SCONJ
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'SCONJ'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:subordinating_conjunction ] ] .
 
-:LEMMA-POS-SYM
+lemma:LEMMA-POS-SYM
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'SYM'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:symbol ] ] .
 
-:LEMMA-POS-VERB
+lemma:LEMMA-POS-VERB
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'VERB'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:verb ] ] .
 
-:LEMMA-POS-X
+lemma:LEMMA-POS-X
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma WHERE upostag = 'X'""" ] ;
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasPOS ;
                             rr:objectMap [ rr:constant lila:other ] ] .
 
-##############
-# LEMMA: gender mapping
-##############
-:LEMMA-GENDER-MASC
+lemma:LEMMA-GENDER-MASC
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """
         SELECT id_lemma FROM lemma
@@ -176,7 +157,7 @@
     rr:predicateObjectMap [ rr:predicate lila:hasGender ;
                             rr:objectMap [ rr:constant lila:masculine ] ] .
 
-:LEMMA-GENDER-FEM
+lemma:LEMMA-GENDER-FEM
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """
         SELECT id_lemma FROM lemma
@@ -186,7 +167,7 @@
     rr:predicateObjectMap [ rr:predicate lila:hasGender ;
                             rr:objectMap [ rr:constant lila:feminine ] ] .
 
-:LEMMA-GENDER-NEUT
+lemma:LEMMA-GENDER-NEUT
     a                     rr:TriplesMap ;
     rr:logicalTable       [ rr:sqlQuery """
         SELECT id_lemma FROM lemma
