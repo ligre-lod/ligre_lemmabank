@@ -1,9 +1,11 @@
 interface RuntimeConfig {
   lodviewUrl: string;
+  sparqlEndpointUrl: string;
 }
 
 const DEFAULT_CONFIG: RuntimeConfig = {
   lodviewUrl: 'http://localhost:8082',
+  sparqlEndpointUrl: 'http://localhost:8081',
 };
 
 let configPromise: Promise<RuntimeConfig> | null = null;

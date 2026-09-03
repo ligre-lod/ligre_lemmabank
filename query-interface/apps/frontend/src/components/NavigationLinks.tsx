@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import React, { useEffect, useState, useCallback } from 'react';
+import { getRuntimeConfig } from '../utils/config';
 
 interface GitHubRepo {
   name: string;
@@ -108,6 +109,15 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
 const NavigationLinks: React.FC = () => {
   const [ligreTools, setLiitaTools] = useState<GitHubRepo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sparqlEndpointUrl, setSparqlEndpointUrl] = useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    getRuntimeConfig().then((config) =>
+      setSparqlEndpointUrl(config.sparqlEndpointUrl),
+    );
+  }, []);
 
   useEffect(() => {
     const fetchLiitaTools = async () => {
@@ -137,11 +147,16 @@ const NavigationLinks: React.FC = () => {
     return repo.homepage || repo.html_url;
   };
 
-  const toolkitItems: MenuItemData[] = ligreTools.map((repo) => ({
-    label: repo.description || repo.name,
-    href: getRepoUrl(repo),
-    key: repo.name,
-  }));
+  const toolkitItems: MenuItemData[] = [
+    ...(sparqlEndpointUrl
+      ? [{ label: 'SPARQL Endpoint', href: sparqlEndpointUrl, key: 'sparql-endpoint' }]
+      : []),
+    ...ligreTools.map((repo) => ({
+      label: repo.description || repo.name,
+      href: getRepoUrl(repo),
+      key: repo.name,
+    })),
+  ];
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6 }}>
