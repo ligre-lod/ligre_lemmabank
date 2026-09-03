@@ -176,3 +176,17 @@ lemma:LEMMA-GENDER-NEUT
     rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:hasGender ;
                             rr:objectMap [ rr:constant lila:neuter ] ] .
+
+lemma:LEMMA-VARIANT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """
+        SELECT a.id_lemma AS id_lemma, b.id_lemma AS id_variant_lemma
+        FROM variant_group a
+        JOIN variant_group b
+          ON a.id_variant = b.id_variant
+         AND a.id_lemma <> b.id_lemma
+    """ ] ;
+    rr:subjectMap         [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_lemma}" ] ;
+    rr:predicateObjectMap [ rr:predicate lila:lemmaVariant ;
+                            rr:objectMap [ rr:template "http://ligre-erc.eu/data/id/lemma/{id_variant_lemma}" ;
+                                           rr:termType rr:IRI ] ] .

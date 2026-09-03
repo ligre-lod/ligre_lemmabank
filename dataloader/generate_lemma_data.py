@@ -54,7 +54,7 @@ def dedup(rows, duplicates_out):
 
     return kept, skipped
 
-def load_wr_clusters(numbers_path):
+def load_clusters(numbers_path):
     doc = Document(numbers_path)
     table = doc.sheets[0].tables[0]
     all_rows = table.rows(values_only=True)
@@ -64,17 +64,19 @@ def load_wr_clusters(numbers_path):
     )
 
     clusters = {}
-    for id_, label, pos, gender, cluster, wr_type in all_rows[1:]:
-        clusters.setdefault(cluster, []).append((id_, label, pos, gender, wr_type))
+    for id_, label, pos, gender, cluster, row_type in all_rows[1:]:
+        clusters.setdefault(cluster, []).append((id_, label, pos, gender, row_type))
+    return clusters
 
-    wr_groups = []
-    for members in clusters.values():
-        wr_members = [m for m in members if m[4] == "WR"]
-        if len(wr_members) < 2:
+def type_groups(clusters, row_type):
+    groups = {}
+    for cluster_id, members in clusters.items():
+        matching = [m for m in members if m[4] == row_type]
+        if len(matching) < 2:
             continue
-        wr_members.sort(key=lambda m: m[0])
-        wr_groups.append(wr_members)
-    return wr_groups
+        matching.sort(key=lambda m: m[0])
+        groups[cluster_id] = matching
+    return groups
 
 def build_wr_variants(wr_groups, lemma_keys):
     variants = {}
@@ -100,6 +102,23 @@ def build_wr_variants(wr_groups, lemma_keys):
         absorbed.update(variant_keys)
     return variants, absorbed
 
+def build_lv_variant_groups(lv_groups, lemma_keys, absorbed):
+    variant_groups = {}
+    for cluster_id, members in lv_groups.items():
+        keys = [(label, pos, gender) for _id, label, pos, gender, _t in members]
+        missing = [k for k in keys if k not in lemma_keys]
+        if missing:
+            print(f"WARNING: LV group {cluster_id} references rows not in "
+                  f"final_lemmaList.tsv, skipping group: {missing}", file=sys.stderr)
+            continue
+        overlapping = [k for k in keys if k in absorbed]
+        if overlapping:
+            print(f"WARNING: LV group {cluster_id} overlaps with a WR merge, "
+                  f"skipping group: {keys}", file=sys.stderr)
+            continue
+        variant_groups[cluster_id] = keys
+    return variant_groups
+
 def connect(retries=30, delay=2):
     last_err = None
     for _ in range(retries):
@@ -117,9 +136,10 @@ def connect(retries=30, delay=2):
             time.sleep(delay)
     raise last_err
 
-def load_into_db(conn, final_lemmas, variants, pos_tags):
+def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
     with conn.cursor() as cur:
         cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("TRUNCATE TABLE `variant_group`")
         cur.execute("TRUNCATE TABLE `lemma_wr`")
         cur.execute("TRUNCATE TABLE `lemma`")
         cur.execute("SET FOREIGN_KEY_CHECKS=1")
@@ -161,7 +181,21 @@ def load_into_db(conn, final_lemmas, variants, pos_tags):
             )
     conn.commit()
 
-    return len(wr_rows)
+    variant_group_rows = []
+    for cluster_id, keys in lv_variant_groups.items():
+        group_key = str(int(cluster_id))
+        for key in keys:
+            variant_group_rows.append((id_map[key], group_key))
+
+    with conn.cursor() as cur:
+        for chunk in chunked(variant_group_rows, CHUNK_SIZE):
+            cur.executemany(
+                "INSERT INTO `variant_group` (`id_lemma`, `id_variant`) VALUES (%s, %s)",
+                chunk,
+            )
+    conn.commit()
+
+    return len(wr_rows), len(variant_group_rows)
 
 
 def main():
@@ -179,8 +213,12 @@ def main():
     lemma_entries, skipped = dedup(raw_rows, args.duplicates_out)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
-    wr_groups = load_wr_clusters(args.numbers)
+    clusters = load_clusters(args.numbers)
+    wr_groups = list(type_groups(clusters, "WR").values())
     variants, absorbed = build_wr_variants(wr_groups, lemma_keys)
+
+    lv_groups = type_groups(clusters, "LV")
+    lv_variant_groups = build_lv_variant_groups(lv_groups, lemma_keys, absorbed)
 
     final_lemmas = [
         (label, pos, gen_for(pos, gender))
@@ -188,19 +226,28 @@ def main():
         if (label, pos, gender) not in absorbed
     ]
     variants_by_final_key = {(l, p, gen_for(p, g)): v for (l, p, g), v in variants.items()}
+    lv_variant_groups_final = {
+        cluster_id: [(l, p, gen_for(p, g)) for l, p, g in keys]
+        for cluster_id, keys in lv_variant_groups.items()
+    }
 
     print(f"tsv data rows: {len(raw_rows)}")
     print(f"distinct POS tags found: {len(pos_tags)} -> {pos_tags}")
     print(f"exact duplicates skipped: {len(skipped)}")
     print(f"WR merge groups applied: {len(variants)} "
           f"({sum(len(v) for v in variants.values())} lemmas absorbed as wr variants)")
+    print(f"LV variant groups found: {len(lv_variant_groups_final)} "
+          f"({sum(len(v) for v in lv_variant_groups_final.values())} lemmas linked as lemma variants)")
     print(f"final lemma rows: {len(final_lemmas)}")
 
     print("connecting to MariaDB...")
     conn = connect()
     try:
-        wr_count = load_into_db(conn, final_lemmas, variants_by_final_key, pos_tags)
-        print(f"loaded {len(final_lemmas)} lemma rows and {wr_count} lemma_wr rows")
+        wr_count, variant_count = load_into_db(
+            conn, final_lemmas, variants_by_final_key, lv_variant_groups_final, pos_tags
+        )
+        print(f"loaded {len(final_lemmas)} lemma rows, {wr_count} lemma_wr rows, "
+              f"and {variant_count} variant_group rows")
     finally:
         conn.close()
 
