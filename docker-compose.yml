@@ -56,6 +56,22 @@ services:
       - "8081:8080"
     command: ./ontop endpoint
 
+  ttl-exporter:
+    build: ./dataloader
+    container_name: ligre-ttl-exporter
+    depends_on:
+      lemma-loader:
+        condition: service_completed_successfully
+      ontop:
+        condition: service_healthy
+    environment:
+      ONTOP_SPARQL_URL: http://ontop:8080/sparql
+      TTL_OUTPUT: /app/ttl/ligreTTLRDF.ttl
+    volumes:
+      - ./ttl:/app/ttl
+    command: ["python", "dataloader/export_ttl.py"]
+    restart: "no"
+
   lodview:
     image: ghcr.io/teamdigitale/dati-semantic-lodview:latest
     container_name: ligre-lodview
