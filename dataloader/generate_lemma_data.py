@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 from numbers_parser import Document
-import pymysql
+import psycopg2
 
 GENDERS = ("*", "f", "m", "n")
 CHUNK_SIZE = 1000
@@ -123,47 +123,42 @@ def connect(retries=30, delay=2):
     last_err = None
     for _ in range(retries):
         try:
-            return pymysql.connect(
-                host=os.environ.get("MARIADB_HOST", "127.0.0.1"),
-                port=int(os.environ.get("MARIADB_PORT", "3306")),
-                user=os.environ.get("MARIADB_USER", "ligre"),
-                password=os.environ.get("MARIADB_PASSWORD", "ligre"),
-                database=os.environ.get("MARIADB_DATABASE", "ligre_db"),
-                charset="utf8mb4",
+            return psycopg2.connect(
+                host=os.environ.get("POSTGRES_HOST", "127.0.0.1"),
+                port=int(os.environ.get("POSTGRES_PORT", "5432")),
+                user=os.environ.get("POSTGRES_USER", "ligre"),
+                password=os.environ.get("POSTGRES_PASSWORD", "ligre"),
+                dbname=os.environ.get("POSTGRES_DATABASE", "ligre_db"),
             )
-        except pymysql.err.OperationalError as e:
+        except psycopg2.OperationalError as e:
             last_err = e
             time.sleep(delay)
     raise last_err
 
 def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
     with conn.cursor() as cur:
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
-        cur.execute("TRUNCATE TABLE `variant_group`")
-        cur.execute("TRUNCATE TABLE `lemma_wr`")
-        cur.execute("TRUNCATE TABLE `lemma`")
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+        cur.execute("TRUNCATE TABLE variant_group, lemma_wr, lemma RESTART IDENTITY CASCADE")
 
         cur.executemany(
-            "INSERT INTO `universal_pos_tag` (`upostag`) VALUES (%s) "
-            "ON DUPLICATE KEY UPDATE `upostag` = VALUES(`upostag`)",
+            "INSERT INTO universal_pos_tag (upostag) VALUES (%s) "
+            "ON CONFLICT (upostag) DO UPDATE SET upostag = EXCLUDED.upostag",
             [(p,) for p in pos_tags],
         )
         cur.executemany(
-            "INSERT INTO `gender` (`gen`) VALUES (%s) "
-            "ON DUPLICATE KEY UPDATE `gen` = VALUES(`gen`)",
+            "INSERT INTO gender (gen) VALUES (%s) "
+            "ON CONFLICT (gen) DO UPDATE SET gen = EXCLUDED.gen",
             [(g,) for g in GENDERS],
         )
 
         for chunk in chunked(final_lemmas, CHUNK_SIZE):
             cur.executemany(
-                "INSERT INTO `lemma` (`label`, `upostag`, `gen`) VALUES (%s, %s, %s)",
+                "INSERT INTO lemma (label, upostag, gen) VALUES (%s, %s, %s)",
                 chunk,
             )
     conn.commit()
 
     with conn.cursor() as cur:
-        cur.execute("SELECT `id_lemma`, `label`, `upostag`, `gen` FROM `lemma`")
+        cur.execute("SELECT id_lemma, label, upostag, gen FROM lemma")
         id_map = {(label, pos, gen): id_lemma for id_lemma, label, pos, gen in cur.fetchall()}
 
     wr_rows = []
@@ -177,7 +172,7 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
     with conn.cursor() as cur:
         for chunk in chunked(wr_rows, CHUNK_SIZE):
             cur.executemany(
-                "INSERT INTO `lemma_wr` (`id_lemma`, `wr`) VALUES (%s, %s)", chunk
+                "INSERT INTO lemma_wr (id_lemma, wr) VALUES (%s, %s)", chunk
             )
     conn.commit()
 
@@ -190,7 +185,7 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
     with conn.cursor() as cur:
         for chunk in chunked(variant_group_rows, CHUNK_SIZE):
             cur.executemany(
-                "INSERT INTO `variant_group` (`id_lemma`, `id_variant`) VALUES (%s, %s)",
+                "INSERT INTO variant_group (id_lemma, id_variant) VALUES (%s, %s)",
                 chunk,
             )
     conn.commit()
@@ -201,9 +196,9 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
 def main():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "final_lemmaList.tsv")
+    parser.add_argument("--tsv", type=Path, default=repo_root / "input_data" / "final_lemmaList.tsv")
     parser.add_argument("--numbers", type=Path,
-                         default=repo_root / "data" / "lemma_annotations.numbers")
+                         default=repo_root / "input_data" / "lemma_annotations.numbers")
     parser.add_argument("--duplicates-out", type=Path, default=None,
                          help="optional path to write skipped exact duplicates as CSV")
     args = parser.parse_args()
@@ -240,7 +235,7 @@ def main():
           f"({sum(len(v) for v in lv_variant_groups_final.values())} lemmas linked as lemma variants)")
     print(f"final lemma rows: {len(final_lemmas)}")
 
-    print("connecting to MariaDB...")
+    print("connecting to Postgres...")
     conn = connect()
     try:
         wr_count, variant_count = load_into_db(
