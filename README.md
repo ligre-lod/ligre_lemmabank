@@ -9,9 +9,21 @@ same conventions as the broader Linked Data knowledge base for the
 Latin language built by the [LiLa project](https://lila-erc.eu/).
 
 The design and rationale behind the resource are described in the paper
-*"From Lemmas to Links: A Lemma Bank for Ancient Greek"*.
+*"From Lemmas to Links: A Lemma Bank for Ancient Greek"*. If you use LiGre
+in your research, please cite:
 
-The project has two parts:
+```bibtex
+@inproceedings{swaelens2026lemmas,
+  title={From Lemmas to Links: A Lemma Bank for Ancient Greek},
+  author={Swaelens, Colin and Mambrini, Francesco and Passarotti, Marco},
+  booktitle={Language Technology for Historical and Ancient Languages (LT4HALA)},
+  pages={106--111},
+  year={2026},
+  organization={ELRA Language Resources Association}
+}
+```
+
+The project has three parts:
 
 - **`data/`** — a Postgres schema and a loader script that populate the
   lemma bank from source TSV data.
@@ -19,10 +31,9 @@ The project has two parts:
   the Postgres database to RDF on the fly and exposes it as a SPARQL
   endpoint, plus a [LodView](https://github.com/dati-semantic/lodview)
   instance for browsing individual resources.
-
-A separate [query-interface](https://ligre-lod.github.io/query-interface/)
-frontend lets users search and browse the lemma bank through the SPARQL
-endpoint.
+- **`query-interface/`** — a React frontend that lets users search and
+  browse the lemma bank through the SPARQL endpoint, deployed at
+  [ligre-lod.github.io/query-interface](https://ligre-lod.github.io/query-interface/).
 
 ## Local setup
 
