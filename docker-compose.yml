@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - ligre_data:/var/lib/postgresql/data
-      - ./database:/docker-entrypoint-initdb.d:ro
+      - ./data/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ligre -d ligre_db"]
       interval: 5s
@@ -18,7 +18,7 @@ services:
       retries: 30
 
   lemma-loader:
-    build: ./dataloader
+    build: ./data
     container_name: ligre-lemma-loader
     depends_on:
       postgres:
@@ -30,9 +30,9 @@ services:
       POSTGRES_PASSWORD: ligre
       POSTGRES_DATABASE: ligre_db
     volumes:
-      - ./input_data:/app/input_data:ro
-      - ./input_data/out:/app/out
-    command: ["python", "dataloader/generate_lemma_data.py", "--duplicates-out", "/app/out/duplicates.csv"]
+      - ./data:/app/data:ro
+      - ./data/out:/app/out
+    command: ["python", "data/generate_lemma_data.py", "--duplicates-out", "/app/out/duplicates.csv"]
     restart: "no"
 
   ontop:
@@ -55,21 +55,21 @@ services:
       - "8081:8080"
     command: ./ontop endpoint
 
-  ttl-exporter:
-    build: ./dataloader
-    container_name: ligre-ttl-exporter
-    depends_on:
-      lemma-loader:
-        condition: service_completed_successfully
-      ontop:
-        condition: service_healthy
-    environment:
-      ONTOP_SPARQL_URL: http://ontop:8080/sparql
-      TTL_OUTPUT: /app/ttl/ligreTTLRDF.ttl
-    volumes:
-      - ./ttl:/app/ttl
-    command: ["python", "dataloader/export_ttl.py"]
-    restart: "no"
+#  ttl-exporter:
+#    build: ./data
+#    container_name: ligre-ttl-exporter
+#    depends_on:
+#      lemma-loader:
+#        condition: service_completed_successfully
+#      ontop:
+#        condition: service_healthy
+#    environment:
+#      ONTOP_SPARQL_URL: http://ontop:8080/sparql
+#      TTL_OUTPUT: /app/ttl/ligreTTLRDF.ttl
+#    volumes:
+#      - ./ttl:/app/ttl
+#    command: ["python", "ttl/export_ttl.py"]
+#    restart: "no"
 
   lodview:
     image: ghcr.io/teamdigitale/dati-semantic-lodview:latest

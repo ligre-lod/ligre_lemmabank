@@ -1,3 +1,2 @@
-numbers-parser
 psycopg2-binary
 rdflib

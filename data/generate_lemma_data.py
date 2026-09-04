@@ -5,7 +5,6 @@ import os
 import sys
 import time
 from pathlib import Path
-from numbers_parser import Document
 import psycopg2
 
 GENDERS = ("*", "f", "m", "n")
@@ -54,18 +53,17 @@ def dedup(rows, duplicates_out):
 
     return kept, skipped
 
-def load_clusters(numbers_path):
-    doc = Document(numbers_path)
-    table = doc.sheets[0].tables[0]
-    all_rows = table.rows(values_only=True)
-    header = all_rows[0]
-    assert header[1:] == ["lemma", "pos", "gender", "word_cluster", "TYPE"], (
-        f"unexpected numbers header: {header}"
-    )
+def load_clusters(csv_path):
+    with open(csv_path, newline="", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        assert header[1:] == ["lemma", "pos", "gender", "word_cluster", "TYPE"], (
+            f"unexpected csv header: {header}"
+        )
 
-    clusters = {}
-    for id_, label, pos, gender, cluster, row_type in all_rows[1:]:
-        clusters.setdefault(cluster, []).append((id_, label, pos, gender, row_type))
+        clusters = {}
+        for id_, label, pos, gender, cluster, row_type in reader:
+            clusters.setdefault(cluster, []).append((int(id_), label, pos, gender, row_type))
     return clusters
 
 def type_groups(clusters, row_type):
@@ -196,9 +194,9 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
 def main():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tsv", type=Path, default=repo_root / "input_data" / "final_lemmaList.tsv")
-    parser.add_argument("--numbers", type=Path,
-                         default=repo_root / "input_data" / "lemma_annotations.numbers")
+    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "final_lemmaList.tsv")
+    parser.add_argument("--wr-lv-csv", type=Path,
+                         default=repo_root / "data" / "ligre_wr_lv.csv")
     parser.add_argument("--duplicates-out", type=Path, default=None,
                          help="optional path to write skipped exact duplicates as CSV")
     args = parser.parse_args()
@@ -208,7 +206,7 @@ def main():
     lemma_entries, skipped = dedup(raw_rows, args.duplicates_out)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
-    clusters = load_clusters(args.numbers)
+    clusters = load_clusters(args.wr_lv_csv)
     wr_groups = list(type_groups(clusters, "WR").values())
     variants, absorbed = build_wr_variants(wr_groups, lemma_keys)
 
