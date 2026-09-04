@@ -78,7 +78,7 @@ services:
     environment:
       LodViewendpoint: http://ontop:8080/sparql
       LodViewendpointInternal: http://ontop:8080/sparql
-      LodViewIRInamespace: http://ligre-erc.eu/
+      LodViewIRInamespace: https://dev.ligre.ugent.be/
     ports:
       - "8082:8080"
     restart: unless-stopped
