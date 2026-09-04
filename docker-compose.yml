@@ -31,8 +31,7 @@ services:
       POSTGRES_DATABASE: ligre_db
     volumes:
       - ./data:/app/data:ro
-      - ./data/out:/app/out
-    command: ["python", "data/generate_lemma_data.py", "--duplicates-out", "/app/out/duplicates.csv"]
+    command: ["python", "data/generate_lemma_data.py"]
     restart: "no"
 
   ontop:

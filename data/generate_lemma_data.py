@@ -32,7 +32,7 @@ def load_tsv_rows(tsv_path):
             rows.append((row_num, label, pos, gender))
     return rows
 
-def dedup(rows, duplicates_out):
+def dedup(rows):
     seen = {}
     kept = []
     skipped = []
@@ -44,12 +44,11 @@ def dedup(rows, duplicates_out):
         seen[key] = row_num
         kept.append((row_num, label, pos, gender))
 
-    if duplicates_out is not None:
-        with open(duplicates_out, "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f, lineterminator="\n")
-            writer.writerow(["row_num", "lemma", "pos", "gender", "kept_row_num"])
-            for row_num, label, pos, gender, kept_row_num in skipped:
-                writer.writerow([row_num, label, pos, gender, kept_row_num])
+    if skipped:
+        print("duplicate rows skipped (row_num, lemma, pos, gender, kept_row_num):")
+        for row_num, label, pos, gender, kept_row_num in skipped:
+            print(f"  {row_num}\t{label}\t{pos}\t{gender}\t{kept_row_num}")
+    print(f"exact duplicates skipped: {len(skipped)}")
 
     return kept, skipped
 
@@ -197,13 +196,11 @@ def main():
     parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
     parser.add_argument("--wr-lv-csv", type=Path,
                          default=repo_root / "data" / "ligre_wr_lv.csv")
-    parser.add_argument("--duplicates-out", type=Path, default=None,
-                         help="optional path to write skipped exact duplicates as CSV")
     args = parser.parse_args()
 
     raw_rows = load_tsv_rows(args.tsv)
     pos_tags = sorted({pos for _rn, _label, pos, _gender in raw_rows})
-    lemma_entries, skipped = dedup(raw_rows, args.duplicates_out)
+    lemma_entries, skipped = dedup(raw_rows)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
     clusters = load_clusters(args.wr_lv_csv)
@@ -226,7 +223,6 @@ def main():
 
     print(f"tsv data rows: {len(raw_rows)}")
     print(f"distinct POS tags found: {len(pos_tags)} -> {pos_tags}")
-    print(f"exact duplicates skipped: {len(skipped)}")
     print(f"WR merge groups applied: {len(variants)} "
           f"({sum(len(v) for v in variants.values())} lemmas absorbed as wr variants)")
     print(f"LV variant groups found: {len(lv_variant_groups_final)} "
