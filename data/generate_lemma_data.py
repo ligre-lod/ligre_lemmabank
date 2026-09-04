@@ -83,7 +83,7 @@ def build_wr_variants(wr_groups, lemma_keys):
         keys = [(label, pos, gender) for _id, label, pos, gender, _t in group]
         missing = [k for k in keys if k not in lemma_keys]
         if missing:
-            print(f"WARNING: WR group references rows not in final_lemmaList.tsv, "
+            print(f"WARNING: WR group references rows not in ligre_lemmas.tsv, "
                   f"skipping group: {missing}", file=sys.stderr)
             continue
         if any(k[1:] != keys[0][1:] for k in keys):
@@ -107,7 +107,7 @@ def build_lv_variant_groups(lv_groups, lemma_keys, absorbed):
         missing = [k for k in keys if k not in lemma_keys]
         if missing:
             print(f"WARNING: LV group {cluster_id} references rows not in "
-                  f"final_lemmaList.tsv, skipping group: {missing}", file=sys.stderr)
+                  f"ligre_lemmas.tsv, skipping group: {missing}", file=sys.stderr)
             continue
         overlapping = [k for k in keys if k in absorbed]
         if overlapping:
@@ -194,7 +194,7 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
 def main():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "final_lemmaList.tsv")
+    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
     parser.add_argument("--wr-lv-csv", type=Path,
                          default=repo_root / "data" / "ligre_wr_lv.csv")
     parser.add_argument("--duplicates-out", type=Path, default=None,
