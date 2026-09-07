@@ -24,7 +24,7 @@ jobs:
       matrix:
         include:
           - target: ontop
-            image: paulienlem/ligre-ontop
+            image: ligre-lod/ligre-ontop
             dockerfile: ontop/Dockerfile
 
     steps:
