@@ -1,4 +1,4 @@
-# ligre lemmabank
+# LiGre Lemmabank
 
 LiGre (Lemma Bank for Ancient Greek) is a linked open data resource that
 publishes lemmatized Ancient Greek vocabulary as structured, interlinked
@@ -23,17 +23,18 @@ in your research, please cite:
 }
 ```
 
-The project has three parts:
+The project has several components:
 
 - **`data/`** — a Postgres schema and a loader script that populate the
   lemma bank from source TSV data.
 - **`ontop/`** — an [Ontop](https://ontop-vkg.org/) configuration that maps
-  the Postgres database to RDF on the fly and exposes it as a SPARQL
-  endpoint, plus a [LodView](https://github.com/dati-semantic/lodview)
-  instance for browsing individual resources.
-- **`query-interface/`** — a React frontend that lets users search and
+  the Postgres database to RDF on the fly and exposes it as an endpoint 
+- **`ttl/` - A .ttl file containing the live data deployed from /data and exposed via /ontop, formatted based on the Lila ontology
+- A [LodView](https://github.com/dati-semantic/lodview)
+  instance for visualizing individual resources, launched via the docker-compose file 
+- **`query-interface/`** —  (https://github.com/ligre-lod/query-interface) a React frontend that lets users search and
   browse the lemma bank through the SPARQL endpoint, deployed at
-  [ligre-lod.github.io/query-interface](https://ligre-lod.github.io/query-interface/).
+  [ligre-lod.github.io/query-interface](https://ligre-lod.github.io/query-interface/). This repository was forked from the Linking Italian project (https://github.com/LiITA-LOD/query-interface)
 
 ## Local setup
 
@@ -53,20 +54,4 @@ This starts:
 - `lodview` — a browsable UI for individual RDF resources, backed by `ontop`
 
 Once it's up, the SPARQL endpoint is available at `http://localhost:8081`
-and LodView at `http://localhost:8082`.
-
-## Remote setup
-
-The remote deployment doesn't run the full compose stack — the database is
-managed separately from the RDF backend:
-
-- **Database** — the schema is created manually on the remote Postgres
-  server (using `data/schema.sql`), and populated from a `pg_dump` data
-  dump produced locally and transferred to the server, rather than by
-  running `lemma-loader` against the remote database directly.
-- **Backend** — only the `ontop` container (and `lodview`) run on the
-  server, pointed at that remote Postgres instance, serving the SPARQL
-  endpoint and resource pages.
-- **Frontend** — the [query-interface](https://ligre-lod.github.io/query-interface/)
-  is a static React app, built and served through GitHub Pages, which
-  talks to the remote `ontop` SPARQL endpoint.
+and LodView at `http://localhost:8082`. Launch the query-interface from https://github.com/ligre-lod/query-interface  for running the full local stack.
