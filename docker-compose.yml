@@ -1,4 +1,4 @@
-services:
+, services:
   postgres:
     image: postgres:16-alpine
     container_name: ligre-postgres
@@ -35,7 +35,9 @@ services:
     restart: "no"
 
   ontop:
-    image: ontop/ontop:5.5.0
+    build:
+      context: ./ontop
+      dockerfile: Dockerfile
     container_name: ligre-ontop
     depends_on:
       postgres:
@@ -44,9 +46,10 @@ services:
       ONTOP_DB_URL: jdbc:postgresql://postgres:5432/ligre_db
       ONTOP_DB_USER: ligre
       ONTOP_DB_PASSWORD: ligre
-      ONTOP_MAPPING_FILE: /opt/ontop/input/mapping.ttl
+      ONTOP_MAPPING_FILE: /tmp/mapping.ttl
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/ontop.properties
       ONTOP_CORS_ALLOWED_ORIGINS: "*"
+      LIGRE_BASE_URL: ${LIGRE_BASE_URL:-https://dev.ligre.ugent.be}
     volumes:
       - ./ontop/input:/opt/ontop/input
       - ./ontop/jdbc:/opt/ontop/jdbc
@@ -78,7 +81,7 @@ services:
     environment:
       LodViewendpoint: http://ontop:8080/sparql
       LodViewendpointInternal: http://ontop:8080/sparql
-      LodViewIRInamespace: https://dev.ligre.ugent.be/
+      LodViewIRInamespace: ${LIGRE_BASE_URL:-https://dev.ligre.ugent.be}/
     ports:
       - "8082:8080"
     restart: unless-stopped
