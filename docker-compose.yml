@@ -11,6 +11,7 @@ services:
     volumes:
       - ligre_data:/var/lib/postgresql/data
       - ./data/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./corpora/papygreek/schema.sql:/docker-entrypoint-initdb.d/10_corpus_papygreek.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ligre -d ligre_db"]
       interval: 5s
@@ -32,6 +33,22 @@ services:
     volumes:
       - ./data:/app/data:ro
     command: ["python", "data/generate_lemma_data.py"]
+    restart: "no"
+
+  papygreek-loader:
+    build:
+      context: ./corpora
+      dockerfile: papygreek/Dockerfile
+    container_name: ligre-papygreek-loader
+    depends_on:
+      lemma-loader:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ligre
+      POSTGRES_PASSWORD: ligre
+      POSTGRES_DATABASE: ligre_db
     restart: "no"
 
   ontop:

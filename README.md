@@ -27,6 +27,13 @@ The project has several components:
 
 - **`data/`** — a Postgres schema and a loader script that populate the
   lemma bank from source TSV data.
+- **`corpora/`** — one folder per corpus linked to the lemma bank (currently
+  [PapyGreek](https://github.com/ligre-lod/papygreek)), each with its own
+  Postgres schema and loader, plus `shared/` helpers for database access and
+  lemma linking. A token is only linked when its lemma matches exactly one
+  lemma in the bank; ambiguous and unmatched tokens keep their link status and
+  candidate lemmas (see e.g. the `papygreek_unlinked_lemma` view). The
+  matching Ontop mappings live in `ontop/input/corpora/`.
 - **`ontop/`** — an [Ontop](https://ontop-vkg.org/) configuration that maps
   the Postgres database to RDF on the fly and exposes it as an endpoint 
 - **`ttl/` - A .ttl file containing the live data deployed from /data and exposed via /ontop, formatted based on the Lila ontology
@@ -50,6 +57,8 @@ This starts:
 - `postgres` — a local Postgres instance, initialized with `data/schema.sql`
 - `lemma-loader` — a one-shot job that populates the database from the
   source data (re-run with `docker compose run --rm lemma-loader`)
+- `papygreek-loader` — a one-shot job that loads the PapyGreek corpus after
+  the lemmas (re-run with `docker compose run --rm papygreek-loader`)
 - `ontop` — the SPARQL endpoint, backed by the local Postgres instance
 - `lodview` — a browsable UI for individual RDF resources, backed by `ontop`
 

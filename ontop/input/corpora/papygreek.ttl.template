@@ -1,0 +1,260 @@
+@prefix dc:          <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms:     <http://purl.org/dc/terms/> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr:          <http://www.w3.org/ns/r2rml#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix powla:       <http://purl.org/powla/powla.owl#> .
+@prefix lila:        <http://lila-erc.eu/ontologies/lila/> .
+@prefix lila_corpus: <http://lila-erc.eu/ontologies/lila_corpora/> .
+@prefix papygreek:   <__LIGRE_BASE_URL__/data/corpora/PapyGreek/mapping/> .
+
+papygreek:CORPUS
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_corpus" ] ;
+    rr:subjectMap         [ rr:constant <__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus> ;
+                            rr:class    powla:Corpus ] ;
+    rr:predicateObjectMap [ rr:predicate dc:title ;
+                            rr:objectMap [ rr:column "title" ] ] ;
+    rr:predicateObjectMap [ rr:predicate dcterms:license ;
+                            rr:objectMap [ rr:column "license" ; rr:termType rr:IRI ] ] ;
+    rr:predicateObjectMap [ rr:predicate dcterms:source ;
+                            rr:objectMap [ rr:column "source" ; rr:termType rr:IRI ] ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:seeAlso ;
+                            rr:objectMap [ rr:column "see_also" ; rr:termType rr:IRI ] ] .
+
+papygreek:CORPUS-DOCUMENT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document" ] ;
+    rr:subjectMap         [ rr:constant <__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus> ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasSubDocument ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ] ] .
+
+papygreek:DOCUMENT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ;
+                            rr:class    powla:Document ] ;
+    rr:predicateObjectMap [ rr:predicate dc:title ;
+                            rr:objectMap [ rr:column "id_document" ] ] .
+
+papygreek:DOCUMENT-TM
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document_tm" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ] ;
+    rr:predicateObjectMap [ rr:predicate dcterms:identifier ;
+                            rr:objectMap [ rr:template "TM {tm_id}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:seeAlso ;
+                            rr:objectMap [ rr:template "https://www.trismegistos.org/text/{tm_id}" ] ] .
+
+papygreek:DOCUMENT-HGV
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document_hgv" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:seeAlso ;
+                            rr:objectMap [ rr:template "https://papyri.info/hgv/{hgv_id}" ] ] .
+
+papygreek:CITATION-STRUCTURE
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure" ;
+                            rr:class    lila_corpus:CitationStructure ] ;
+    rr:predicateObjectMap [ rr:predicate dc:title, dc:description ;
+                            rr:objectMap [ rr:template "{id_document} Citation Layer" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasDocument ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ] ] .
+
+papygreek:CITATION-STRUCTURE-FIRST
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document_start" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{first_part_number}" ] ] .
+
+papygreek:CITATION-STRUCTURE-LAYER
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_part" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:isLayer ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}" ] ] .
+
+papygreek:PART
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_part_span" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}" ;
+                            rr:class    lila_corpus:citationUnit ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ;
+                            rr:objectMap [ rr:template "Pars {part_number}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
+                            rr:objectMap [ rr:constant "Pars" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
+                            rr:objectMap [ rr:constant "1"^^xsd:int ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
+                            rr:objectMap [ rr:template "Pars_{part_number}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{first_line}" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{last_line}" ] ] .
+
+papygreek:PART-LINE
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_line" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitSubUnit ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{line}" ] ] .
+
+papygreek:PART-NEXT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_part_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:next ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{next_part_number}" ] ] .
+
+papygreek:PART-PREVIOUS
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_part_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{next_part_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:previous ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}" ] ] .
+
+papygreek:LINE
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_line_span" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{line}" ;
+                            rr:class    lila_corpus:citationUnit ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ;
+                            rr:objectMap [ rr:template "Linea {line}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
+                            rr:objectMap [ rr:constant "Linea" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
+                            rr:objectMap [ rr:constant "2"^^xsd:int ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
+                            rr:objectMap [ rr:template "Linea_{line}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{first_token_number}" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{last_token_number}" ] ] .
+
+papygreek:LINE-TOKEN
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """
+        SELECT id_document, part_number, line, token_number
+        FROM papygreek_token
+        WHERE line IS NOT NULL
+    """ ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{line}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasChild ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ] ] .
+
+papygreek:LINE-NEXT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_line_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{line}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:next ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{next_line}" ] ] .
+
+papygreek:LINE-PREVIOUS
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_line_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{next_line}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:previous ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure/Pars_{part_number}/Linea_{line}" ] ] .
+
+papygreek:SENTENCE-LAYER
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer" ;
+                            rr:class    lila_corpus:CitationStructure ] ;
+    rr:predicateObjectMap [ rr:predicate dc:title, dc:description ;
+                            rr:objectMap [ rr:template "{id_document} Sentence Layer" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasDocument ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}" ] ] .
+
+papygreek:SENTENCE-LAYER-FIRST
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_document_start" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{first_sentence}" ] ] .
+
+papygreek:SENTENCE-LAYER-LAYER
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_sentence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:isLayer ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{id_sentence}" ] ] .
+
+papygreek:SENTENCE
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_sentence_span" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{id_sentence}" ;
+                            rr:class    lila_corpus:citationUnit ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ;
+                            rr:objectMap [ rr:template "Sentence {id_sentence}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
+                            rr:objectMap [ rr:constant "Sentence" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
+                            rr:objectMap [ rr:constant "1"^^xsd:int ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
+                            rr:objectMap [ rr:template "Sentence_{id_sentence}" ; rr:termType rr:Literal ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{first_token_number}" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{last_token_number}" ] ] .
+
+papygreek:SENTENCE-TOKEN
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_token" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{id_sentence}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasChild ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ] ] .
+
+papygreek:SENTENCE-NEXT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_sentence_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{id_sentence}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:next ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{next_sentence}" ] ] .
+
+papygreek:SENTENCE-PREVIOUS
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_sentence_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{next_sentence}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:previous ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer/Sentence_{id_sentence}" ] ] .
+
+papygreek:TOKEN
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_token" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ;
+                            rr:class    powla:Terminal ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label, powla:hasStringValue ;
+                            rr:objectMap [ rr:column "form" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila:hasLemma ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ] ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitStructure ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/SentenceLayer" ] ] .
+
+papygreek:TOKEN-CITATION-STRUCTURE
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """
+        SELECT id_document, token_number
+        FROM papygreek_token
+        WHERE line IS NOT NULL
+    """ ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitStructure ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/CiteStructure" ] ] .
+
+papygreek:TOKEN-NEXT
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_token_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:next ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{next_token_number}" ] ] .
+
+papygreek:TOKEN-PREVIOUS
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:tableName "papygreek_token_sequence" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{next_token_number}" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:previous ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{id_document}/{id_document}_t_{token_number}" ] ] .

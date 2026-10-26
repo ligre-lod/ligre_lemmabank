@@ -1,0 +1,2 @@
+psycopg2-binary
+papygreek-to-ligre @ https://github.com/ligre-lod/papygreek/archive/refs/heads/main.zip

@@ -2,3 +2,4 @@
 /data/ligre_lemmas.tsv
 /data/ligre_wr_lv.csv
 /ontop/input/mapping.ttl
+.env
