@@ -55,3 +55,12 @@ This starts:
 
 Once it's up, the SPARQL endpoint is available at `http://localhost:8081`
 and LodView at `http://localhost:8082`. Launch the query-interface from https://github.com/ligre-lod/query-interface  for running the full local stack.
+
+## IRIs
+
+Resources are minted under the base URL in `LIGRE_BASE_URL`. The published
+`ligre-ontop` image defaults to the persistent namespace
+`https://w3id.org/ligre`, which redirects to the deployed LodView, so dev and
+production publish the same IRIs. The local `docker-compose.yml` defaults to
+`http://localhost:8082` instead, so that local IRIs open in the local LodView.
+Set `LIGRE_BASE_URL` to override either.
