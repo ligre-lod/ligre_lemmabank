@@ -7,7 +7,7 @@
 <https://w3id.org/ligre/data/id/lemma/LemmaBank> a void:Dataset, dcat:Dataset ;
     dcterms:title "LiGre Lemma Bank"@en ;
     dcterms:description "LiGre, the Lemma Bank for Ancient Greek: lemmatized Ancient Greek vocabulary published as linked open data. Each lemma is an instance of the LiLa Lemma class with its written representation (OntoLex-Lemon), part of speech and, for nouns, gender, so that Ancient Greek corpora and lexical resources can be linked through their lemmas as in the LiLa Knowledge Base for Latin."@en ;
-    dcterms:identifier "https://doi.org/10.5281/zenodo.23913201" ;
+    dcat:version "0.1.0" ;
     dcterms:issued "2026-11-06"^^xsd:date ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:creator <https://orcid.org/0009-0004-2388-9233>,
@@ -19,20 +19,21 @@
     dcterms:bibliographicCitation "Swaelens, C., Mambrini, F., & Passarotti, M. (2026). From Lemmas to Links: A Lemma Bank for Ancient Greek. In Proceedings of Language Technology for Historical and Ancient Languages (LT4HALA), 106-111. ELRA." ;
     dcat:keyword "Ancient Greek"@en, "lemma bank"@en, "lemmatization"@en, "linked data"@en, "OntoLex-Lemon"@en, "LiLa"@en ;
     dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> ;
+    foaf:homepage <https://ligre-lod.github.io/> ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
     dcat:distribution [ a dcat:Distribution ;
             dcterms:title "All lemmas in Turtle"@en ;
-            dcterms:identifier "https://doi.org/10.5281/zenodo.23913201" ;
             dcterms:issued "2026-11-06"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-            dcat:accessURL <https://doi.org/10.5281/zenodo.23913201> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/main/ttl/ligre_lemmabank.ttl> ;
+            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.1.0> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.0/ttl/ligre_lemmabank.ttl> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
         [ a dcat:Distribution ;
             dcterms:title "SPARQL endpoint"@en ;
             dcat:accessURL <https://ligre.ugent.be/sparql> ;
             dcat:accessService <https://ligre.ugent.be/sparql> ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/main/ttl/ligre_lemmabank.ttl> ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.0/ttl/ligre_lemmabank.ttl> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:uriSpace "https://w3id.org/ligre/data/id/" ;
     void:exampleResource <https://w3id.org/ligre/data/id/lemma/15308> ;

@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
+"""Load the LiGre lemma bank into Postgres.
+
+Lemma ids, and so the lemma IRIs, are fixed in data/lemma_ids.tsv. The loader
+only uses the ids in that file and stops if the data has lemmas without an id
+or ids without a lemma. Run with --assign-ids after changing the data to update
+the file: new lemmas get new ids, corrected lemmas keep theirs, and lemmas that
+disappear are retired, with the lemma that replaces them if there is one.
+Retired ids are never reused.
+"""
 import argparse
 import csv
 import os
 import sys
 import time
 from pathlib import Path
-import psycopg2
 
 GENDERS = ("*", "f", "m", "n")
 CHUNK_SIZE = 1000
+IDS_HEADER = ["id_lemma", "lemma", "pos", "gen", "status", "replaced_by"]
 
 def gen_for(pos, tsv_gender):
     if pos in ("NOUN", "PROPN"):
@@ -161,7 +170,102 @@ def build_lv_variant_groups(lv_groups, lemma_keys, absorbed):
         variant_groups[cluster_id] = keys
     return variant_groups
 
+def final_key(key):
+    label, pos, gender = key
+    return label, pos, gen_for(pos, gender)
+
+def load_ids(ids_path):
+    """Return the active ids ({key: id}) and the retired ids ({id: (key, replaced_by)})."""
+    active, retired = {}, {}
+    if not ids_path.exists():
+        return active, retired
+    with open(ids_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        assert reader.fieldnames == IDS_HEADER, f"unexpected header in {ids_path}: {reader.fieldnames}"
+        for row in reader:
+            id_lemma = int(row["id_lemma"])
+            key = (row["lemma"], row["pos"], row["gen"] or None)
+            assert id_lemma not in retired and id_lemma not in active.values(), f"duplicate id {id_lemma}"
+            if row["status"] == "active":
+                assert key not in active, f"two active ids for {key}"
+                active[key] = id_lemma
+            elif row["status"] == "retired":
+                retired[id_lemma] = (key, int(row["replaced_by"]) if row["replaced_by"] else None)
+            else:
+                raise AssertionError(f"unknown status {row['status']!r} for id {id_lemma}")
+    return active, retired
+
+def write_ids(ids_path, active, retired):
+    rows = [(id_lemma, key, "active", None) for key, id_lemma in active.items()]
+    rows += [(id_lemma, key, "retired", replaced_by) for id_lemma, (key, replaced_by) in retired.items()]
+    with open(ids_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, delimiter="\t", lineterminator="\n")
+        writer.writerow(IDS_HEADER)
+        for id_lemma, (label, pos, gen), status, replaced_by in sorted(rows):
+            writer.writerow([id_lemma, label, pos, gen or "", status, "" if replaced_by is None else replaced_by])
+
+def assign_ids(final_lemmas, active, retired, moves):
+    """Update the ids for the current lemmas.
+
+    moves maps keys that are no longer lemmas to the lemma that replaces them
+    (from the corrections and the WR merges). A lemma whose key was corrected
+    keeps its id; a lemma that was merged into another one is retired and
+    replaced by it.
+    """
+    active, retired = dict(active), dict(retired)
+    current = set(final_lemmas)
+    changes = []
+
+    for old, new in moves.items():
+        if old in active and old not in current and new in current and new not in active:
+            active[new] = active.pop(old)
+            changes.append(f"kept id {active[new]}: {old} -> {new}")
+
+    retired_by_key = {key: id_lemma for id_lemma, (key, _replaced_by) in retired.items()}
+    for key in final_lemmas:
+        if key not in active and key in retired_by_key:
+            id_lemma = retired_by_key[key]
+            del retired[id_lemma]
+            active[key] = id_lemma
+            changes.append(f"restored id {id_lemma}: {key}")
+
+    next_id = max([*active.values(), *retired, 0]) + 1
+    for key in final_lemmas:
+        if key not in active:
+            active[key] = next_id
+            changes.append(f"new id {next_id}: {key}")
+            next_id += 1
+
+    for key in [key for key in active if key not in current]:
+        id_lemma = active.pop(key)
+        replacement = moves.get(key)
+        replaced_by = active.get(replacement)
+        retired[id_lemma] = (key, replaced_by)
+        changes.append(f"retired id {id_lemma}: {key}" + (f", replaced by {replaced_by}" if replaced_by else ""))
+
+    for id_lemma, (key, replaced_by) in retired.items():
+        if replaced_by in retired:
+            final = replaced_by
+            while final in retired and retired[final][1] is not None:
+                final = retired[final][1]
+            retired[id_lemma] = (key, final if final in active.values() else None)
+    return active, retired, changes
+
+def check_ids(final_lemmas, active):
+    current = set(final_lemmas)
+    missing = [key for key in final_lemmas if key not in active]
+    stale = [key for key in active if key not in current]
+    if missing or stale:
+        sys.exit(
+            "the lemmas do not match data/lemma_ids.tsv: "
+            f"{len(missing)} lemmas without an id (e.g. {missing[:3]}), "
+            f"{len(stale)} active ids without a lemma (e.g. {stale[:3]}). "
+            "Run `python data/generate_lemma_data.py --assign-ids` and commit data/lemma_ids.tsv."
+        )
+
 def connect(retries=30, delay=2):
+    import psycopg2
+
     last_err = None
     for _ in range(retries):
         try:
@@ -177,9 +281,9 @@ def connect(retries=30, delay=2):
             time.sleep(delay)
     raise last_err
 
-def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
+def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags, id_map, retired):
     with conn.cursor() as cur:
-        cur.execute("TRUNCATE TABLE variant_group, lemma_wr, lemma RESTART IDENTITY CASCADE")
+        cur.execute("TRUNCATE TABLE lemma_replaced, variant_group, lemma_wr, lemma RESTART IDENTITY CASCADE")
 
         cur.executemany(
             "INSERT INTO universal_pos_tag (upostag) VALUES (%s) "
@@ -192,16 +296,19 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags):
             [(g,) for g in GENDERS],
         )
 
-        for chunk in chunked(final_lemmas, CHUNK_SIZE):
+        lemma_rows = [(id_map[key], *key) for key in final_lemmas]
+        for chunk in chunked(lemma_rows, CHUNK_SIZE):
             cur.executemany(
-                "INSERT INTO lemma (label, upostag, gen) VALUES (%s, %s, %s)",
+                "INSERT INTO lemma (id_lemma, label, upostag, gen) VALUES (%s, %s, %s, %s)",
                 chunk,
             )
+        cur.execute("SELECT setval(pg_get_serial_sequence('lemma', 'id_lemma'), "
+                    "GREATEST((SELECT MAX(id_lemma) FROM lemma), 1))")
+        cur.executemany(
+            "INSERT INTO lemma_replaced (id_lemma, replaced_by) VALUES (%s, %s)",
+            [(id_lemma, replaced_by) for id_lemma, (_key, replaced_by) in sorted(retired.items())],
+        )
     conn.commit()
-
-    with conn.cursor() as cur:
-        cur.execute("SELECT id_lemma, label, upostag, gen FROM lemma")
-        id_map = {(label, pos, gen): id_lemma for id_lemma, label, pos, gen in cur.fetchall()}
 
     wr_rows = []
     for label, pos, gen in final_lemmas:
@@ -243,6 +350,9 @@ def main():
                          default=repo_root / "data" / "ligre_wr_lv.csv")
     parser.add_argument("--corrections", type=Path,
                          default=repo_root / "data" / "ligre_corrections.tsv")
+    parser.add_argument("--ids", type=Path, default=repo_root / "data" / "lemma_ids.tsv")
+    parser.add_argument("--assign-ids", action="store_true",
+                        help="update the ids file for the current data, without loading the database")
     args = parser.parse_args()
 
     corrections = load_corrections(args.corrections)
@@ -277,11 +387,26 @@ def main():
           f"({sum(len(v) for v in lv_variant_groups_final.values())} lemmas linked as lemma variants)")
     print(f"final lemma rows: {len(final_lemmas)}")
 
+    active, retired = load_ids(args.ids)
+    if args.assign_ids:
+        moves = {final_key(old): final_key(new) for old, new in corrections.items() if old != new}
+        for canonical, variant_labels in variants.items():
+            for label in variant_labels:
+                moves[final_key((label, *canonical[1:]))] = final_key(canonical)
+        active, retired, changes = assign_ids(final_lemmas, active, retired, moves)
+        for change in changes:
+            print(change)
+        write_ids(args.ids, active, retired)
+        print(f"wrote {args.ids}: {len(active)} active and {len(retired)} retired ids, {len(changes)} changes")
+        return
+    check_ids(final_lemmas, active)
+
     print("connecting to Postgres...")
     conn = connect()
     try:
         wr_count, variant_count = load_into_db(
-            conn, final_lemmas, variants_by_final_key, lv_variant_groups_final, pos_tags
+            conn, final_lemmas, variants_by_final_key, lv_variant_groups_final, pos_tags,
+            active, retired,
         )
         print(f"loaded {len(final_lemmas)} lemma rows, {wr_count} lemma_wr rows, "
               f"and {variant_count} variant_group rows")

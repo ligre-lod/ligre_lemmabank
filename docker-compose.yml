@@ -36,8 +36,8 @@ services:
 
   ontop:
     build:
-      context: ./ontop
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ontop/Dockerfile
     container_name: ligre-ontop
     depends_on:
       postgres:
@@ -53,6 +53,7 @@ services:
     volumes:
       - ./ontop/input:/opt/ontop/input
       - ./ontop/jdbc:/opt/ontop/jdbc
+      - ./ttl/ligre_void.ttl:/opt/ontop/facts/ligre_void.ttl:ro
     ports:
       - "8081:8080"
     command: ./ontop endpoint

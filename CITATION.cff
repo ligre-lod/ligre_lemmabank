@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use the LiGre Lemma Bank, please cite it using the metadata below, and cite the paper in preferred-citation."
+type: dataset
+title: "LiGre Lemma Bank: a Lemma Bank for Ancient Greek as Linked Open Data"
+version: 0.1.0
+date-released: 2026-11-06
+license: CC-BY-SA-4.0
+url: "https://w3id.org/ligre/data/id/lemma/LemmaBank"
+repository-code: "https://github.com/ligre-lod/ligre_lemmabank"
+authors:
+  - family-names: Lemay
+    given-names: Paulien
+    orcid: "https://orcid.org/0009-0004-2388-9233"
+    affiliation: Ghent University
+  - family-names: Swaelens
+    given-names: Colin
+    orcid: "https://orcid.org/0000-0002-3360-8093"
+    affiliation: Ghent University
+  - family-names: Passarotti
+    given-names: Marco
+    orcid: "https://orcid.org/0000-0003-0834-7562"
+    affiliation: Università Cattolica del Sacro Cuore
+abstract: >-
+  LiGre, the Lemma Bank for Ancient Greek, publishes about 100,000 Ancient Greek
+  lemmas as linked open data. Each lemma is an instance of the LiLa Lemma class
+  with its written representations (OntoLex-Lemon), part of speech and, for
+  nouns, gender, so that Ancient Greek corpora and lexical resources can be
+  linked through their lemmas, following the conventions of the LiLa Knowledge
+  Base for Latin.
+keywords:
+  - Ancient Greek
+  - lemma bank
+  - lemmatization
+  - linked open data
+  - OntoLex-Lemon
+  - LiLa
+  - RDF
+preferred-citation:
+  type: conference-paper
+  title: "From Lemmas to Links: A Lemma Bank for Ancient Greek"
+  authors:
+    - family-names: Swaelens
+      given-names: Colin
+    - family-names: Mambrini
+      given-names: Francesco
+    - family-names: Passarotti
+      given-names: Marco
+  collection-title: "Proceedings of Language Technology for Historical and Ancient Languages (LT4HALA)"
+  publisher:
+    name: ELRA Language Resources Association
+  start: 106
+  end: 111
+  year: 2026
