@@ -38,7 +38,7 @@ The project has several components:
 
 ## Dataset description
 
-`ttl/lemmabank_description.ttl` describes the Lemma Bank (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID statistics (triples, entities, class and property partitions) counted on the exported lemmas. To add or refresh the description of an exported file without the endpoint:
+`ttl/lemmabank_description.ttl` describes the Lemma Bank (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID statistics (triples, entities, class and property partitions) counted on the exported lemmas. It also writes the description with those statistics on its own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`), the file published at https://ligre-lod.github.io/.well-known/void. To add or refresh the description of an exported file without the endpoint:
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py

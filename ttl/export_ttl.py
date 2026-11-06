@@ -59,13 +59,17 @@ def add_void_statistics(graph, dataset):
                        (partition, VOID.triples, integer(count))]
     for triple in statistics:
         graph.add(triple)
+    return statistics
 
 
 def describe(graph):
     description = Graph().parse(DESCRIPTION_PATH, format="turtle")
     remove_description(graph, description)
-    add_void_statistics(graph, LEMMA_BANK)
+    statistics = add_void_statistics(graph, LEMMA_BANK)
     graph += description
+    for triple in statistics:
+        description.add(triple)
+    return description
 
 
 def fetch_construct(sparql_url, retries=30, delay=2, timeout=300):
@@ -85,6 +89,7 @@ def fetch_construct(sparql_url, retries=30, delay=2, timeout=300):
 def main():
     sparql_url = os.environ.get("ONTOP_SPARQL_URL", "http://ontop:8080/sparql")
     out_path = Path(os.environ.get("TTL_OUTPUT", "/app/ttl/ligre_lemmabank.ttl"))
+    void_path = Path(os.environ.get("VOID_OUTPUT", out_path.with_name("lemmabank_void.ttl")))
 
     graph = Graph()
     input_path = os.environ.get("TTL_INPUT")
@@ -96,15 +101,15 @@ def main():
         print(f"fetched {len(nt_data)} bytes of N-Triples")
         graph.parse(data=nt_data, format="nt")
     print(f"parsed {len(graph)} triples")
-    describe(graph)
+    void_graph = describe(graph)
     print(f"added the dataset description from {DESCRIPTION_PATH.name}")
 
-    for prefix, uri in PREFIXES.items():
-        graph.bind(prefix, Namespace(uri))
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    graph.serialize(destination=str(out_path), format="turtle")
-    print(f"wrote {out_path} ({out_path.stat().st_size} bytes)")
+    for output_graph, path in ((graph, out_path), (void_graph, void_path)):
+        for prefix, uri in PREFIXES.items():
+            output_graph.bind(prefix, Namespace(uri))
+        path.parent.mkdir(parents=True, exist_ok=True)
+        output_graph.serialize(destination=str(path), format="turtle")
+        print(f"wrote {path} ({path.stat().st_size} bytes)")
 
 
 if __name__ == "__main__":

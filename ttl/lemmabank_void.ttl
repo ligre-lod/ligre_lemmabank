@@ -1,0 +1,94 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lila: <http://lila-erc.eu/ontologies/lila/> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://orcid.org/0000-0002-3360-8093> a foaf:Person ;
+    foaf:name "Colin Swaelens" .
+
+<https://orcid.org/0000-0003-0834-7562> a foaf:Person ;
+    foaf:name "Marco Passarotti" .
+
+<https://orcid.org/0009-0004-2388-9233> a foaf:Person ;
+    foaf:name "Paulien Lemay" .
+
+<https://ror.org/00cv9y106> a foaf:Agent ;
+    foaf:name "Ghent University" .
+
+<https://w3id.org/ligre/data/id/lemma/LemmaBank> a void:Dataset,
+        dcat:Dataset ;
+    dcterms:bibliographicCitation "Swaelens, C., Mambrini, F., & Passarotti, M. (2026). From Lemmas to Links: A Lemma Bank for Ancient Greek. In Proceedings of Language Technology for Historical and Ancient Languages (LT4HALA), 106-111. ELRA." ;
+    dcterms:conformsTo <http://lila-erc.eu/ontologies/lila> ;
+    dcterms:creator <https://orcid.org/0000-0002-3360-8093>,
+        <https://orcid.org/0000-0003-0834-7562>,
+        <https://orcid.org/0009-0004-2388-9233> ;
+    dcterms:description "LiGre, the Lemma Bank for Ancient Greek: lemmatized Ancient Greek vocabulary published as linked open data. Each lemma is an instance of the LiLa Lemma class with its written representation (OntoLex-Lemon), part of speech and, for nouns, gender, so that Ancient Greek corpora and lexical resources can be linked through their lemmas as in the LiLa Knowledge Base for Latin."@en ;
+    dcterms:identifier "https://doi.org/10.5281/zenodo.23913201" ;
+    dcterms:issued "2026-11-06"^^xsd:date ;
+    dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    dcterms:publisher <https://ror.org/00cv9y106> ;
+    dcterms:title "LiGre Lemma Bank"@en ;
+    void:classPartition [ void:class lila:Lemma ;
+            void:entities 100046 ] ;
+    void:classes 1 ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/main/ttl/ligre_lemmabank.ttl> ;
+    void:entities 100046 ;
+    void:exampleResource <https://w3id.org/ligre/data/id/lemma/15308> ;
+    void:feature <http://www.w3.org/ns/formats/Turtle> ;
+    void:properties 7 ;
+    void:propertyPartition [ void:property lila:hasPOS ;
+            void:triples 100046 ],
+        [ void:property rdfs:label ;
+            void:triples 100046 ],
+        [ void:property rdf:type ;
+            void:triples 100046 ],
+        [ void:property dcterms:isPartOf ;
+            void:triples 100046 ],
+        [ void:property lila:lemmaVariant ;
+            void:triples 2 ],
+        [ void:property ontolex:writtenRep ;
+            void:triples 100114 ],
+        [ void:property lila:hasGender ;
+            void:triples 40969 ] ;
+    void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
+    void:triples 541269 ;
+    void:uriSpace "https://w3id.org/ligre/data/id/" ;
+    void:vocabulary lila:,
+        dcterms:,
+        rdfs:,
+        ontolex: ;
+    dcat:distribution [ a dcat:Distribution ;
+            dcterms:identifier "https://doi.org/10.5281/zenodo.23913201" ;
+            dcterms:issued "2026-11-06"^^xsd:date ;
+            dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+            dcterms:title "All lemmas in Turtle"@en ;
+            dcat:accessURL <https://doi.org/10.5281/zenodo.23913201> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/main/ttl/ligre_lemmabank.ttl> ;
+            dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
+        [ a dcat:Distribution ;
+            dcterms:title "SPARQL endpoint"@en ;
+            dcat:accessService <https://ligre.ugent.be/sparql> ;
+            dcat:accessURL <https://ligre.ugent.be/sparql> ] ;
+    dcat:keyword "Ancient Greek"@en,
+        "LiLa"@en,
+        "OntoLex-Lemon"@en,
+        "lemma bank"@en,
+        "lemmatization"@en,
+        "linked data"@en ;
+    dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> .
+
+<https://creativecommons.org/licenses/by-sa/4.0/> a dcterms:LicenseDocument ;
+    dcterms:title "Creative Commons Attribution Share Alike 4.0 International"@en .
+
+<https://ligre.ugent.be/sparql> a dcat:DataService ;
+    dcterms:title "LiGre SPARQL endpoint"@en ;
+    dcat:endpointURL <https://ligre.ugent.be/sparql> ;
+    dcat:landingPage <https://ligre.ugent.be/sparql-ui/> ;
+    dcat:servesDataset <https://w3id.org/ligre/data/id/lemma/LemmaBank> .
+
