@@ -732,19 +732,19 @@ ligreLemma:LemmaBank a void:Dataset,
     void:exampleResource ligreLemma:15308 ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 7 ;
-    void:propertyPartition [ void:property lila:hasGender ;
-            void:triples 40969 ],
-        [ void:property rdf:type ;
+    void:propertyPartition [ void:property rdf:type ;
             void:triples 100046 ],
         [ void:property lila:lemmaVariant ;
             void:triples 2 ],
-        [ void:property rdfs:label ;
-            void:triples 100046 ],
         [ void:property lila:hasPOS ;
             void:triples 100046 ],
         [ void:property ontolex:writtenRep ;
             void:triples 100114 ],
+        [ void:property lila:hasGender ;
+            void:triples 40969 ],
         [ void:property dcterms:isPartOf ;
+            void:triples 100046 ],
+        [ void:property rdfs:label ;
             void:triples 100046 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
     void:triples 541269 ;

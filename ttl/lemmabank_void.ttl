@@ -44,14 +44,14 @@
     void:properties 7 ;
     void:propertyPartition [ void:property lila:hasPOS ;
             void:triples 100046 ],
+        [ void:property lila:lemmaVariant ;
+            void:triples 2 ],
         [ void:property rdfs:label ;
-            void:triples 100046 ],
-        [ void:property rdf:type ;
             void:triples 100046 ],
         [ void:property dcterms:isPartOf ;
             void:triples 100046 ],
-        [ void:property lila:lemmaVariant ;
-            void:triples 2 ],
+        [ void:property rdf:type ;
+            void:triples 100046 ],
         [ void:property ontolex:writtenRep ;
             void:triples 100114 ],
         [ void:property lila:hasGender ;
