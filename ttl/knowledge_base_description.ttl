@@ -1,0 +1,20 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+
+<https://w3id.org/ligre/data/id/KnowledgeBase> a void:Dataset, dcat:Catalog ;
+    dcterms:title "LiGre Knowledge Base"@en ;
+    dcterms:description "LiGre (Linking Greek), a knowledge base of interoperable linguistic resources for Ancient Greek as linked open data: the LiGre Lemma Bank and the corpora linked to its lemmas."@en ;
+    dcterms:publisher <https://ror.org/00cv9y106> ;
+    dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    foaf:homepage <https://ligre-lod.github.io/> ;
+    dcat:landingPage <https://ligre-lod.github.io/> ;
+    dcat:dataset <https://w3id.org/ligre/data/id/lemma/LemmaBank>,
+        <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus> ;
+    dcat:service <https://ligre.ugent.be/sparql> ;
+    void:subset <https://w3id.org/ligre/data/id/lemma/LemmaBank>,
+        <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus> ;
+    void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
+    void:uriSpace "https://w3id.org/ligre/data/" .

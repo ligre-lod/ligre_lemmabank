@@ -38,7 +38,15 @@ The project has several components:
 
 ## Dataset description
 
-`ttl/lemmabank_description.ttl` describes the Lemma Bank (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID statistics (triples, entities, class and property partitions) counted on the exported lemmas. It also writes the description with those statistics on its own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`), the file published at https://ligre-lod.github.io/.well-known/void. To add or refresh the description of an exported file without the endpoint:
+`ttl/lemmabank_description.ttl` describes the Lemma Bank (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID statistics (triples, entities, class and property partitions) counted on the exported lemmas. It also writes the description with those statistics on its own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`). `VOID_INCLUDE` adds other descriptions to that file (paths separated by `:`); the VoID file of the whole knowledge base, published at https://ligre-lod.github.io/.well-known/void, combines `ttl/knowledge_base_description.ttl` (the LiGre Knowledge Base, with the lemma bank and the corpora as subsets) and the description of each corpus:
+
+```bash
+TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
+  VOID_INCLUDE=ttl/knowledge_base_description.ttl:../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl \
+  python ttl/export_ttl.py
+cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
+cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
+``` To add or refresh the description of an exported file without the endpoint:
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py

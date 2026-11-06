@@ -26,6 +26,11 @@ PREFIXES = {
     "dcat": "http://www.w3.org/ns/dcat#",
     "foaf": "http://xmlns.com/foaf/0.1/",
 }
+VOID_PREFIXES = {
+    **PREFIXES,
+    "powla": "http://purl.org/powla/powla.owl#",
+    "lila_corpus": "http://lila-erc.eu/ontologies/lila_corpora/",
+}
 
 
 def remove_description(graph, description):
@@ -103,9 +108,12 @@ def main():
     print(f"parsed {len(graph)} triples")
     void_graph = describe(graph)
     print(f"added the dataset description from {DESCRIPTION_PATH.name}")
+    for include_path in filter(None, os.environ.get("VOID_INCLUDE", "").split(os.pathsep)):
+        void_graph.parse(include_path, format="turtle")
+        print(f"added {include_path} to the VoID description")
 
-    for output_graph, path in ((graph, out_path), (void_graph, void_path)):
-        for prefix, uri in PREFIXES.items():
+    for output_graph, path, prefixes in ((graph, out_path, PREFIXES), (void_graph, void_path, VOID_PREFIXES)):
+        for prefix, uri in prefixes.items():
             output_graph.bind(prefix, Namespace(uri))
         path.parent.mkdir(parents=True, exist_ok=True)
         output_graph.serialize(destination=str(path), format="turtle")
