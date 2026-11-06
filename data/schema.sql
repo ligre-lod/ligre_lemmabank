@@ -191,6 +191,15 @@ CREATE TABLE variant_group (
   PRIMARY KEY (id_lemma)
 );
 
+-- Retired lemma ids (see data/lemma_ids.tsv): ids of lemmas that were removed
+-- or merged, with the lemma that replaces them if there is one. Retired ids
+-- are never reused, so their IRIs keep pointing to the replacing lemma.
+CREATE TABLE lemma_replaced (
+  id_lemma int NOT NULL,
+  replaced_by int DEFAULT NULL,
+  PRIMARY KEY (id_lemma)
+);
+
 -- Indexes (mirrors the non-unique KEY entries from the MySQL schema).
 
 CREATE INDEX ix_hypolemma_label ON hypolemma (label);
@@ -298,3 +307,6 @@ ALTER TABLE phonetic_rep
 
 ALTER TABLE variant_group
   ADD CONSTRAINT variant_group_fk_lemma FOREIGN KEY (id_lemma) REFERENCES lemma (id_lemma) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE lemma_replaced
+  ADD CONSTRAINT lemma_replaced_fk_replaced_by FOREIGN KEY (replaced_by) REFERENCES lemma (id_lemma) ON DELETE CASCADE ON UPDATE CASCADE;

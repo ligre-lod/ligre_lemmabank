@@ -3,6 +3,7 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr:      <http://www.w3.org/ns/r2rml#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix lila:    <http://lila-erc.eu/ontologies/lila/> .
 @prefix lemma:   <__LIGRE_BASE_URL__/data/id/lemma/> .
 
@@ -189,4 +190,19 @@ lemma:LEMMA-VARIANT
     rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate lila:lemmaVariant ;
                             rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_variant_lemma}" ;
+                                           rr:termType rr:IRI ] ] .
+
+lemma:LEMMA-RETIRED
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma_replaced""" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ] ;
+    rr:predicateObjectMap [ rr:predicate owl:deprecated ;
+                            rr:objectMap [ rr:constant true ] ] .
+
+lemma:LEMMA-REPLACED
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma, replaced_by FROM lemma_replaced WHERE replaced_by IS NOT NULL""" ] ;
+    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ] ;
+    rr:predicateObjectMap [ rr:predicate dcterms:isReplacedBy ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{replaced_by}" ;
                                            rr:termType rr:IRI ] ] .

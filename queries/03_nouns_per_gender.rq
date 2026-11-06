@@ -1,0 +1,14 @@
+# Number of noun and proper noun lemmas per grammatical gender.
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?pos ?gender (COUNT(?lemma) AS ?lemmas) WHERE {
+  VALUES ?pos { lila:noun lila:proper_noun }
+  ?lemma a lila:Lemma ;
+         lila:hasPOS ?pos ;
+         lila:hasGender ?gender .
+}
+GROUP BY ?pos ?gender
+ORDER BY ?pos DESC(?lemmas)

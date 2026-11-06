@@ -33,6 +33,14 @@ VOID_PREFIXES = {
 }
 
 
+def keep_lemmas(graph):
+    """Keep only the triples about lemmas: the endpoint also serves the dataset
+    descriptions (ttl/ligre_void.ttl) as static facts, which are not part of the dump."""
+    for subject in set(graph.subjects()):
+        if not (isinstance(subject, URIRef) and "/data/id/lemma/" in str(subject)):
+            graph.remove((subject, None, None))
+
+
 def remove_description(graph, description):
     for subject in set(description.subjects()):
         if isinstance(subject, BNode):
@@ -105,6 +113,7 @@ def main():
         nt_data = fetch_construct(sparql_url)
         print(f"fetched {len(nt_data)} bytes of N-Triples")
         graph.parse(data=nt_data, format="nt")
+        keep_lemmas(graph)
     print(f"parsed {len(graph)} triples")
     void_graph = describe(graph)
     print(f"added the dataset description from {DESCRIPTION_PATH.name}")
