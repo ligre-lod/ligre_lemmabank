@@ -212,8 +212,8 @@ This starts:
 - `lemma-loader`: a one-shot job that populates the database from the
   source data (re-run with `docker compose run --rm lemma-loader`)
 - `ontop`: the SPARQL endpoint, backed by the local Postgres instance, with
-  `ttl/ligre_void.ttl` mounted as static facts (their IRIs are always the
-  `https://w3id.org/ligre` ones, whatever `LIGRE_BASE_URL` is)
+  `ttl/ligre_void.ttl` mounted as static facts (minted under `LIGRE_BASE_URL`,
+  like the lemmas)
 - `lodview`: a browsable UI for individual RDF resources, backed by `ontop`
 
 Once it's up, the SPARQL endpoint is available at `http://localhost:8081`
