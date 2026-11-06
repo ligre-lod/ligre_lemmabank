@@ -36,6 +36,14 @@ The project has several components:
   browse the lemma bank through the SPARQL endpoint, deployed at
   [ligre-lod.github.io/query-interface](https://ligre-lod.github.io/query-interface/). This repository was forked from the Linking Italian project (https://github.com/LiITA-LOD/query-interface)
 
+## Dataset description
+
+`ttl/lemmabank_description.ttl` describes the Lemma Bank (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID statistics (triples, entities, class and property partitions) counted on the exported lemmas. To add or refresh the description of an exported file without the endpoint:
+
+```bash
+TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
+```
+
 ## Local setup
 
 For local development, everything runs through the top-level

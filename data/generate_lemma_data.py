@@ -32,6 +32,51 @@ def load_tsv_rows(tsv_path):
             rows.append((row_num, label, pos, gender))
     return rows
 
+def load_corrections(tsv_path):
+    with open(tsv_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        assert reader.fieldnames == ["lemma", "pos", "gender", "corrected_lemma", "corrected_pos", "corrected_gender"], (
+            f"unexpected header: {reader.fieldnames}"
+        )
+        return {
+            (row["lemma"], row["pos"], row["gender"]): (
+                row["corrected_lemma"] or row["lemma"],
+                row["corrected_pos"] or row["pos"],
+                row["corrected_gender"] or row["gender"],
+            )
+            for row in reader
+        }
+
+def correct_key(key, corrections):
+    return corrections.get(key, key)
+
+def check_noun_genders(rows):
+    missing = [(row_num, label, gender) for row_num, label, pos, gender in rows
+               if pos == "NOUN" and gender not in ("f", "m", "n")]
+    assert not missing, f"nouns without gender f, m or n (set corrected_gender): {missing}"
+
+def apply_corrections(rows, corrections):
+    corrected = []
+    applied = set()
+    for row_num, label, pos, gender in rows:
+        key = (label, pos, gender)
+        if key in corrections:
+            applied.add(key)
+        corrected.append((row_num, *correct_key(key, corrections)))
+    unused = set(corrections) - applied
+    assert not unused, f"corrections that match no row: {sorted(unused)}"
+    for key in sorted(applied):
+        print("corrected: {} {} {} -> {} {} {}".format(*key, *corrections[key]))
+    check_noun_genders(corrected)
+    return corrected
+
+def correct_cluster_keys(clusters, corrections):
+    return {
+        cluster_id: [(id_, *correct_key((label, pos, gender), corrections), row_type)
+                     for id_, label, pos, gender, row_type in members]
+        for cluster_id, members in clusters.items()
+    }
+
 def dedup(rows):
     seen = {}
     kept = []
@@ -196,14 +241,17 @@ def main():
     parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
     parser.add_argument("--wr-lv-csv", type=Path,
                          default=repo_root / "data" / "ligre_wr_lv.csv")
+    parser.add_argument("--corrections", type=Path,
+                         default=repo_root / "data" / "ligre_corrections.tsv")
     args = parser.parse_args()
 
-    raw_rows = load_tsv_rows(args.tsv)
+    corrections = load_corrections(args.corrections)
+    raw_rows = apply_corrections(load_tsv_rows(args.tsv), corrections)
     pos_tags = sorted({pos for _rn, _label, pos, _gender in raw_rows})
     lemma_entries, skipped = dedup(raw_rows)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
-    clusters = load_clusters(args.wr_lv_csv)
+    clusters = correct_cluster_keys(load_clusters(args.wr_lv_csv), corrections)
     wr_groups = list(type_groups(clusters, "WR").values())
     variants, absorbed = build_wr_variants(wr_groups, lemma_keys)
 
