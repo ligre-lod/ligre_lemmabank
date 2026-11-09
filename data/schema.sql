@@ -1,7 +1,3 @@
--- Tables (no inline foreign keys; those are added below once every table exists).
--- Only the tables that data/generate_lemma_data.py loads and the Ontop mapping
--- (ontop/input/mapping.ttl.template) reads.
-
 CREATE TABLE gender (
   gen varchar(1) NOT NULL,
   descr text DEFAULT NULL,
@@ -39,16 +35,11 @@ CREATE TABLE variant_group (
   PRIMARY KEY (id_lemma)
 );
 
--- Retired lemma ids (see data/lemma_ids.tsv): ids of lemmas that were removed
--- or merged, with the lemma that replaces them if there is one. Retired ids
--- are never reused, so their IRIs keep pointing to the replacing lemma.
 CREATE TABLE lemma_replaced (
   id_lemma int NOT NULL,
   replaced_by int DEFAULT NULL,
   PRIMARY KEY (id_lemma)
 );
-
--- Indexes.
 
 CREATE INDEX ix_lemma_label ON lemma (label);
 CREATE INDEX ix_lemma_gen ON lemma (gen);
@@ -58,8 +49,6 @@ CREATE INDEX ix_lemma_wr_wr ON lemma_wr (wr);
 CREATE INDEX ix_lemma_wr_id_lemma ON lemma_wr (id_lemma);
 
 CREATE INDEX ix_variant_group_id_variant ON variant_group (id_variant);
-
--- Foreign keys (added last so table creation order above doesn't matter).
 
 ALTER TABLE lemma
   ADD CONSTRAINT lemma_fk_gen FOREIGN KEY (gen) REFERENCES gender (gen),

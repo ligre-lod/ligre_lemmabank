@@ -34,8 +34,6 @@ VOID_PREFIXES = {
 
 
 def keep_lemmas(graph):
-    """Keep only the triples about lemmas: the endpoint also serves the dataset
-    descriptions (ttl/ligre_void.ttl) as static facts, which are not part of the dump."""
     for subject in set(graph.subjects()):
         if not (isinstance(subject, URIRef) and "/data/id/lemma/" in str(subject)):
             graph.remove((subject, None, None))

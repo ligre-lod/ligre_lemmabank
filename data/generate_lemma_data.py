@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""Load the LiGre lemma bank into Postgres.
-
-The lemmas are loaded as they are in the source list (data/ligre_lemmas.tsv)
-and its clusters (data/ligre_wr_lv.csv), without corrections.
-
-Lemma ids, and so the lemma IRIs, are fixed in data/lemma_ids.tsv. The loader
-only uses the ids in that file and stops if the data has lemmas without an id
-or ids without a lemma. Run with --assign-ids after changing the data to update
-the file: new lemmas get new ids, and lemmas that disappear are retired, with
-the lemma that replaces them if there is one. Retired ids are never reused.
-"""
 import argparse
 import csv
 import os
@@ -137,7 +126,6 @@ def final_key(key):
     return label, pos, gen_for(pos, gender)
 
 def load_ids(ids_path):
-    """Return the active ids ({key: id}) and the retired ids ({id: (key, replaced_by)})."""
     active, retired = {}, {}
     if not ids_path.exists():
         return active, retired
@@ -167,12 +155,6 @@ def write_ids(ids_path, active, retired):
             writer.writerow([id_lemma, label, pos, gen or "", status, "" if replaced_by is None else replaced_by])
 
 def assign_ids(final_lemmas, active, retired, moves):
-    """Update the ids for the current lemmas.
-
-    moves maps keys that are no longer lemmas to the lemma that replaces them
-    (from the WR merges). A lemma whose key moved keeps its id if the new key
-    has none yet; otherwise it is retired and replaced by it.
-    """
     active, retired = dict(active), dict(retired)
     current = set(final_lemmas)
     changes = []
@@ -305,7 +287,7 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags, id_m
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
     parser.add_argument("--wr-lv-csv", type=Path,
                          default=repo_root / "data" / "ligre_wr_lv.csv")
