@@ -1,7 +1,6 @@
 # LiGre Lemma Bank
 
-<!-- After the first Zenodo release, add the concept DOI badge here:
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX) -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24085996.svg)](https://doi.org/10.5281/zenodo.24085996)
 [![Data: CC BY-SA 4.0](https://img.shields.io/badge/data-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-DATA.md)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 
@@ -28,7 +27,7 @@ The design and rationale behind the resource are described in the paper
 | VoID/DCAT description | [`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl); whole knowledge base: <https://ligre-lod.github.io/.well-known/void> |
 | Vocabularies | LiLa ontology, OntoLex-Lemon, Dublin Core terms, RDFS |
 | Licence | Data [CC BY-SA 4.0](LICENSE-DATA.md); code [MIT](LICENSE) |
-| Archived releases | Zenodo, with a DOI per release (see [Versioning and releases](#versioning-and-releases)) |
+| Archived releases | Zenodo: <https://doi.org/10.5281/zenodo.24085996> (all versions), with a DOI per release (see [Versioning and releases](#versioning-and-releases)) |
 
 The lemma bank is part of the LiGre Knowledge Base
 (<https://w3id.org/ligre/data/id/KnowledgeBase>), together with the corpora
@@ -280,8 +279,20 @@ If you use LiGre in your research, please cite the paper:
 }
 ```
 
-To cite a specific version of the data, use the DOI of that release on
-Zenodo. Citation metadata is also in [CITATION.cff](CITATION.cff).
+To cite the data, use the Zenodo DOI. The concept DOI always resolves to the
+latest release; to cite the exact version you used, take the DOI of that
+release from the Zenodo record:
+
+> Lemay, P., Swaelens, C., & Passarotti, M. (2026). *LiGre Lemma Bank: a Lemma
+> Bank for Ancient Greek as Linked Open Data* [Data set]. Zenodo.
+> https://doi.org/10.5281/zenodo.24085996
+
+| Version | DOI |
+|---|---|
+| All versions (concept DOI) | <https://doi.org/10.5281/zenodo.24085996> |
+| 0.1.0 | <https://doi.org/10.5281/zenodo.24085997> |
+
+Citation metadata is also in [CITATION.cff](CITATION.cff).
 
 ## Licence
 

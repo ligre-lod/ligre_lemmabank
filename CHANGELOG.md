@@ -9,6 +9,11 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- The Zenodo concept DOI (10.5281/zenodo.24085996) in the README, `CITATION.cff` and, from this
+  release on, as `dcterms:identifier` of the lemma bank in the VoID
+  description.
+
 ## [0.1.0] - 2026-11-09
 
 This release publishes the lemma list of Swaelens, Mambrini & Passarotti
