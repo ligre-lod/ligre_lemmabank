@@ -38,8 +38,7 @@ Zenodo with a DOI.
 
    The first command writes the knowledge base description to
    `ttl/ligre_void.ttl`; the second rewrites `ttl/lemmabank_void.ttl`.
-4. **Check** that the example queries still run, and update the statistics
-   in the README if they changed.
+4. **Check** that the example queries still run.
 5. **Commit, tag and push:**
 
    ```bash

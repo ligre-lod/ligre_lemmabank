@@ -37,18 +37,18 @@ linked to its lemmas, such as
 
 ## Data files
 
-| File | Content |
-|---|---|
-| `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump. |
-| `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions). |
-| `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>. |
-| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Hand-written dataset descriptions (Dublin Core, DCAT, VoID) that `ttl/export_ttl.py` merges into the files above. |
-| `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`). |
+| File | Content                                                                                                                                                                                                                         |
+|---|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump.                                                                                                           |
+| `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions).                                                                                                     |
+| `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>.                                                                       |
+| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `ttl/export_ttl.py` merges into the files above.                                                                                                                            |
+| `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
-| `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them. |
-| `data/schema.sql` | The Postgres schema. |
-| `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop. |
-| `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)). |
+| `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them.                                                                                                        |
+| `data/schema.sql` | The Postgres schema.                                                                                                                                                                                                            |
+| `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop.                                                                                                                                                                           |
+| `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)).                                                                                                                                                               |
 
 The list of lemmas in `data/ligre_lemmas.tsv` was compiled by Colin Swaelens,
 Francesco Mambrini and Marco Passarotti, and is described in Swaelens,
@@ -81,35 +81,15 @@ Every lemma is a `lila:Lemma` with:
 
 ## Statistics
 
-Release 0.1.0, counted on `ttl/ligre_lemmabank.ttl`:
-
-| | |
-|---|---|
-| Triples (lemma data, as in VoID; the dump adds the dataset description) | 541,274 |
-| Lemmas (`lila:Lemma`) | 100,046 |
-| Distinct citation forms | 99,950 |
-| Citation forms shared by more than one lemma (homographs) | 93 |
-| Lemmas with spelling variants (more than one `ontolex:writtenRep`) | 67 |
-| Lemmas with a gender | 40,974 |
-
-| Part of speech | Lemmas |
-|---|---|
-| noun | 40,974 |
-| adjective | 28,810 |
-| verb | 27,552 |
-| adverb | 2,506 |
-| pronoun | 61 |
-| adposition | 50 |
-| subordinating conjunction | 38 |
-| particle | 33 |
-| numeral | 14 |
-| coordinating conjunction | 4 |
-| interjection | 4 |
-
-Nouns by gender: 16,891 feminine, 14,341 masculine, 9,742 neuter.
-
-The full statistics in VoID (class and property partitions) are in
-[`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl).
+The statistics of each release are part of its VoID description, which
+`ttl/export_ttl.py` counts on the exported lemmas: the number of triples and
+lemmas, and the number of triples per property (for example how many lemmas
+have a gender, or how many written representations there are). They are in
+[`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl), in the data dump, and on
+the SPARQL endpoint;
+[`06_dataset_statistics.rq`](queries/06_dataset_statistics.rq) reads them.
+The other example queries count lemmas per part of speech and per gender,
+homographs and spelling variants (see [Example queries](#example-queries)).
 
 ## Example queries
 
@@ -123,6 +103,7 @@ on the public endpoint and on a local copy of the data dump:
 | [`03_nouns_per_gender.rq`](queries/03_nouns_per_gender.rq) | The number of noun lemmas per gender. |
 | [`04_homographs.rq`](queries/04_homographs.rq) | Citation forms shared by more than one lemma, with the analyses that tell them apart. |
 | [`05_spelling_variants.rq`](queries/05_spelling_variants.rq) | Lemmas with more than one written representation. |
+| [`06_dataset_statistics.rq`](queries/06_dataset_statistics.rq) | The VoID statistics of the lemma bank: version, triples, lemmas and triples per property. |
 
 Run a query against the endpoint:
 
