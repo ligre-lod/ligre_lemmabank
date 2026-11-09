@@ -51,7 +51,28 @@ The version and release date are set in one place, `CITATION.cff`, by
    version, and creates the GitHub release with the changelog entry as notes.
    If they do not match, no release is made: fix the metadata, move the tag,
    and push again.
-6. **Deploy.** Redeploy the endpoint with the new image (it contains the new
-   `ttl/ligre_void.ttl` as static facts), apply any schema changes listed in
-   the changelog, and copy `ttl/ligre_void.ttl` to `ligre-lod/.well-known/void`
-   and `void.ttl`.
+6. **Upgrade the production database** before deploying, if
+   `data/schema.sql` changed since the previous release
+   (`git diff vPREVIOUS vNEW -- data/schema.sql`). `schema.sql` only runs when
+   Postgres starts on an empty volume, so it never reaches an existing
+   database: apply each change by hand, taking the statements for the
+   changed tables from `data/schema.sql` (list schema changes in the
+   changelog, so this step is not missed). Otherwise the new Ontop image fails to start
+   (`Cannot find relation ...`) and the endpoint returns 503. Connect with
+   the `ONTOP_DB_URL` and `ONTOP_DB_USER` of the deployment (UGent network
+   or VPN):
+
+   ```bash
+   psql -h <host> -p 5432 -U <user> -d <database>
+   ```
+
+   Run the SQL from the changelog (`CREATE TABLE IF NOT EXISTS ...`, so it is
+   safe to run twice), check it with `\d <table>`, and if Ontop connects as
+   another user, grant it `SELECT` on the new tables. Tables and columns that
+   were removed from `schema.sql` can stay; nothing reads them.
+7. **Deploy.** Redeploy the endpoint with the new image (it contains the new
+   `ttl/ligre_void.ttl` as static facts) and check that a lemma IRI, e.g.
+   <https://w3id.org/ligre/data/id/lemma/15308>, and the SPARQL UI load.
+   Copy `ttl/ligre_void.ttl` of the release to `.well-known/void` and
+   `.well-known/void.ttl` in the
+   [ligre-lod](https://github.com/ligre-lod/ligre-lod) repository.
