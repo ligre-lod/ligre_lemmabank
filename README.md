@@ -128,14 +128,15 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 
 Errors can be reported through the
 [issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
-Corrections are handled as follows:
+The current release contains no corrections; future corrections will be
+handled as follows:
 
 - **Only in new releases.** A published release is never changed. Corrections
   are published in a new release and listed in [CHANGELOG.md](CHANGELOG.md),
   and every release stays available on Zenodo with its own DOI.
 - **The source list is not edited.** `data/ligre_lemmas.tsv` stays as its
-  authors published it. Corrections are recorded in a separate file, one row
-  per corrected lemma, which the loader applies, so every change to the
+  authors published it. Corrections will be recorded in a separate file, one
+  row per corrected lemma, applied by the loader, so every change to the
   source data is documented and can be traced.
 - **IRIs stay stable.** A corrected lemma keeps its IRI. A lemma that is
   merged into another one or removed is not deleted: its IRI keeps resolving,
