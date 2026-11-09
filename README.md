@@ -114,22 +114,33 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 
 ## Quality and known limitations
 
-- Every noun and proper noun must have a gender: the loader
-  (`data/generate_lemma_data.py`) refuses to load the data otherwise.
-- The lemmas, parts of speech and genders are published as they are in the
-  source list; errors in it are not corrected in this release.
-- Some parts of speech are wrong. Several frequent function words are tagged
-  as masculine nouns: the article `ὁ`, the preposition `ἐν`, the pronouns
-  `οὗτος` and `ὅς`, and the conjunction `ὡς`. The negations `οὐ` and `οὔτι`
-  each occur as three lemmas, a verb, an adverb and an adjective, of which
-  only the adverb is correct (see `queries/04_homographs.rq`). Other examples
-  are `αἴθριος` (a neuter noun instead of an adjective) and the month name
-  `παυνί` (an adverb).
+- The lemma list is based on the Ancient Greek WordNet (AGWN), whose lemmas
+  were partly generated automatically. It therefore contains errors, such as
+  wrong parts of speech or genders and lemmas that occur more than once.
+- This release publishes the list as compiled by Swaelens, Mambrini &
+  Passarotti (2026), without corrections.
 - Proper nouns are not distinguished from common nouns: personal and place
-  names (e.g. `Ἀγαμέμνων`, `Ζεύς`, `Αἴγυπτος`; about 1,400 capitalised
-  lemmas) are tagged `lila:noun`.
-- Errors can be reported through the
-  [issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
+  names are tagged `lila:noun`.
+- Every noun has a gender: the loader (`data/generate_lemma_data.py`) refuses
+  to load nouns without one.
+
+### Corrections
+
+Errors can be reported through the
+[issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
+Corrections are handled as follows:
+
+- **Only in new releases.** A published release is never changed. Corrections
+  are published in a new release and listed in [CHANGELOG.md](CHANGELOG.md),
+  and every release stays available on Zenodo with its own DOI.
+- **The source list is not edited.** `data/ligre_lemmas.tsv` stays as its
+  authors published it. Corrections are recorded in a separate file, one row
+  per corrected lemma, which the loader applies, so every change to the
+  source data is documented and can be traced.
+- **IRIs stay stable.** A corrected lemma keeps its IRI. A lemma that is
+  merged into another one or removed is not deleted: its IRI keeps resolving,
+  marked `owl:deprecated true` and, if it was merged, `dcterms:isReplacedBy`
+  the lemma that replaces it. Ids are never reused (see [IRIs](#iris)).
 
 ## Project components
 
