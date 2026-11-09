@@ -16,7 +16,7 @@ CHANGELOG = ROOT / "CHANGELOG.md"
 CITATION = ROOT / "CITATION.cff"
 COMPARE = "https://github.com/ligre-lod/ligre_lemmabank/compare"
 VOID_FILES = [ROOT / "ttl" / "lemmabank_void.ttl", ROOT / "ttl" / "ligre_void.ttl"]
-CORPORA = list(filter(None, os.environ.get("CORPUS_DESCRIPTIONS", "").split(os.pathsep)))
+CORPORA = [str(path.relative_to(ROOT)) for path in sorted((ROOT / "ttl" / "corpora").glob("*.ttl"))]
 
 
 def fail(message):
@@ -38,6 +38,8 @@ def prepare(version):
     changelog = CHANGELOG.read_text()
     if "## [Unreleased]" not in changelog:
         fail("CHANGELOG.md has no '## [Unreleased]' section")
+    if f"## [{version}]" in changelog:
+        fail(f"CHANGELOG.md already has a section for {version}")
     link = re.search(rf"^\[Unreleased\]: {re.escape(COMPARE)}/(v\S+)\.\.\.HEAD$", changelog, re.M)
     if not link:
         fail("CHANGELOG.md has no '[Unreleased]: .../compare/vX.Y.Z...HEAD' link")

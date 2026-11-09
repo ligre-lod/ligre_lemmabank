@@ -9,10 +9,15 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-09
+
 ### Added
 - The Zenodo concept DOI (10.5281/zenodo.24085996) in the README, `CITATION.cff` and, from this
   release on, as `dcterms:identifier` of the lemma bank in the VoID
   description.
+- The PapyGreek–LiGre corpus (release 0.1.1) in the description of the LiGre
+  Knowledge Base (`ttl/ligre_void.ttl`), from its release description in
+  `ttl/corpora/PapyGreek_corpus.ttl`.
 
 ## [0.1.0] - 2026-11-09
 
@@ -50,5 +55,6 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.6...v0.1.0
