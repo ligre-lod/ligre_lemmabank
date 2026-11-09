@@ -31,6 +31,12 @@ are the same as in release 0.0.5. Known errors are listed in the README.
 - The data dump is renamed from `ttl/ligreTTLRDF.ttl` to
   `ttl/ligre_lemmabank.ttl`.
 
+### Removed
+- The tables and columns of `data/schema.sql` that were never loaded or
+  mapped to RDF (bases, hypolemmas, prefixes, suffixes, phonetic
+  representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
+  `grad`). Existing databases keep working; the tables can be dropped.
+
 ## [0.0.5] - 2026-10-28
 
 ### Changed
