@@ -1,0 +1,11 @@
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+
+SELECT ?version ?triples ?lemmas ?property ?propertyTriples
+WHERE {
+  <https://w3id.org/ligre/data/id/lemma/LemmaBank> dcat:version ?version ;
+      void:triples ?triples ;
+      void:entities ?lemmas ;
+      void:propertyPartition [ void:property ?property ; void:triples ?propertyTriples ] .
+}
+ORDER BY DESC(?propertyTriples)
