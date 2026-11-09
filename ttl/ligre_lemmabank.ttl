@@ -68175,7 +68175,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/1952> a lila:Lemma ;
     rdfs:label "αἴθριος" ;
-    lila:hasPOS lila:adjective ;
+    lila:hasGender lila:neuter ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "αἴθριος"@grc .
 
@@ -139165,7 +139166,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/29577> a lila:Lemma ;
     rdfs:label "ἐν" ;
-    lila:hasPOS lila:adposition ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ἐν"@grc .
 
@@ -211588,7 +211590,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/39866> a lila:Lemma ;
     rdfs:label "ὅς" ;
-    lila:hasPOS lila:pronoun ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ὅς"@grc .
 
@@ -364931,7 +364934,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/61173> a lila:Lemma ;
     rdfs:label "ὁ" ;
-    lila:hasPOS lila:determiner ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ὁ"@grc .
 
@@ -389971,7 +389975,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/64670> a lila:Lemma ;
     rdfs:label "οὗτος" ;
-    lila:hasPOS lila:pronoun ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "οὗτος"@grc .
 
@@ -415851,11 +415856,10 @@
     ontolex:writtenRep "ἀνέδραστος"@grc .
 
 <https://w3id.org/ligre/data/id/lemma/68310> a lila:Lemma ;
-    rdfs:label "Παῦνι" ;
-    lila:hasGender lila:masculine ;
-    lila:hasPOS lila:proper_noun ;
+    rdfs:label "παυνί" ;
+    lila:hasPOS lila:adverb ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
-    ontolex:writtenRep "Παῦνι"@grc .
+    ontolex:writtenRep "παυνί"@grc .
 
 <https://w3id.org/ligre/data/id/lemma/68311> a lila:Lemma ;
     rdfs:label "παυροεπής" ;
@@ -641056,7 +641060,8 @@
 
 <https://w3id.org/ligre/data/id/lemma/99964> a lila:Lemma ;
     rdfs:label "ὡς" ;
-    lila:hasPOS lila:subordinating_conjunction ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ὡς"@grc .
 
@@ -641366,22 +641371,22 @@
     void:exampleResource <https://w3id.org/ligre/data/id/lemma/15308> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 7 ;
-    void:propertyPartition [ void:property lila:hasPOS ;
+    void:propertyPartition [ void:property lila:lemmaVariant ;
+            void:triples 2 ],
+        [ void:property lila:hasPOS ;
+            void:triples 100046 ],
+        [ void:property ontolex:writtenRep ;
+            void:triples 100114 ],
+        [ void:property dcterms:isPartOf ;
             void:triples 100046 ],
         [ void:property rdf:type ;
             void:triples 100046 ],
         [ void:property lila:hasGender ;
-            void:triples 40969 ],
-        [ void:property dcterms:isPartOf ;
-            void:triples 100046 ],
+            void:triples 40974 ],
         [ void:property rdfs:label ;
-            void:triples 100046 ],
-        [ void:property ontolex:writtenRep ;
-            void:triples 100114 ],
-        [ void:property lila:lemmaVariant ;
-            void:triples 2 ] ;
+            void:triples 100046 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
-    void:triples 541269 ;
+    void:triples 541274 ;
     void:uriSpace "https://w3id.org/ligre/data/id/" ;
     void:vocabulary lila:,
         dcterms:,

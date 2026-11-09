@@ -631,15 +631,7 @@
     void:exampleResource <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus/aegyptus.90.43> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 23 ;
-    void:propertyPartition [ void:property dcterms:source ;
-            void:triples 1 ],
-        [ void:property dcterms:license ;
-            void:triples 1 ],
-        [ void:property powla:hasChild ;
-            void:triples 127188 ],
-        [ void:property dcterms:identifier ;
-            void:triples 560 ],
-        [ void:property lila_corpus:hasCitSubUnit ;
+    void:propertyPartition [ void:property lila_corpus:hasCitSubUnit ;
             void:triples 10589 ],
         [ void:property lila_corpus:hasRefType ;
             void:triples 15801 ],
@@ -676,7 +668,15 @@
         [ void:property dc:title ;
             void:triples 1675 ],
         [ void:property lila_corpus:last ;
-            void:triples 15801 ] ;
+            void:triples 15801 ],
+        [ void:property dcterms:source ;
+            void:triples 1 ],
+        [ void:property dcterms:license ;
+            void:triples 1 ],
+        [ void:property powla:hasChild ;
+            void:triples 127188 ],
+        [ void:property dcterms:identifier ;
+            void:triples 560 ] ;
     void:subset [ a void:Linkset ;
             dcterms:title "PapyGreek tokens linked to LiGre lemmas"@en ;
             void:distinctObjects 3176 ;
@@ -736,34 +736,34 @@ ligreLemma:LemmaBank a void:Dataset,
             void:triples 2 ],
         [ void:property lila:hasPOS ;
             void:triples 100046 ],
+        [ void:property ontolex:writtenRep ;
+            void:triples 100114 ],
         [ void:property dcterms:isPartOf ;
             void:triples 100046 ],
         [ void:property rdf:type ;
             void:triples 100046 ],
         [ void:property lila:hasGender ;
-            void:triples 40969 ],
+            void:triples 40974 ],
         [ void:property rdfs:label ;
-            void:triples 100046 ],
-        [ void:property ontolex:writtenRep ;
-            void:triples 100114 ] ;
+            void:triples 100046 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
-    void:triples 541269 ;
+    void:triples 541274 ;
     void:uriSpace "https://w3id.org/ligre/data/id/" ;
     void:vocabulary lila:,
         dcterms:,
         rdfs:,
         ontolex: ;
     dcat:distribution [ a dcat:Distribution ;
+            dcterms:title "SPARQL endpoint"@en ;
+            dcat:accessService <https://ligre.ugent.be/sparql> ;
+            dcat:accessURL <https://ligre.ugent.be/sparql> ],
+        [ a dcat:Distribution ;
             dcterms:issued "2026-11-06"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "All lemmas in Turtle"@en ;
             dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.1.0> ;
             dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.0/ttl/ligre_lemmabank.ttl> ;
-            dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
-        [ a dcat:Distribution ;
-            dcterms:title "SPARQL endpoint"@en ;
-            dcat:accessService <https://ligre.ugent.be/sparql> ;
-            dcat:accessURL <https://ligre.ugent.be/sparql> ] ;
+            dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ] ;
     dcat:keyword "Ancient Greek"@en,
         "LiLa"@en,
         "OntoLex-Lemon"@en,

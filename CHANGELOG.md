@@ -5,6 +5,10 @@ All notable changes to the LiGre Lemma Bank are listed here. Releases follow
 
 ## [0.1.0] - unreleased
 
+This release publishes the lemma list of Swaelens, Mambrini & Passarotti
+(2026) as it is, without corrections: the lemmas, parts of speech and genders
+are the same as in release 0.0.5. Known errors are listed in the README.
+
 ### Added
 - Persistent lemma ids: the id of every lemma, and so its IRI, is fixed in
   `data/lemma_ids.tsv` instead of depending on the order of the source data.
@@ -14,8 +18,6 @@ All notable changes to the LiGre Lemma Bank are listed here. Releases follow
   (`ttl/lemmabank_description.ttl`) and for the LiGre Knowledge Base
   (`ttl/knowledge_base_description.ttl`), with VoID statistics written by
   `ttl/export_ttl.py` to `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl`.
-- Manual corrections of lemmas, parts of speech and genders
-  (`data/ligre_corrections.tsv`), applied by the loader.
 - Example SPARQL queries in `queries/`.
 - Licences (data CC BY-SA 4.0, code MIT), `CITATION.cff` and `.zenodo.json`
   for archiving releases on Zenodo.

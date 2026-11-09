@@ -45,7 +45,6 @@ linked to its lemmas, such as
 | `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Hand-written dataset descriptions (Dublin Core, DCAT, VoID) that `ttl/export_ttl.py` merges into the files above. |
 | `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`). |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
-| `data/ligre_corrections.tsv` | Manual corrections of lemma, part of speech or gender, applied when the database is loaded. |
 | `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them. |
 | `data/schema.sql` | The Postgres schema. |
 | `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop. |
@@ -53,9 +52,10 @@ linked to its lemmas, such as
 
 The list of lemmas in `data/ligre_lemmas.tsv` was compiled by Colin Swaelens,
 Francesco Mambrini and Marco Passarotti, and is described in Swaelens,
-Mambrini & Passarotti (2026) (see [Citation](#citation)). This repository publishes it as linked open data;
-changes to the list are made through `data/ligre_corrections.tsv`, not in the
-list itself.
+Mambrini & Passarotti (2026) (see [Citation](#citation)). This repository publishes
+that list, and its clusters in `data/ligre_wr_lv.csv`, as linked open data as
+they are: the loader does not correct lemmas, parts of speech or genders (see
+[Quality and known limitations](#quality-and-known-limitations)).
 
 ## Data model
 
@@ -85,31 +85,28 @@ Release 0.1.0, counted on `ttl/ligre_lemmabank.ttl`:
 
 | | |
 |---|---|
-| Triples (lemma data, as in VoID; the dump adds the dataset description) | 541,269 |
+| Triples (lemma data, as in VoID; the dump adds the dataset description) | 541,274 |
 | Lemmas (`lila:Lemma`) | 100,046 |
 | Distinct citation forms | 99,950 |
 | Citation forms shared by more than one lemma (homographs) | 93 |
 | Lemmas with spelling variants (more than one `ontolex:writtenRep`) | 67 |
-| Lemmas with a gender | 40,969 |
-| Manual corrections applied | 7 |
+| Lemmas with a gender | 40,974 |
 
 | Part of speech | Lemmas |
 |---|---|
-| noun | 40,968 |
-| adjective | 28,811 |
+| noun | 40,974 |
+| adjective | 28,810 |
 | verb | 27,552 |
-| adverb | 2,505 |
-| pronoun | 63 |
-| adposition | 51 |
-| subordinating conjunction | 39 |
+| adverb | 2,506 |
+| pronoun | 61 |
+| adposition | 50 |
+| subordinating conjunction | 38 |
 | particle | 33 |
 | numeral | 14 |
 | coordinating conjunction | 4 |
 | interjection | 4 |
-| determiner | 1 |
-| proper noun | 1 |
 
-Nouns by gender: 16,891 feminine, 14,336 masculine, 9,741 neuter.
+Nouns by gender: 16,891 feminine, 14,341 masculine, 9,742 neuter.
 
 The full statistics in VoID (class and property partitions) are in
 [`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl).
@@ -138,17 +135,20 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 
 - Every noun and proper noun must have a gender: the loader
   (`data/generate_lemma_data.py`) refuses to load the data otherwise.
-- Errors found in the source list, for example while linking corpora to the
-  lemma bank, are fixed in `data/ligre_corrections.tsv` rather than in the
-  source list, so that every change to the source data is documented.
-- Some parts of speech are wrong. Six of the seven corrections so far fix
-  function words that the source list tagged as nouns (`ὁ`, `ἐν`, `οὗτος`,
-  `ὅς`, `ὡς`), and similar errors remain: the negations `οὐ` and `οὔτι` each
-  occur as three lemmas, a verb, an adverb and an adjective, of which only
-  the adverb is correct (see `queries/04_homographs.rq`).
+- The lemmas, parts of speech and genders are published as they are in the
+  source list; errors in it are not corrected in this release.
+- Some parts of speech are wrong. Several frequent function words are tagged
+  as masculine nouns: the article `ὁ`, the preposition `ἐν`, the pronouns
+  `οὗτος` and `ὅς`, and the conjunction `ὡς`. The negations `οὐ` and `οὔτι`
+  each occur as three lemmas, a verb, an adverb and an adjective, of which
+  only the adverb is correct (see `queries/04_homographs.rq`). Other examples
+  are `αἴθριος` (a neuter noun instead of an adjective) and the month name
+  `παυνί` (an adverb).
 - Proper nouns are not distinguished from common nouns: personal and place
   names (e.g. `Ἀγαμέμνων`, `Ζεύς`, `Αἴγυπτος`; about 1,400 capitalised
-  lemmas) are tagged `lila:noun`, and only one lemma is a `lila:proper_noun`.
+  lemmas) are tagged `lila:noun`.
+- Errors can be reported through the
+  [issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
 
 ## Project components
 
@@ -241,8 +241,6 @@ python data/generate_lemma_data.py --assign-ids
 to update the file (the loader refuses to load data that does not match it):
 
 - new lemmas get new ids;
-- a lemma whose lemma, part of speech or gender is corrected in
-  `data/ligre_corrections.tsv` keeps its id;
 - a lemma that is removed, or merged into another one, is retired: its id is
   never reused, and its IRI stays available with `owl:deprecated true` and,
   if it was merged, `dcterms:isReplacedBy` the lemma that replaces it.

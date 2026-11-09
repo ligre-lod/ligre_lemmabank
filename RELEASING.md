@@ -14,7 +14,8 @@ Zenodo with a DOI.
 
 ## Release steps
 
-1. **Data.** Update the source tables (`data/`), update the lemma ids
+1. **Data.** Update the source tables (`data/`); the loader publishes them
+   as they are, without corrections. Update the lemma ids
    (`python data/generate_lemma_data.py --assign-ids`; check the new, kept
    and retired ids it prints, and commit `data/lemma_ids.tsv`), load them
    (`docker compose run --rm lemma-loader`), and export the dump from the

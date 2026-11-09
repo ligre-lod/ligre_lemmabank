@@ -9,8 +9,7 @@ This covers:
 - `ttl/ligre_lemmabank.ttl`, the lemma bank in RDF (Turtle);
 - `ttl/lemmabank_void.ttl`, `ttl/ligre_void.ttl` and the other dataset
   descriptions in `ttl/`;
-- the source tables `data/ligre_lemmas.tsv`, `data/ligre_wr_lv.csv` and
-  `data/ligre_corrections.tsv`;
+- the source tables `data/ligre_lemmas.tsv` and `data/ligre_wr_lv.csv`;
 - the same data served at the SPARQL endpoint <https://ligre.ugent.be/sparql>
   and through the IRIs under <https://w3id.org/ligre/data/id/>.
 
