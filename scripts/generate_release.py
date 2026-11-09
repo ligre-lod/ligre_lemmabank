@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Prepare or check a release.
 
-    python scripts/release.py prepare 0.1.0   # set version and date, regenerate the descriptions
-    python scripts/release.py check 0.1.0     # check that everything says 0.1.0, print the release notes
+    python scripts/generate_release.py prepare 0.1.0   # set version and date, regenerate the descriptions
+    python scripts/generate_release.py check 0.1.0     # check that everything says 0.1.0, print the release notes
 """
 import datetime
 import os
@@ -53,7 +53,7 @@ def prepare(version):
     print(f"set version {version} and date {date} in CHANGELOG.md and CITATION.cff")
 
     dump = "ttl/ligre_lemmabank.ttl"
-    export = [sys.executable, "ttl/export_ttl.py"]
+    export = [sys.executable, "scripts/export_ttl.py"]
     env = {**os.environ, "TTL_INPUT": dump, "TTL_OUTPUT": dump}
     subprocess.run(export, cwd=ROOT, check=True, env={
         **env, "VOID_OUTPUT": "ttl/ligre_void.ttl",

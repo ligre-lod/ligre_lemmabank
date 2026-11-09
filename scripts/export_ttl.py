@@ -15,8 +15,9 @@ from rdflib.namespace import DCTERMS, RDF, XSD
 CONSTRUCT_QUERY = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }"
 
 LEMMA_BANK = URIRef("https://w3id.org/ligre/data/id/lemma/LemmaBank")
-DESCRIPTION_PATH = Path(__file__).with_name("lemmabank_description.ttl")
-CITATION_PATH = Path(__file__).resolve().parent.parent / "CITATION.cff"
+ROOT = Path(__file__).resolve().parent.parent
+DESCRIPTION_PATH = ROOT / "ttl" / "lemmabank_description.ttl"
+CITATION_PATH = ROOT / "CITATION.cff"
 REPOSITORY = "ligre-lod/ligre_lemmabank"
 VOID = Namespace("http://rdfs.org/ns/void#")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
@@ -131,7 +132,7 @@ def fetch_construct(sparql_url, retries=30, delay=2, timeout=300):
 
 def main():
     sparql_url = os.environ.get("ONTOP_SPARQL_URL", "http://ontop:8080/sparql")
-    out_path = Path(os.environ.get("TTL_OUTPUT", "/app/ttl/ligre_lemmabank.ttl"))
+    out_path = Path(os.environ.get("TTL_OUTPUT", ROOT / "ttl" / "ligre_lemmabank.ttl"))
     void_path = Path(os.environ.get("VOID_OUTPUT", out_path.with_name("lemmabank_void.ttl")))
 
     graph = Graph()

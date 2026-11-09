@@ -42,7 +42,7 @@ linked to its lemmas, such as
 | `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump.                                                                                                           |
 | `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions).                                                                                                     |
 | `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>.                                                                       |
-| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `ttl/export_ttl.py` merges into the files above.                                                                                                                            |
+| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `scripts/export_ttl.py` merges into the files above.                                                                                                                            |
 | `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
 | `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them.                                                                                                        |
@@ -82,7 +82,7 @@ Every lemma is a `lila:Lemma` with:
 ## Statistics
 
 The statistics of each release are part of its VoID description, which
-`ttl/export_ttl.py` counts on the exported lemmas: the number of triples and
+`scripts/export_ttl.py` counts on the exported lemmas: the number of triples and
 lemmas, and the number of triples per property (for example how many lemmas
 have a gender, or how many written representations there are). They are in
 [`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl), in the data dump, and on
@@ -166,7 +166,7 @@ Corrections are handled as follows:
 
 `ttl/lemmabank_description.ttl` describes the Lemma Bank
 (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and
-VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID
+VoID. `scripts/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID
 statistics (triples, entities, class and property partitions) counted on the
 exported lemmas. It also writes the description with those statistics on its
 own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`). `VOID_INCLUDE` adds other
@@ -178,7 +178,7 @@ the lemma bank and the corpora as subsets) and the description of each corpus:
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
   VOID_INCLUDE=ttl/knowledge_base_description.ttl:../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl \
-  python ttl/export_ttl.py
+  python scripts/export_ttl.py
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
 ```
@@ -186,7 +186,7 @@ cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
 To add or refresh the description of an exported file without the endpoint:
 
 ```bash
-TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
+TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python scripts/export_ttl.py
 ```
 
 ## Local setup

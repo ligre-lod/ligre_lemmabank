@@ -17,7 +17,7 @@ are the same as in release 0.0.5. Known errors are listed in the README.
 - Dataset descriptions in Dublin Core, DCAT and VoID for the lemma bank
   (`ttl/lemmabank_description.ttl`) and for the LiGre Knowledge Base
   (`ttl/knowledge_base_description.ttl`), with VoID statistics written by
-  `ttl/export_ttl.py` to `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl`.
+  `scripts/export_ttl.py` to `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl`.
 - Example SPARQL queries in `queries/`.
 - Licences (data CC BY-SA 4.0, code MIT), `CITATION.cff` and `.zenodo.json`
   for archiving releases on Zenodo.

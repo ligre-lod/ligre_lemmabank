@@ -5,7 +5,7 @@ the Ontop Docker image and creates the GitHub release, which is archived on
 Zenodo with a DOI.
 
 The version and release date are set in one place, `CITATION.cff`, by
-`scripts/release.py`; the dataset descriptions take them from there.
+`scripts/generate_release.py`; the dataset descriptions take them from there.
 
 ## Release steps
 
@@ -18,13 +18,13 @@ The version and release date are set in one place, `CITATION.cff`, by
    running endpoint:
 
    ```bash
-   ONTOP_SPARQL_URL=http://localhost:8081/sparql TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
+   ONTOP_SPARQL_URL=http://localhost:8081/sparql TTL_OUTPUT=ttl/ligre_lemmabank.ttl python scripts/export_ttl.py
    ```
 
 3. **Prepare the release:**
 
    ```bash
-   python scripts/release.py prepare 0.1.0
+   python scripts/generate_release.py prepare 0.1.0
    ```
 
    This moves the unreleased changes in `CHANGELOG.md` under the new version
