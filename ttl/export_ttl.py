@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -9,13 +10,16 @@ from pathlib import Path
 from collections import Counter
 
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
-from rdflib.namespace import RDF, XSD
+from rdflib.namespace import DCTERMS, RDF, XSD
 
 CONSTRUCT_QUERY = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }"
 
 LEMMA_BANK = URIRef("https://w3id.org/ligre/data/id/lemma/LemmaBank")
 DESCRIPTION_PATH = Path(__file__).with_name("lemmabank_description.ttl")
+CITATION_PATH = Path(__file__).resolve().parent.parent / "CITATION.cff"
+REPOSITORY = "ligre-lod/ligre_lemmabank"
 VOID = Namespace("http://rdfs.org/ns/void#")
+DCAT = Namespace("http://www.w3.org/ns/dcat#")
 
 PREFIXES = {
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -23,7 +27,7 @@ PREFIXES = {
     "ontolex": "http://www.w3.org/ns/lemon/ontolex#",
     "lila": "http://lila-erc.eu/ontologies/lila/",
     "void": str(VOID),
-    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcat": str(DCAT),
     "foaf": "http://xmlns.com/foaf/0.1/",
 }
 VOID_PREFIXES = {
@@ -73,8 +77,36 @@ def add_void_statistics(graph, dataset):
     return statistics
 
 
+def release():
+    fields = dict(re.findall(r"^(version|date-released):\s*(\S+)\s*$", CITATION_PATH.read_text(), re.M))
+    return fields["version"], fields["date-released"]
+
+
+def add_release(description):
+    version, date = release()
+    tag = f"v{version}"
+    dump = URIRef(f"https://raw.githubusercontent.com/{REPOSITORY}/{tag}/ttl/ligre_lemmabank.ttl")
+    issued = Literal(date, datatype=XSD.date)
+    distribution = BNode()
+    for triple in [
+        (LEMMA_BANK, DCAT.version, Literal(version)),
+        (LEMMA_BANK, DCTERMS.issued, issued),
+        (LEMMA_BANK, VOID.dataDump, dump),
+        (LEMMA_BANK, DCAT.distribution, distribution),
+        (distribution, RDF.type, DCAT.Distribution),
+        (distribution, DCTERMS.title, Literal("All lemmas in Turtle", lang="en")),
+        (distribution, DCTERMS.issued, issued),
+        (distribution, DCTERMS.license, URIRef("https://creativecommons.org/licenses/by-sa/4.0/")),
+        (distribution, DCAT.accessURL, URIRef(f"https://github.com/{REPOSITORY}/releases/tag/{tag}")),
+        (distribution, DCAT.downloadURL, dump),
+        (distribution, DCAT.mediaType, URIRef("https://www.iana.org/assignments/media-types/text/turtle")),
+    ]:
+        description.add(triple)
+
+
 def describe(graph):
     description = Graph().parse(DESCRIPTION_PATH, format="turtle")
+    add_release(description)
     remove_description(graph, description)
     statistics = add_void_statistics(graph, LEMMA_BANK)
     graph += description

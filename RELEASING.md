@@ -1,65 +1,53 @@
 # Releasing
 
-Each release is a `vMAJOR.MINOR.PATCH` tag on `main` with a GitHub release.
-The tag builds the Ontop Docker image; the GitHub release is archived on
+Each release is a `vMAJOR.MINOR.PATCH` tag on `main`. Pushing the tag builds
+the Ontop Docker image and creates the GitHub release, which is archived on
 Zenodo with a DOI.
 
-## One-time setup
-
-1. Sign in to <https://zenodo.org> with GitHub, open
-   *Settings → GitHub*, and switch on `ligre-lod/ligre_lemmabank`. This needs
-   admin rights on the `ligre-lod` organisation.
-2. Zenodo takes the metadata from `.zenodo.json` (title, creators, licence,
-   keywords, related identifiers). The version is the tag name.
+The version and release date are set in one place, `CITATION.cff`, by
+`scripts/release.py`; the dataset descriptions take them from there.
 
 ## Release steps
 
-1. **Data.** Update the source tables (`data/`); the loader publishes them
-   as they are, without corrections. Update the lemma ids
-   (`python data/generate_lemma_data.py --assign-ids`; check the new, kept
-   and retired ids it prints, and commit `data/lemma_ids.tsv`), load them
+1. **Changelog.** List the changes under `## [Unreleased]` in `CHANGELOG.md`.
+2. **Data** (only if the source data changed). Update the source tables
+   (`data/`); the loader publishes them as they are, without corrections.
+   Update the lemma ids (`python data/generate_lemma_data.py --assign-ids`;
+   check the new, kept and retired ids it prints), load them
    (`docker compose run --rm lemma-loader`), and export the dump from the
-   running endpoint with `ttl/export_ttl.py` (set `ONTOP_SPARQL_URL`, e.g.
-   `http://localhost:8081/sparql`, and `TTL_OUTPUT=ttl/ligre_lemmabank.ttl`).
-2. **Version and date.** Set the new version and release date in
-   - `ttl/lemmabank_description.ttl`: `dcat:version`, both `dcterms:issued`,
-     and the tag in `void:dataDump`, `dcat:downloadURL` and `dcat:accessURL`;
-   - `CITATION.cff`: `version` and `date-released`;
-   - `CHANGELOG.md`: move the changes under the new version and date.
-3. **Regenerate the descriptions** so that the dump and the VoID files carry
-   the new metadata and statistics:
+   running endpoint:
 
    ```bash
-   TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
-     VOID_INCLUDE=ttl/knowledge_base_description.ttl:../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl \
-     python ttl/export_ttl.py
-   TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
+   ONTOP_SPARQL_URL=http://localhost:8081/sparql TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
    ```
 
-   The first command writes the knowledge base description to
-   `ttl/ligre_void.ttl`; the second rewrites `ttl/lemmabank_void.ttl`.
-4. **Check** that the example queries still run.
+3. **Prepare the release:**
+
+   ```bash
+   python scripts/release.py prepare 0.1.0
+   ```
+
+   This moves the unreleased changes in `CHANGELOG.md` under the new version
+   and today's date, sets both in `CITATION.cff`, and regenerates the dump,
+   `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl` with the new metadata and
+   statistics. The PapyGreek corpus description is read from
+   `../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl`; set
+   `PAPYGREEK_CORPUS` if it is elsewhere.
+4. **Check** that the example queries in `queries/` still run.
 5. **Commit, tag and push:**
 
    ```bash
+   git commit -am "Release 0.1.0"
    git tag -a v0.1.0 -m "LiGre Lemma Bank 0.1.0"
    git push origin main v0.1.0
    ```
 
-6. **GitHub release.** Create a release from the tag (web UI or
-   `gh release create v0.1.0 --notes-file …`) with the changelog entry as
-   notes. Zenodo archives it and mints the DOIs.
-7. **Deploy.** Redeploy the endpoint with the new image (it contains the new
-   `ttl/ligre_void.ttl` as static facts, so the dataset IRIs show the new
-   description), apply any schema changes listed in the changelog, and copy
-   `ttl/ligre_void.ttl` to `ligre-lod/.well-known/void` and `void.ttl`.
-
-## After the first Zenodo release
-
-Zenodo mints the DOIs only when the first release is archived, so
-release 0.1.0 cannot contain its own DOI. Afterwards:
-
-1. Add the concept DOI (the one for all versions) to
-   `ttl/lemmabank_description.ttl` as `dcterms:identifier`, to the README
-   badge, and to `CITATION.cff` as `doi`.
-2. Release these metadata changes as a patch release (0.1.1).
+   The release workflow (`.github/workflows/release.yaml`) checks that
+   `CHANGELOG.md`, `CITATION.cff` and the VoID files all describe the tagged
+   version, and creates the GitHub release with the changelog entry as notes.
+   If they do not match, no release is made: fix the metadata, move the tag,
+   and push again.
+6. **Deploy.** Redeploy the endpoint with the new image (it contains the new
+   `ttl/ligre_void.ttl` as static facts), apply any schema changes listed in
+   the changelog, and copy `ttl/ligre_void.ttl` to `ligre-lod/.well-known/void`
+   and `void.ttl`.

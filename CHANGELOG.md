@@ -3,7 +3,7 @@
 All notable changes to the LiGre Lemma Bank are listed here. Releases follow
 [semantic versioning](https://semver.org/).
 
-## [0.1.0] - unreleased
+## [Unreleased]
 
 This release publishes the lemma list of Swaelens, Mambrini & Passarotti
 (2026) as it is, without corrections: the lemmas, parts of speech and genders
@@ -48,6 +48,6 @@ are the same as in release 0.0.5. Known errors are listed in the README.
 ### Changed
 - The base URL of the IRIs is configurable (`LIGRE_BASE_URL`).
 
-[0.1.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.5...v0.1.0
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.5...HEAD
 [0.0.5]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.3...v0.0.4
