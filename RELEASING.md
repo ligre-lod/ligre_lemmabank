@@ -14,7 +14,10 @@ The version and release date are set in one place, `CITATION.cff`, by
    (`data/`); the loader publishes them as they are, without corrections.
    Update the lemma ids (`python data/generate_lemma_data.py --assign-ids`;
    check the new, kept and retired ids it prints), load them
-   (`docker compose run --rm lemma-loader`), and export the dump from the
+   (`docker compose run --rm lemma-loader`), start Ontop with the published
+   base URL (`LIGRE_BASE_URL=https://w3id.org/ligre docker compose up -d ontop`;
+   with the default `localhost` the dump gets the wrong IRIs and the
+   statistics count the dataset description), and export the dump from the
    running endpoint:
 
    ```bash
@@ -30,9 +33,10 @@ The version and release date are set in one place, `CITATION.cff`, by
    This moves the unreleased changes in `CHANGELOG.md` under the new version
    and today's date, sets both in `CITATION.cff`, and regenerates the dump,
    `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl` with the new metadata and
-   statistics. The PapyGreek corpus description is read from
-   `../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl`; set
-   `PAPYGREEK_CORPUS` if it is elsewhere.
+   statistics. The descriptions of released corpora are added to
+   `ttl/ligre_void.ttl` from `CORPUS_DESCRIPTIONS` (paths separated by `:`);
+   add each corpus to `dcat:dataset` and `void:subset` in
+   `ttl/knowledge_base_description.ttl` as well. No corpus is released yet.
 4. **Check** that the example queries in `queries/` still run.
 5. **Commit, tag and push:**
 

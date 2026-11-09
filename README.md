@@ -32,8 +32,9 @@ The design and rationale behind the resource are described in the paper
 
 The lemma bank is part of the LiGre Knowledge Base
 (<https://w3id.org/ligre/data/id/KnowledgeBase>), together with the corpora
-linked to its lemmas, such as
-[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek).
+linked to its lemmas. The first corpus,
+[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek), is in preparation
+and will be added to the knowledge base description when it is released.
 
 ## Data files
 
@@ -173,11 +174,12 @@ own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`). `VOID_INCLUDE` adds other
 descriptions to that file (paths separated by `:`). The VoID file of the whole
 knowledge base, published at https://ligre-lod.github.io/.well-known/void,
 combines `ttl/knowledge_base_description.ttl` (the LiGre Knowledge Base, with
-the lemma bank and the corpora as subsets) and the description of each corpus:
+the lemma bank and the corpora as subsets) and the description of each
+released corpus (none yet; add each one to `VOID_INCLUDE`):
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
-  VOID_INCLUDE=ttl/knowledge_base_description.ttl:../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl \
+  VOID_INCLUDE=ttl/knowledge_base_description.ttl \
   python scripts/export_ttl.py
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl

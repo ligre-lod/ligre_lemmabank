@@ -9,6 +9,8 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-09
+
 This release publishes the lemma list of Swaelens, Mambrini & Passarotti
 (2026) as it is, without corrections: the lemmas, parts of speech and genders
 are the same as served by the deployed endpoint since v0.0.5. Known errors are
@@ -43,4 +45,5 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.6...v0.1.0

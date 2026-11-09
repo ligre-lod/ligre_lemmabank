@@ -16,7 +16,7 @@ CHANGELOG = ROOT / "CHANGELOG.md"
 CITATION = ROOT / "CITATION.cff"
 COMPARE = "https://github.com/ligre-lod/ligre_lemmabank/compare"
 VOID_FILES = [ROOT / "ttl" / "lemmabank_void.ttl", ROOT / "ttl" / "ligre_void.ttl"]
-PAPYGREEK = os.environ.get("PAPYGREEK_CORPUS", str(ROOT.parent.parent / "papygreek-to-ligre" / "ttl" / "PapyGreek_corpus.ttl"))
+CORPORA = list(filter(None, os.environ.get("CORPUS_DESCRIPTIONS", "").split(os.pathsep)))
 
 
 def fail(message):
@@ -57,7 +57,7 @@ def prepare(version):
     env = {**os.environ, "TTL_INPUT": dump, "TTL_OUTPUT": dump}
     subprocess.run(export, cwd=ROOT, check=True, env={
         **env, "VOID_OUTPUT": "ttl/ligre_void.ttl",
-        "VOID_INCLUDE": os.pathsep.join(["ttl/knowledge_base_description.ttl", PAPYGREEK])})
+        "VOID_INCLUDE": os.pathsep.join(["ttl/knowledge_base_description.ttl", *CORPORA])})
     subprocess.run(export, cwd=ROOT, check=True, env=env)
 
 
