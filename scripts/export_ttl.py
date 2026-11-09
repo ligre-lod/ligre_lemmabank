@@ -79,12 +79,12 @@ def add_void_statistics(graph, dataset):
 
 
 def release():
-    fields = dict(re.findall(r"^(version|date-released):\s*(\S+)\s*$", CITATION_PATH.read_text(), re.M))
-    return fields["version"], fields["date-released"]
+    fields = dict(re.findall(r"^(version|date-released|doi):\s*\"?([^\s\"]+)\"?\s*$", CITATION_PATH.read_text(), re.M))
+    return fields["version"], fields["date-released"], fields.get("doi")
 
 
 def add_release(description):
-    version, date = release()
+    version, date, doi = release()
     tag = f"v{version}"
     dump = URIRef(f"https://raw.githubusercontent.com/{REPOSITORY}/{tag}/ttl/ligre_lemmabank.ttl")
     issued = Literal(date, datatype=XSD.date)
@@ -103,6 +103,8 @@ def add_release(description):
         (distribution, DCAT.mediaType, URIRef("https://www.iana.org/assignments/media-types/text/turtle")),
     ]:
         description.add(triple)
+    if doi:
+        description.add((LEMMA_BANK, DCTERMS.identifier, Literal(f"https://doi.org/{doi}")))
 
 
 def describe(graph):

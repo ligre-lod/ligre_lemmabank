@@ -3,17 +3,23 @@
 All notable changes to the LiGre Lemma Bank are listed here. Releases follow
 [semantic versioning](https://semver.org/).
 
+The tags v0.0.1 to v0.0.6 were development versions, not published releases:
+they have no GitHub release and no DOI. Since v0.0.5 the deployed endpoint has
+minted lemma IRIs under `https://w3id.org/ligre`.
+
 ## [Unreleased]
 
 This release publishes the lemma list of Swaelens, Mambrini & Passarotti
 (2026) as it is, without corrections: the lemmas, parts of speech and genders
-are the same as in release 0.0.5. Known errors are listed in the README.
+are the same as served by the deployed endpoint since v0.0.5. Known errors are
+listed in the README.
 
 ### Added
 - Persistent lemma ids: the id of every lemma, and so its IRI, is fixed in
   `data/lemma_ids.tsv` instead of depending on the order of the source data.
-  The ids of release 0.0.5 are kept. Retired lemmas keep their IRI, with
-  `owl:deprecated` and `dcterms:isReplacedBy` (new table `lemma_replaced`).
+  The ids used by the deployed endpoint since v0.0.5 are kept. Retired
+  lemmas keep their IRI, with `owl:deprecated` and `dcterms:isReplacedBy`
+  (new table `lemma_replaced`).
 - Dataset descriptions in Dublin Core, DCAT and VoID for the lemma bank
   (`ttl/lemmabank_description.ttl`) and for the LiGre Knowledge Base
   (`ttl/knowledge_base_description.ttl`), with VoID statistics written by
@@ -37,17 +43,4 @@ are the same as in release 0.0.5. Known errors are listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-## [0.0.5] - 2026-10-28
-
-### Changed
-- Lemma IRIs are minted under the persistent namespace
-  `https://w3id.org/ligre` in deployments, and under `localhost` locally.
-
-## [0.0.4] - 2026-09-08
-
-### Changed
-- The base URL of the IRIs is configurable (`LIGRE_BASE_URL`).
-
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.5...HEAD
-[0.0.5]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.4...v0.0.5
-[0.0.4]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.3...v0.0.4
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.6...HEAD
