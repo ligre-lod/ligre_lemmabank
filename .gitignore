@@ -1,7 +1,4 @@
 .idea
-/data/ligre_lemmas.tsv
-/data/ligre_wr_lv.csv
-/ontop/input/mapping.ttl
 /ligre_data.dump
 /ligre_data.sql
 __pycache__/

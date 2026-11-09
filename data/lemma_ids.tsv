@@ -1950,7 +1950,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 1949	αἰθρινός	ADJ	*	active	
 1950	αἰθριοκοιτέω	VERB		active	
 1951	αἰθριοποιέω	VERB		active	
-1952	αἴθριος	ADJ	*	active	
+1952	αἴθριος	NOUN	n	active	
 1953	αἰθροβάτης	NOUN	m	active	
 1954	αἰθροβολέω	VERB		active	
 1955	αἰθροδόνητος	ADJ	*	active	
@@ -29575,7 +29575,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 29574	ἔμψυχρος	ADJ	*	active	
 29575	ἐμψύχω	VERB		active	
 29576	ἐμψύχωσις	NOUN	f	active	
-29577	ἐν	ADP		active	
+29577	ἐν	NOUN	m	active	
 29578	ἐναβρύνομαι	VERB		active	
 29579	ἐνάγαμαι	VERB		active	
 29580	ἐναγγειόσπερμος	ADJ	*	active	
@@ -39864,7 +39864,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 39863	ἡδονικός	ADJ	*	active	
 39864	ἡδονοκρασία	NOUN	f	active	
 39865	ἦδος	NOUN	n	active	
-39866	ὅς	PRON		active	
+39866	ὅς	NOUN	m	active	
 39867	ἡδοσύνη	NOUN	f	active	
 39868	ἡδύβιος	ADJ	*	active	
 39869	ἡδυβόης	NOUN	m	active	
@@ -61171,7 +61171,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61170	ξυστρωτός	ADJ	*	active	
 61171	ξύφος	NOUN	n	active	
 61172	ξύω	VERB		active	
-61173	ὁ	DET		active	
+61173	ὁ	NOUN	m	active	
 61174	ὅ	NOUN	m	active	
 61175	ὄα	NOUN	f	active	
 61176	ὄαρ	NOUN	f	active	
@@ -64668,7 +64668,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 64667	οὔτις	NOUN	m	active	
 64668	οὐτίς	NOUN	f	active	
 64669	οὔτοι	ADV		active	
-64670	οὗτος	PRON		active	
+64670	οὗτος	NOUN	m	active	
 64671	οὕτως	ADV		active	
 64672	οὑτωτρόπως	ADV		active	
 64673	ὄφ	NOUN	n	active	
@@ -68308,7 +68308,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 68307	πατταλίας	NOUN	m	active	
 68308	πάτωρ	NOUN	m	active	
 68309	παῦλα	NOUN	f	active	
-68310	Παῦνι	PROPN	m	active	
+68310	παυνί	ADV		active	
 68311	παυροεπής	ADJ	*	active	
 68312	παῦρος	ADJ	*	active	
 68313	παῦς	NOUN	m	active	
@@ -99962,7 +99962,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 99961	ὤρυμα	NOUN	n	active	
 99962	ὠρύομαι	VERB		active	
 99963	ὠρυτός	NOUN	m	active	
-99964	ὡς	SCONJ		active	
+99964	ὡς	NOUN	m	active	
 99965	ὦς	NOUN	n	active	
 99966	ὡσάν	SCONJ		active	
 99967	ὡσανεί	ADV		active	

@@ -3,7 +3,7 @@ message: "If you use the LiGre Lemma Bank, please cite it using the metadata bel
 type: dataset
 title: "LiGre Lemma Bank: a Lemma Bank for Ancient Greek as Linked Open Data"
 version: 0.1.0
-date-released: 2026-11-06
+date-released: 2026-11-09
 license: CC-BY-SA-4.0
 url: "https://w3id.org/ligre/data/id/lemma/LemmaBank"
 repository-code: "https://github.com/ligre-lod/ligre_lemmabank"

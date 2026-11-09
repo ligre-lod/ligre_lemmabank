@@ -1,5 +1,3 @@
-# The Ontop image is built from the repository root (see ontop/Dockerfile) but
-# only needs its configuration and the dataset descriptions.
 *
 !ontop/
 !ttl/ligre_void.ttl

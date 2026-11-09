@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""Load the LiGre lemma bank into Postgres.
-
-Lemma ids, and so the lemma IRIs, are fixed in data/lemma_ids.tsv. The loader
-only uses the ids in that file and stops if the data has lemmas without an id
-or ids without a lemma. Run with --assign-ids after changing the data to update
-the file: new lemmas get new ids, corrected lemmas keep theirs, and lemmas that
-disappear are retired, with the lemma that replaces them if there is one.
-Retired ids are never reused.
-"""
 import argparse
 import csv
 import os
@@ -41,50 +32,10 @@ def load_tsv_rows(tsv_path):
             rows.append((row_num, label, pos, gender))
     return rows
 
-def load_corrections(tsv_path):
-    with open(tsv_path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        assert reader.fieldnames == ["lemma", "pos", "gender", "corrected_lemma", "corrected_pos", "corrected_gender"], (
-            f"unexpected header: {reader.fieldnames}"
-        )
-        return {
-            (row["lemma"], row["pos"], row["gender"]): (
-                row["corrected_lemma"] or row["lemma"],
-                row["corrected_pos"] or row["pos"],
-                row["corrected_gender"] or row["gender"],
-            )
-            for row in reader
-        }
-
-def correct_key(key, corrections):
-    return corrections.get(key, key)
-
 def check_noun_genders(rows):
     missing = [(row_num, label, gender) for row_num, label, pos, gender in rows
                if pos in ("NOUN", "PROPN") and gender not in ("f", "m", "n")]
-    assert not missing, f"nouns and proper nouns without gender f, m or n (set corrected_gender): {missing}"
-
-def apply_corrections(rows, corrections):
-    corrected = []
-    applied = set()
-    for row_num, label, pos, gender in rows:
-        key = (label, pos, gender)
-        if key in corrections:
-            applied.add(key)
-        corrected.append((row_num, *correct_key(key, corrections)))
-    unused = set(corrections) - applied
-    assert not unused, f"corrections that match no row: {sorted(unused)}"
-    for key in sorted(applied):
-        print("corrected: {} {} {} -> {} {} {}".format(*key, *corrections[key]))
-    check_noun_genders(corrected)
-    return corrected
-
-def correct_cluster_keys(clusters, corrections):
-    return {
-        cluster_id: [(id_, *correct_key((label, pos, gender), corrections), row_type)
-                     for id_, label, pos, gender, row_type in members]
-        for cluster_id, members in clusters.items()
-    }
+    assert not missing, f"nouns and proper nouns without gender f, m or n: {missing}"
 
 def dedup(rows):
     seen = {}
@@ -175,7 +126,6 @@ def final_key(key):
     return label, pos, gen_for(pos, gender)
 
 def load_ids(ids_path):
-    """Return the active ids ({key: id}) and the retired ids ({id: (key, replaced_by)})."""
     active, retired = {}, {}
     if not ids_path.exists():
         return active, retired
@@ -205,13 +155,6 @@ def write_ids(ids_path, active, retired):
             writer.writerow([id_lemma, label, pos, gen or "", status, "" if replaced_by is None else replaced_by])
 
 def assign_ids(final_lemmas, active, retired, moves):
-    """Update the ids for the current lemmas.
-
-    moves maps keys that are no longer lemmas to the lemma that replaces them
-    (from the corrections and the WR merges). A lemma whose key was corrected
-    keeps its id; a lemma that was merged into another one is retired and
-    replaced by it.
-    """
     active, retired = dict(active), dict(retired)
     current = set(final_lemmas)
     changes = []
@@ -344,24 +287,22 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags, id_m
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
     parser.add_argument("--wr-lv-csv", type=Path,
                          default=repo_root / "data" / "ligre_wr_lv.csv")
-    parser.add_argument("--corrections", type=Path,
-                         default=repo_root / "data" / "ligre_corrections.tsv")
     parser.add_argument("--ids", type=Path, default=repo_root / "data" / "lemma_ids.tsv")
     parser.add_argument("--assign-ids", action="store_true",
                         help="update the ids file for the current data, without loading the database")
     args = parser.parse_args()
 
-    corrections = load_corrections(args.corrections)
-    raw_rows = apply_corrections(load_tsv_rows(args.tsv), corrections)
+    raw_rows = load_tsv_rows(args.tsv)
+    check_noun_genders(raw_rows)
     pos_tags = sorted({pos for _rn, _label, pos, _gender in raw_rows})
     lemma_entries, skipped = dedup(raw_rows)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
-    clusters = correct_cluster_keys(load_clusters(args.wr_lv_csv), corrections)
+    clusters = load_clusters(args.wr_lv_csv)
     wr_groups = list(type_groups(clusters, "WR").values())
     variants, absorbed = build_wr_variants(wr_groups, lemma_keys)
 
@@ -389,7 +330,7 @@ def main():
 
     active, retired = load_ids(args.ids)
     if args.assign_ids:
-        moves = {final_key(old): final_key(new) for old, new in corrections.items() if old != new}
+        moves = {}
         for canonical, variant_labels in variants.items():
             for label in variant_labels:
                 moves[final_key((label, *canonical[1:]))] = final_key(canonical)

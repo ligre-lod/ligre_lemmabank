@@ -32,30 +32,31 @@ The design and rationale behind the resource are described in the paper
 
 The lemma bank is part of the LiGre Knowledge Base
 (<https://w3id.org/ligre/data/id/KnowledgeBase>), together with the corpora
-linked to its lemmas, such as
-[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek).
+linked to its lemmas. The first corpus,
+[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek), is in preparation
+and will be added to the knowledge base description when it is released.
 
 ## Data files
 
-| File | Content |
-|---|---|
-| `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump. |
-| `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions). |
-| `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>. |
-| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Hand-written dataset descriptions (Dublin Core, DCAT, VoID) that `ttl/export_ttl.py` merges into the files above. |
-| `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`). |
+| File | Content                                                                                                                                                                                                                         |
+|---|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump.                                                                                                           |
+| `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions).                                                                                                     |
+| `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>.                                                                       |
+| `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `scripts/export_ttl.py` merges into the files above.                                                                                                                            |
+| `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
-| `data/ligre_corrections.tsv` | Manual corrections of lemma, part of speech or gender, applied when the database is loaded. |
-| `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them. |
-| `data/schema.sql` | The Postgres schema. |
-| `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop. |
-| `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)). |
+| `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them.                                                                                                        |
+| `data/schema.sql` | The Postgres schema.                                                                                                                                                                                                            |
+| `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop.                                                                                                                                                                           |
+| `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)).                                                                                                                                                               |
 
 The list of lemmas in `data/ligre_lemmas.tsv` was compiled by Colin Swaelens,
 Francesco Mambrini and Marco Passarotti, and is described in Swaelens,
-Mambrini & Passarotti (2026) (see [Citation](#citation)). This repository publishes it as linked open data;
-changes to the list are made through `data/ligre_corrections.tsv`, not in the
-list itself.
+Mambrini & Passarotti (2026) (see [Citation](#citation)). This repository publishes
+that list, and its clusters in `data/ligre_wr_lv.csv`, as linked open data as
+they are: the loader does not correct lemmas, parts of speech or genders (see
+[Quality and known limitations](#quality-and-known-limitations)).
 
 ## Data model
 
@@ -81,38 +82,15 @@ Every lemma is a `lila:Lemma` with:
 
 ## Statistics
 
-Release 0.1.0, counted on `ttl/ligre_lemmabank.ttl`:
-
-| | |
-|---|---|
-| Triples (lemma data, as in VoID; the dump adds the dataset description) | 541,269 |
-| Lemmas (`lila:Lemma`) | 100,046 |
-| Distinct citation forms | 99,950 |
-| Citation forms shared by more than one lemma (homographs) | 93 |
-| Lemmas with spelling variants (more than one `ontolex:writtenRep`) | 67 |
-| Lemmas with a gender | 40,969 |
-| Manual corrections applied | 7 |
-
-| Part of speech | Lemmas |
-|---|---|
-| noun | 40,968 |
-| adjective | 28,811 |
-| verb | 27,552 |
-| adverb | 2,505 |
-| pronoun | 63 |
-| adposition | 51 |
-| subordinating conjunction | 39 |
-| particle | 33 |
-| numeral | 14 |
-| coordinating conjunction | 4 |
-| interjection | 4 |
-| determiner | 1 |
-| proper noun | 1 |
-
-Nouns by gender: 16,891 feminine, 14,336 masculine, 9,741 neuter.
-
-The full statistics in VoID (class and property partitions) are in
-[`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl).
+The statistics of each release are part of its VoID description, which
+`scripts/export_ttl.py` counts on the exported lemmas: the number of triples and
+lemmas, and the number of triples per property (for example how many lemmas
+have a gender, or how many written representations there are). They are in
+[`ttl/lemmabank_void.ttl`](ttl/lemmabank_void.ttl), in the data dump, and on
+the SPARQL endpoint;
+[`06_dataset_statistics.rq`](queries/06_dataset_statistics.rq) reads them.
+The other example queries count lemmas per part of speech and per gender,
+homographs and spelling variants (see [Example queries](#example-queries)).
 
 ## Example queries
 
@@ -126,6 +104,7 @@ on the public endpoint and on a local copy of the data dump:
 | [`03_nouns_per_gender.rq`](queries/03_nouns_per_gender.rq) | The number of noun lemmas per gender. |
 | [`04_homographs.rq`](queries/04_homographs.rq) | Citation forms shared by more than one lemma, with the analyses that tell them apart. |
 | [`05_spelling_variants.rq`](queries/05_spelling_variants.rq) | Lemmas with more than one written representation. |
+| [`06_dataset_statistics.rq`](queries/06_dataset_statistics.rq) | The VoID statistics of the lemma bank: version, triples, lemmas and triples per property. |
 
 Run a query against the endpoint:
 
@@ -136,19 +115,33 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 
 ## Quality and known limitations
 
-- Every noun and proper noun must have a gender: the loader
-  (`data/generate_lemma_data.py`) refuses to load the data otherwise.
-- Errors found in the source list, for example while linking corpora to the
-  lemma bank, are fixed in `data/ligre_corrections.tsv` rather than in the
-  source list, so that every change to the source data is documented.
-- Some parts of speech are wrong. Six of the seven corrections so far fix
-  function words that the source list tagged as nouns (`ὁ`, `ἐν`, `οὗτος`,
-  `ὅς`, `ὡς`), and similar errors remain: the negations `οὐ` and `οὔτι` each
-  occur as three lemmas, a verb, an adverb and an adjective, of which only
-  the adverb is correct (see `queries/04_homographs.rq`).
+- The lemma list is based on the Ancient Greek WordNet (AGWN), whose lemmas
+  were partly generated automatically. It therefore contains errors, such as
+  wrong parts of speech or genders and lemmas that occur more than once.
+- This release publishes the list as compiled by Swaelens, Mambrini &
+  Passarotti (2026), without corrections.
 - Proper nouns are not distinguished from common nouns: personal and place
-  names (e.g. `Ἀγαμέμνων`, `Ζεύς`, `Αἴγυπτος`; about 1,400 capitalised
-  lemmas) are tagged `lila:noun`, and only one lemma is a `lila:proper_noun`.
+  names are tagged `lila:noun`.
+- Every noun has a gender: the loader (`data/generate_lemma_data.py`) refuses
+  to load nouns without one.
+
+### Corrections
+
+Errors can be reported through the
+[issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
+Corrections are handled as follows:
+
+- **Only in new releases.** A published release is never changed. Corrections
+  are published in a new release and listed in [CHANGELOG.md](CHANGELOG.md),
+  and every release stays available on Zenodo with its own DOI.
+- **The source list is not edited.** `data/ligre_lemmas.tsv` stays as its
+  authors published it. Corrections are recorded in a separate file, one row
+  per corrected lemma, which the loader applies, so every change to the
+  source data is documented and can be traced.
+- **IRIs stay stable.** A corrected lemma keeps its IRI. A lemma that is
+  merged into another one or removed is not deleted: its IRI keeps resolving,
+  marked `owl:deprecated true` and, if it was merged, `dcterms:isReplacedBy`
+  the lemma that replaces it. Ids are never reused (see [IRIs](#iris)).
 
 ## Project components
 
@@ -174,19 +167,20 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 
 `ttl/lemmabank_description.ttl` describes the Lemma Bank
 (`https://w3id.org/ligre/data/id/lemma/LemmaBank`) in Dublin Core, DCAT and
-VoID. `ttl/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID
+VoID. `scripts/export_ttl.py` merges it into `ligre_lemmabank.ttl` and adds VoID
 statistics (triples, entities, class and property partitions) counted on the
 exported lemmas. It also writes the description with those statistics on its
 own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`). `VOID_INCLUDE` adds other
 descriptions to that file (paths separated by `:`). The VoID file of the whole
 knowledge base, published at https://ligre-lod.github.io/.well-known/void,
 combines `ttl/knowledge_base_description.ttl` (the LiGre Knowledge Base, with
-the lemma bank and the corpora as subsets) and the description of each corpus:
+the lemma bank and the corpora as subsets) and the description of each
+released corpus (none yet; add each one to `VOID_INCLUDE`):
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
-  VOID_INCLUDE=ttl/knowledge_base_description.ttl:../../papygreek-to-ligre/ttl/PapyGreek_corpus.ttl \
-  python ttl/export_ttl.py
+  VOID_INCLUDE=ttl/knowledge_base_description.ttl \
+  python scripts/export_ttl.py
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
 ```
@@ -194,7 +188,7 @@ cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
 To add or refresh the description of an exported file without the endpoint:
 
 ```bash
-TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python ttl/export_ttl.py
+TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl python scripts/export_ttl.py
 ```
 
 ## Local setup
@@ -241,8 +235,6 @@ python data/generate_lemma_data.py --assign-ids
 to update the file (the loader refuses to load data that does not match it):
 
 - new lemmas get new ids;
-- a lemma whose lemma, part of speech or gender is corrected in
-  `data/ligre_corrections.tsv` keeps its id;
 - a lemma that is removed, or merged into another one, is retired: its id is
   never reused, and its IRI stays available with `owl:deprecated true` and,
   if it was merged, `dcterms:isReplacedBy` the lemma that replaces it.
