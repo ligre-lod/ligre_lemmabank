@@ -12,7 +12,8 @@ from collections import Counter
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, RDF, XSD
 
-CONSTRUCT_QUERY = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }"
+# Only the lemma bank: the endpoint also serves the corpora (e.g. PapyGreek–LiGre), which have dumps of their own.
+CONSTRUCT_QUERY = 'CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o FILTER(CONTAINS(STR(?s), "/data/id/lemma/")) }'
 
 LEMMA_BANK = URIRef("https://w3id.org/ligre/data/id/lemma/LemmaBank")
 ROOT = Path(__file__).resolve().parent.parent
