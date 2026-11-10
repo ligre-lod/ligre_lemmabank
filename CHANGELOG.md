@@ -9,6 +9,23 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- The PapyGreek–LiGre corpus in the SPARQL endpoint: its documents, citation
+  structures, parts, lines, sentences and tokens, with their links to the
+  lemmas, are stored in Postgres (schema `papygreek`, `data/schema_papygreek.sql`)
+  and mapped to RDF by Ontop, so the corpus can be queried together with the
+  lemma bank and its IRIs resolve. `data/load_papygreek.py` loads the release
+  described in `ttl/corpora/PapyGreek_corpus.ttl`; the endpoint serves the same
+  triples as that release's dump.
+
+### Changed
+- `scripts/export_ttl.py` exports only the lemma bank from the endpoint
+  (subjects under `/data/id/lemma/`), now that the endpoint also serves the
+  corpus.
+- Schema change for existing databases: run `data/schema_papygreek.sql` and
+  load the corpus (`data/load_papygreek.py`) **before** deploying the new
+  Ontop image; without the `papygreek` tables Ontop does not start.
+
 ## [0.1.1] - 2026-11-09
 
 ### Added

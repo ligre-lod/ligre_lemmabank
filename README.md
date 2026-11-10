@@ -34,6 +34,8 @@ The lemma bank is part of the LiGre Knowledge Base
 linked to its lemmas: so far
 [PapyGreek–LiGre](https://github.com/ligre-lod/papygreek), the PapyGreek
 Treebanks linked to LiGre (<https://doi.org/10.5281/zenodo.24089052>).
+The endpoint serves the corpus as well, so its tokens can be queried together
+with the lemmas they are linked to (see [Corpora in the endpoint](#corpora-in-the-endpoint)).
 
 ## Data files
 
@@ -48,6 +50,7 @@ Treebanks linked to LiGre (<https://doi.org/10.5281/zenodo.24089052>).
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
 | `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them.                                                                                                        |
 | `data/schema.sql` | The Postgres schema.                                                                                                                                                                                                            |
+| `data/schema_papygreek.sql`, `data/load_papygreek.py` | The Postgres schema of the PapyGreek–LiGre corpus and its loader (see [Corpora in the endpoint](#corpora-in-the-endpoint)). |
 | `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop.                                                                                                                                                                           |
 | `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)).                                                                                                                                                               |
 
@@ -147,7 +150,8 @@ handled as follows:
 ## Project components
 
 - **`data/`**: a Postgres schema and a loader script that populate the
-  lemma bank from the source tables.
+  lemma bank from the source tables, and a schema and loader for each corpus
+  served by the endpoint.
 - **`ontop/`**: an [Ontop](https://ontop-vkg.org/) configuration that maps
   the Postgres database to RDF on the fly and exposes it as a SPARQL endpoint.
   The endpoint also serves `ttl/ligre_void.ttl` as static facts, so that the
@@ -163,6 +167,42 @@ handled as follows:
   through the SPARQL endpoint, deployed at
   [ligre-lod.github.io/query-interface](https://ligre-lod.github.io/query-interface/).
   It was forked from the [Linking Italian](https://github.com/LiITA-LOD/query-interface) project.
+
+## Corpora in the endpoint
+
+Like the [LiLa Knowledge Base](https://lila-erc.eu/sparql/), the endpoint
+serves the corpora linked to the lemma bank, so a query can combine the
+tokens of a corpus with the lemmas they are linked to. A corpus is published
+in its own repository; the endpoint serves one of its releases:
+
+- `ttl/corpora/PapyGreek_corpus.ttl` is the description of the release
+  (copied from it), with the URL of its data dump (`dcat:downloadURL`).
+- `data/load_papygreek.py` downloads that dump and loads it into the
+  `papygreek` schema of Postgres (`data/schema_papygreek.sql`): documents,
+  citation structures, parts, lines, sentences and tokens. It refuses a dump
+  whose triples the tables cannot reproduce, and lemma links to lemmas that
+  are not loaded.
+- The PapyGreek part of `ontop/input/mapping.ttl.template` maps the tables
+  back to the triples of the dump, with the same IRIs. The corpus itself
+  (`powla:Corpus`, its description and documents) comes from
+  `ttl/ligre_void.ttl`.
+
+The triples the endpoint serves for the corpus are the same as those in the
+release's dump. To serve a new release, copy its description into
+`ttl/corpora/` and load it again.
+
+For example, the most frequent lemmas of PapyGreek–LiGre with their written
+form:
+
+```sparql
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX powla: <http://purl.org/powla/powla.owl#>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+SELECT ?lemma ?writtenRep (COUNT(?token) AS ?tokens) WHERE {
+  ?token a powla:Terminal ; lila:hasLemma ?lemma .
+  ?lemma ontolex:writtenRep ?writtenRep .
+} GROUP BY ?lemma ?writtenRep ORDER BY DESC(?tokens) LIMIT 10
+```
 
 ## Dataset description
 
@@ -204,8 +244,18 @@ docker compose up
 This starts:
 
 - `postgres`: a local Postgres instance, initialized with `data/schema.sql`
+  and `data/schema_papygreek.sql`
 - `lemma-loader`: a one-shot job that populates the database from the
   source data (re-run with `docker compose run --rm lemma-loader`)
+- `papygreek-loader`: a one-shot job, after `lemma-loader`, that loads the
+  PapyGreek–LiGre release described in `ttl/corpora/PapyGreek_corpus.ttl`
+  (re-run with `docker compose run --rm --no-deps papygreek-loader`)
+
+The schema files only run on an empty database volume. To add the corpus to an
+existing local database, recreate `postgres` (`docker compose up -d postgres`)
+and run
+`docker compose exec postgres psql -U ligre -d ligre_db -f /docker-entrypoint-initdb.d/02_schema_papygreek.sql`
+before loading it.
 - `ontop`: the SPARQL endpoint, backed by the local Postgres instance, with
   `ttl/ligre_void.ttl` mounted as static facts (minted under `LIGRE_BASE_URL`,
   like the lemmas)

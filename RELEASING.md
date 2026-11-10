@@ -53,8 +53,8 @@ The version and release date are set in one place, `CITATION.cff`, by
    If they do not match, no release is made: fix the metadata, move the tag,
    and push again.
 6. **Upgrade the production database** before deploying, if
-   `data/schema.sql` changed since the previous release
-   (`git diff vPREVIOUS vNEW -- data/schema.sql`). `schema.sql` only runs when
+   `data/schema.sql` or `data/schema_papygreek.sql` changed since the previous
+   release (`git diff vPREVIOUS vNEW -- data/schema*.sql`). `schema.sql` only runs when
    Postgres starts on an empty volume, so it never reaches an existing
    database: apply each change by hand, taking the statements for the
    changed tables from `data/schema.sql` (list schema changes in the
@@ -71,6 +71,20 @@ The version and release date are set in one place, `CITATION.cff`, by
    safe to run twice), check it with `\d <table>`, and if Ontop connects as
    another user, grant it `SELECT` on the new tables. Tables and columns that
    were removed from `schema.sql` can stay; nothing reads them.
+
+   `data/schema_papygreek.sql` creates its tables with `IF NOT EXISTS`, so run
+   it as a whole (`psql ... -f data/schema_papygreek.sql`).
+
+   **Load the corpora** if a corpus release changed (its description in
+   `ttl/corpora/`) or the corpus tables were created. The loader downloads
+   the dump of the release that `ttl/corpora/PapyGreek_corpus.ttl` describes,
+   checks it, and replaces the contents of the `papygreek` tables; it needs the
+   lemmas to be loaded already:
+
+   ```bash
+   POSTGRES_HOST=<host> POSTGRES_USER=<user> POSTGRES_PASSWORD=<password> POSTGRES_DATABASE=<database> \
+     python data/load_papygreek.py
+   ```
 7. **Deploy.** Redeploy the endpoint with the new image (it contains the new
    `ttl/ligre_void.ttl` as static facts) and check that a lemma IRI, e.g.
    <https://w3id.org/ligre/data/id/lemma/15308>, and the SPARQL UI load.
