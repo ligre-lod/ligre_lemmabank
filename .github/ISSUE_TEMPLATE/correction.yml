@@ -1,0 +1,45 @@
+name: Correction
+description: Report a wrong or missing lemma in LiGre
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! A maintainer turns this into a correction file (see data/corrections/README.md).
+        You can also add the file yourself with a pull request (see CONTRIBUTING.md).
+  - type: dropdown
+    id: action
+    attributes:
+      label: What should change?
+      options:
+        - Correct a lemma (written form, part of speech or gender)
+        - Add a missing lemma
+        - Merge two lemmas that are the same
+        - Remove a lemma that should not be in LiGre
+    validations:
+      required: true
+  - type: input
+    id: lemma
+    attributes:
+      label: Lemma IRI
+      description: e.g. https://w3id.org/ligre/data/id/lemma/61173 (leave empty for a missing lemma)
+  - type: textarea
+    id: change
+    attributes:
+      label: The lemma as it should be
+      description: written form, part of speech (Universal Dependencies tag) and, for nouns, gender; for a merge, the IRI of the lemma that replaces it
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reason and evidence
+      description: why, and where this can be checked (a dictionary entry, a corpus passage, a publication)
+    validations:
+      required: true
+  - type: input
+    id: credit
+    attributes:
+      label: How should we credit you?
+      description: name, ORCID or GitHub handle

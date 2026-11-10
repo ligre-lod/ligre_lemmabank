@@ -9,7 +9,7 @@
 @prefix dc:      <http://purl.org/dc/elements/1.1/> .
 @prefix powla:   <http://purl.org/powla/powla.owl#> .
 @prefix lila_corpus: <http://lila-erc.eu/ontologies/lila_corpora/> .
-@prefix corpus:  <__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/mapping/> .
+@prefix corpus:  <__LIGRE_BASE_URL__/data/corpora/mapping/> .
 
 lemma:LEMMA
     a                     rr:TriplesMap ;
@@ -198,10 +198,13 @@ lemma:LEMMA-VARIANT
 
 lemma:LEMMA-RETIRED
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma FROM lemma_replaced""" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT id_lemma, label FROM lemma_replaced""" ] ;
     rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ] ;
     rr:predicateObjectMap [ rr:predicate owl:deprecated ;
-                            rr:objectMap [ rr:constant true ] ] .
+                            rr:objectMap [ rr:constant true ] ] ;
+    rr:predicateObjectMap [ rr:predicate rdfs:label ;
+                            rr:objectMap [ rr:column   "label" ;
+                                           rr:datatype xsd:string ] ] .
 
 lemma:LEMMA-REPLACED
     a                     rr:TriplesMap ;
@@ -211,151 +214,94 @@ lemma:LEMMA-REPLACED
                             rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{replaced_by}" ;
                                            rr:termType rr:IRI ] ] .
 
-# PapyGreek–LiGre corpus (data/schema_papygreek.sql, loaded by data/load_papygreek.py).
-# The corpus itself (powla:Corpus, powla:hasSubDocument) is described in ttl/ligre_void.ttl,
-# which the endpoint serves as static facts.
 corpus:DOCUMENT
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, title FROM papygreek.document""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}" ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, title FROM corpus.document""" ] ;
+    rr:subjectMap         [ rr:column "iri" ;
                             rr:class    powla:Document ] ;
     rr:predicateObjectMap [ rr:predicate dc:title ;
                             rr:objectMap [ rr:column "title" ] ] .
 
 corpus:DOCUMENT-IDENTIFIER
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, identifier FROM papygreek.document_identifier""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, identifier FROM corpus.document_identifier""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate dcterms:identifier ;
                             rr:objectMap [ rr:column "identifier" ] ] .
 
 corpus:DOCUMENT-SEE-ALSO
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, url FROM papygreek.document_see_also""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, url FROM corpus.document_see_also""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:seeAlso ;
                             rr:objectMap [ rr:column "url" ; rr:termType rr:IRI ] ] .
 
 corpus:STRUCTURE
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, layer, title, description, first_unit FROM papygreek.citation_structure""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{layer}" ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, CAST(document_iri AS TEXT) AS document_iri, title, description, CAST(first_iri AS TEXT) AS first_iri FROM corpus.citation_structure""" ] ;
+    rr:subjectMap         [ rr:column "iri" ;
                             rr:class    lila_corpus:CitationStructure ] ;
     rr:predicateObjectMap [ rr:predicate dc:title ;
                             rr:objectMap [ rr:column "title" ] ] ;
     rr:predicateObjectMap [ rr:predicate dc:description ;
                             rr:objectMap [ rr:column "description" ] ] ;
     rr:predicateObjectMap [ rr:predicate powla:hasDocument ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}" ; rr:termType rr:IRI ] ] ;
+                            rr:objectMap [ rr:column "document_iri" ; rr:termType rr:IRI ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{layer}/{first_unit}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "first_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:STRUCTURE-PARS
+corpus:STRUCTURE-LAYER
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars FROM papygreek.pars""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(structure_iri AS TEXT) AS iri, CAST(iri AS TEXT) AS unit_iri FROM corpus.citation_unit WHERE parent_iri IS NULL""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:isLayer ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "unit_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:STRUCTURE-SENTENCE
+corpus:UNIT
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, sentence FROM papygreek.sentence""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer" ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:isLayer ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{sentence}" ; rr:termType rr:IRI ] ] .
-
-corpus:PARS
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, label, first_linea, last_linea, next_pars FROM papygreek.pars""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}" ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, label, ref_type, cit_level, ref_value, CAST(first_iri AS TEXT) AS first_iri, CAST(last_iri AS TEXT) AS last_iri, CAST(next_iri AS TEXT) AS next_iri FROM corpus.citation_unit""" ] ;
+    rr:subjectMap         [ rr:column "iri" ;
                             rr:class    lila_corpus:citationUnit ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:label ;
                             rr:objectMap [ rr:column "label" ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
-                            rr:objectMap [ rr:constant "Pars" ] ] ;
+                            rr:objectMap [ rr:column "ref_type" ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
-                            rr:objectMap [ rr:constant "1"^^xsd:int ] ] ;
+                            rr:objectMap [ rr:column "cit_level" ; rr:datatype xsd:int ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
-                            rr:objectMap [ rr:column "pars" ] ] ;
+                            rr:objectMap [ rr:column "ref_value" ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{first_linea}" ; rr:termType rr:IRI ] ] ;
+                            rr:objectMap [ rr:column "first_iri" ; rr:termType rr:IRI ] ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{last_linea}" ; rr:termType rr:IRI ] ] ;
+                            rr:objectMap [ rr:column "last_iri" ; rr:termType rr:IRI ] ] ;
     rr:predicateObjectMap [ rr:predicate powla:next ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{next_pars}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "next_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:PARS-PREVIOUS
+corpus:UNIT-PREVIOUS
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, next_pars FROM papygreek.pars WHERE next_pars IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{next_pars}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(next_iri AS TEXT) AS iri, CAST(iri AS TEXT) AS previous_iri FROM corpus.citation_unit WHERE next_iri IS NOT NULL""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate powla:previous ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "previous_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:PARS-SUBUNIT
+corpus:UNIT-SUBUNIT
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, linea FROM papygreek.linea""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(parent_iri AS TEXT) AS iri, CAST(iri AS TEXT) AS unit_iri FROM corpus.citation_unit WHERE parent_iri IS NOT NULL""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitSubUnit ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{linea}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "unit_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:LINEA
+corpus:UNIT-CHILD
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, linea, label, next_linea, LPAD(CAST(first_position AS text), 7, '0') AS first7, LPAD(CAST(last_position AS text), 7, '0') AS last7 FROM papygreek.linea""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{linea}" ;
-                            rr:class    lila_corpus:citationUnit ] ;
-    rr:predicateObjectMap [ rr:predicate rdfs:label ;
-                            rr:objectMap [ rr:column "label" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
-                            rr:objectMap [ rr:constant "Linea" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
-                            rr:objectMap [ rr:constant "2"^^xsd:int ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
-                            rr:objectMap [ rr:column "linea" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{first7}" ; rr:termType rr:IRI ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{last7}" ; rr:termType rr:IRI ] ] ;
-    rr:predicateObjectMap [ rr:predicate powla:next ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{next_linea}" ; rr:termType rr:IRI ] ] .
-
-corpus:LINEA-PREVIOUS
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, linea, next_linea FROM papygreek.linea WHERE next_linea IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{next_linea}" ] ;
-    rr:predicateObjectMap [ rr:predicate powla:previous ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{linea}" ; rr:termType rr:IRI ] ] .
-
-corpus:SENTENCE
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, sentence, label, next_sentence, LPAD(CAST(first_position AS text), 7, '0') AS first7, LPAD(CAST(last_position AS text), 7, '0') AS last7 FROM papygreek.sentence""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{sentence}" ;
-                            rr:class    lila_corpus:citationUnit ] ;
-    rr:predicateObjectMap [ rr:predicate rdfs:label ;
-                            rr:objectMap [ rr:column "label" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefType ;
-                            rr:objectMap [ rr:constant "Sentence" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitLevel ;
-                            rr:objectMap [ rr:constant "1"^^xsd:int ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasRefValue ;
-                            rr:objectMap [ rr:column "sentence" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:first ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{first7}" ; rr:termType rr:IRI ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:last ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{last7}" ; rr:termType rr:IRI ] ] ;
-    rr:predicateObjectMap [ rr:predicate powla:next ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{next_sentence}" ; rr:termType rr:IRI ] ] .
-
-corpus:SENTENCE-PREVIOUS
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, sentence, next_sentence FROM papygreek.sentence WHERE next_sentence IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{next_sentence}" ] ;
-    rr:predicateObjectMap [ rr:predicate powla:previous ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{sentence}" ; rr:termType rr:IRI ] ] .
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(unit_iri AS TEXT) AS iri, CAST(token_iri AS TEXT) AS token_iri FROM corpus.unit_token""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
+    rr:predicateObjectMap [ rr:predicate powla:hasChild ;
+                            rr:objectMap [ rr:column "token_iri" ; rr:termType rr:IRI ] ] .
 
 corpus:TOKEN
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, string_value, label, id_lemma, LPAD(CAST(position AS text), 7, '0') AS pos7, LPAD(CAST(next_position AS text), 7, '0') AS next7 FROM papygreek.token""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{pos7}" ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, string_value, label, id_lemma, CAST(next_iri AS TEXT) AS next_iri FROM corpus.token""" ] ;
+    rr:subjectMap         [ rr:column "iri" ;
                             rr:class    powla:Terminal ] ;
     rr:predicateObjectMap [ rr:predicate powla:hasStringValue ;
                             rr:objectMap [ rr:column "string_value" ] ] ;
@@ -364,34 +310,18 @@ corpus:TOKEN
     rr:predicateObjectMap [ rr:predicate lila:hasLemma ;
                             rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ; rr:termType rr:IRI ] ] ;
     rr:predicateObjectMap [ rr:predicate powla:next ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{next7}" ; rr:termType rr:IRI ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitStructure ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "next_iri" ; rr:termType rr:IRI ] ] .
 
 corpus:TOKEN-PREVIOUS
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, LPAD(CAST(position AS text), 7, '0') AS pos7, LPAD(CAST(next_position AS text), 7, '0') AS next7 FROM papygreek.token WHERE next_position IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{next7}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(next_iri AS TEXT) AS iri, CAST(iri AS TEXT) AS previous_iri FROM corpus.token WHERE next_iri IS NOT NULL""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate powla:previous ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{pos7}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "previous_iri" ; rr:termType rr:IRI ] ] .
 
-corpus:TOKEN-LINEA
+corpus:TOKEN-STRUCTURE
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, linea, LPAD(CAST(position AS text), 7, '0') AS pos7 FROM papygreek.token WHERE linea IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{pos7}" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(token_iri AS TEXT) AS iri, CAST(structure_iri AS TEXT) AS structure_iri FROM corpus.token_structure""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
     rr:predicateObjectMap [ rr:predicate lila_corpus:hasCitStructure ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure" ; rr:termType rr:IRI ] ] .
-
-corpus:LINEA-CHILD
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, pars, linea, LPAD(CAST(position AS text), 7, '0') AS pos7 FROM papygreek.token WHERE linea IS NOT NULL""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/CiteStructure/{pars}/{linea}" ] ;
-    rr:predicateObjectMap [ rr:predicate powla:hasChild ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{pos7}" ; rr:termType rr:IRI ] ] .
-
-corpus:SENTENCE-CHILD
-    a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT doc_id, sentence, LPAD(CAST(position AS text), 7, '0') AS pos7 FROM papygreek.token""" ] ;
-    rr:subjectMap         [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/SentenceLayer/{sentence}" ] ;
-    rr:predicateObjectMap [ rr:predicate powla:hasChild ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/corpora/PapyGreek/id/corpus/{doc_id}/{doc_id}_t_{pos7}" ; rr:termType rr:IRI ] ] .
+                            rr:objectMap [ rr:column "structure_iri" ; rr:termType rr:IRI ] ] .

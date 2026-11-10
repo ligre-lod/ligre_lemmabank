@@ -38,6 +38,7 @@ CREATE TABLE variant_group (
 CREATE TABLE lemma_replaced (
   id_lemma int NOT NULL,
   replaced_by int DEFAULT NULL,
+  label varchar(64) DEFAULT NULL,
   PRIMARY KEY (id_lemma)
 );
 

@@ -10,8 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - ligre_data:/var/lib/postgresql/data
-      - ./data/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
-      - ./data/schema_papygreek.sql:/docker-entrypoint-initdb.d/02_schema_papygreek.sql:ro
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/schema_corpora.sql:/docker-entrypoint-initdb.d/02_schema_corpora.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ligre -d ligre_db"]
       interval: 5s
@@ -19,7 +19,7 @@ services:
       retries: 30
 
   lemma-loader:
-    build: ./data
+    build: ./loader
     container_name: ligre-lemma-loader
     depends_on:
       postgres:
@@ -32,12 +32,12 @@ services:
       POSTGRES_DATABASE: ligre_db
     volumes:
       - ./data:/app/data:ro
-    command: ["python", "data/generate_lemma_data.py"]
+    command: ["python", "loader/load_lemmas.py"]
     restart: "no"
 
-  papygreek-loader:
-    build: ./data
-    container_name: ligre-papygreek-loader
+  corpus-loader:
+    build: ./loader
+    container_name: ligre-corpus-loader
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,10 +49,11 @@ services:
       POSTGRES_USER: ligre
       POSTGRES_PASSWORD: ligre
       POSTGRES_DATABASE: ligre_db
+      LIGRE_BASE_URL: ${LIGRE_BASE_URL:-http://localhost:8082}
     volumes:
       - ./data:/app/data:ro
       - ./ttl/corpora:/app/ttl/corpora:ro
-    command: ["python", "data/load_papygreek.py"]
+    command: ["python", "loader/load_corpora.py"]
     restart: "no"
 
   ontop:

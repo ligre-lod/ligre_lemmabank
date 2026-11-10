@@ -1,0 +1,40 @@
+name: Check corrections
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'loader/**'
+      - 'shapes/**'
+      - 'scripts/check_corrections.py'
+      - 'ontop/input/mapping.ttl.template'
+  workflow_dispatch:
+
+jobs:
+  check:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the dependencies
+        run: pip install rdflib pyshacl
+
+      - name: Check the corrections
+        run: |
+          if [ -n "${{ github.base_ref }}" ]; then
+            python scripts/check_corrections.py --base "origin/${{ github.base_ref }}"
+          else
+            python scripts/check_corrections.py
+          fi
