@@ -11,8 +11,10 @@
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     foaf:homepage <https://ligre-lod.github.io/> ;
     dcat:landingPage <https://ligre-lod.github.io/> ;
-    dcat:dataset <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    dcat:dataset <https://w3id.org/ligre/data/id/lemma/LemmaBank>,
+        <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus> ;
     dcat:service <https://ligre.ugent.be/sparql> ;
-    void:subset <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    void:subset <https://w3id.org/ligre/data/id/lemma/LemmaBank>,
+        <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus> ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
     void:uriSpace "https://w3id.org/ligre/data/" .

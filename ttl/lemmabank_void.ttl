@@ -28,6 +28,7 @@
         <https://orcid.org/0000-0003-0834-7562>,
         <https://orcid.org/0009-0004-2388-9233> ;
     dcterms:description "LiGre, the Lemma Bank for Ancient Greek: lemmatized Ancient Greek vocabulary published as linked open data. Each lemma is an instance of the LiLa Lemma class with its written representation (OntoLex-Lemon), part of speech and, for nouns, gender, so that Ancient Greek corpora and lexical resources can be linked through their lemmas as in the LiLa Knowledge Base for Latin."@en ;
+    dcterms:identifier "https://doi.org/10.5281/zenodo.24085996" ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
     dcterms:issued "2026-11-09"^^xsd:date ;
     dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
@@ -37,24 +38,24 @@
     void:classPartition [ void:class lila:Lemma ;
             void:entities 100046 ] ;
     void:classes 1 ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.0/ttl/ligre_lemmabank.ttl> ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.1/ttl/ligre_lemmabank.ttl> ;
     void:entities 100046 ;
     void:exampleResource <https://w3id.org/ligre/data/id/lemma/15308> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 7 ;
-    void:propertyPartition [ void:property ontolex:writtenRep ;
+    void:propertyPartition [ void:property rdf:type ;
+            void:triples 100046 ],
+        [ void:property ontolex:writtenRep ;
             void:triples 100114 ],
-        [ void:property lila:hasPOS ;
+        [ void:property lila:hasGender ;
+            void:triples 40974 ],
+        [ void:property rdfs:label ;
             void:triples 100046 ],
         [ void:property lila:lemmaVariant ;
             void:triples 2 ],
-        [ void:property rdfs:label ;
+        [ void:property lila:hasPOS ;
             void:triples 100046 ],
-        [ void:property lila:hasGender ;
-            void:triples 40974 ],
         [ void:property dcterms:isPartOf ;
-            void:triples 100046 ],
-        [ void:property rdf:type ;
             void:triples 100046 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
     void:triples 541274 ;
@@ -67,8 +68,8 @@
             dcterms:issued "2026-11-09"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "All lemmas in Turtle"@en ;
-            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.1.0> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.0/ttl/ligre_lemmabank.ttl> ;
+            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.1.1> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.1.1/ttl/ligre_lemmabank.ttl> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
         [ a dcat:Distribution ;
             dcterms:title "SPARQL endpoint"@en ;
@@ -81,7 +82,7 @@
         "lemmatization"@en,
         "linked data"@en ;
     dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> ;
-    dcat:version "0.1.0" ;
+    dcat:version "0.1.1" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
 <https://creativecommons.org/licenses/by-sa/4.0/> a dcterms:LicenseDocument ;

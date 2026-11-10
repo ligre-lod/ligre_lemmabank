@@ -33,10 +33,11 @@ The version and release date are set in one place, `CITATION.cff`, by
    This moves the unreleased changes in `CHANGELOG.md` under the new version
    and today's date, sets both in `CITATION.cff`, and regenerates the dump,
    `ttl/lemmabank_void.ttl` and `ttl/ligre_void.ttl` with the new metadata and
-   statistics. The descriptions of released corpora are added to
-   `ttl/ligre_void.ttl` from `CORPUS_DESCRIPTIONS` (paths separated by `:`);
-   add each corpus to `dcat:dataset` and `void:subset` in
-   `ttl/knowledge_base_description.ttl` as well. No corpus is released yet.
+   statistics. `ttl/ligre_void.ttl` also includes the descriptions of the
+   released corpora in `ttl/corpora/`. When a corpus is released, copy its
+   description from that release into `ttl/corpora/` (for PapyGreek–LiGre,
+   `ttl/PapyGreek_corpus.ttl`); a new corpus also goes into `dcat:dataset`
+   and `void:subset` in `ttl/knowledge_base_description.ttl`.
 4. **Check** that the example queries in `queries/` still run.
 5. **Commit, tag and push:**
 

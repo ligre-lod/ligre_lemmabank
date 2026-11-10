@@ -31,9 +31,9 @@ The design and rationale behind the resource are described in the paper
 
 The lemma bank is part of the LiGre Knowledge Base
 (<https://w3id.org/ligre/data/id/KnowledgeBase>), together with the corpora
-linked to its lemmas. The first corpus,
-[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek), is in preparation
-and will be added to the knowledge base description when it is released.
+linked to its lemmas: so far
+[PapyGreek–LiGre](https://github.com/ligre-lod/papygreek), the PapyGreek
+Treebanks linked to LiGre (<https://doi.org/10.5281/zenodo.24089052>).
 
 ## Data files
 
@@ -42,6 +42,7 @@ and will be added to the knowledge base description when it is released.
 | `ttl/ligre_lemmabank.ttl` | The complete lemma bank in Turtle, with its dataset description and VoID statistics. This is the canonical data dump.                                                                                                           |
 | `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions).                                                                                                     |
 | `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>.                                                                       |
+| `ttl/corpora/` | The dataset descriptions of the released corpora of the knowledge base, copied from their releases, which are included in `ttl/ligre_void.ttl`. |
 | `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `scripts/export_ttl.py` merges into the files above.                                                                                                                            |
 | `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
@@ -175,11 +176,11 @@ descriptions to that file (paths separated by `:`). The VoID file of the whole
 knowledge base, published at https://ligre-lod.github.io/.well-known/void,
 combines `ttl/knowledge_base_description.ttl` (the LiGre Knowledge Base, with
 the lemma bank and the corpora as subsets) and the description of each
-released corpus (none yet; add each one to `VOID_INCLUDE`):
+released corpus in `ttl/corpora/`:
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
-  VOID_INCLUDE=ttl/knowledge_base_description.ttl \
+  VOID_INCLUDE=ttl/knowledge_base_description.ttl:ttl/corpora/PapyGreek_corpus.ttl \
   python scripts/export_ttl.py
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
