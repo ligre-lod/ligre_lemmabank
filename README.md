@@ -142,7 +142,7 @@ or with the *Correction* form in the
 - **The source list is not edited.** `data/ligre_lemmas.tsv` stays as its
   authors published it. Corrections are files in `data/corrections/`, one per
   merged pull request with one row per change (correct, add, merge or
-  retire a lemma), each with its reason, evidence and author;
+  retire a lemma, add a written representation or a lemma variant), each with its reason, evidence and author;
   `data/corrections/RELEASES.tsv` records the release that first contains
   each file. The loader applies them on top of the source list.
   The folder is the complete history of changes to LiGre (see

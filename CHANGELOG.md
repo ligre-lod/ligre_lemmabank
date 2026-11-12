@@ -9,6 +9,12 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- Two correction actions: `add-wr` gives a lemma another written
+  representation, `add-variant` links two lemmas as lemma variants
+  (`lila:lemmaVariant`), following the definitions of Swaelens, Mambrini &
+  Passarotti (2026). See `data/corrections/README.md`.
+
 ## [0.3.0] - 2026-11-12
 
 ### Added

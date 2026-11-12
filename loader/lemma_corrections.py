@@ -5,7 +5,7 @@ from pathlib import Path
 
 COLUMNS = ["action", "ligre_id", "lemma", "pos", "gender", "new_lemma", "new_pos", "new_gender", "replaced_by",
            "reason", "evidence", "submitted_by"]
-ACTIONS = ("correct", "add", "merge", "retire")
+ACTIONS = ("correct", "add", "merge", "retire", "add-wr", "add-variant")
 POS_TAGS = ("ADJ", "ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT",
             "SCONJ", "SYM", "VERB", "X")
 NOUN_GENDERS = ("m", "f", "n")
@@ -131,10 +131,19 @@ def check_row(correction, errors):
         errors.append(f"{correction.where}: ligre_id must be the id of the lemma (the number in its IRI)")
         ok = False
     ok = check_values(correction, "", errors) and ok
-    if action == "correct":
+    if action in ("correct", "add-variant"):
         ok = check_values(correction, "new_", errors) and ok
         if ok and key_of(correction) == key_of(correction, "new_"):
             errors.append(f"{correction.where}: the new values are the same as the current ones")
+            ok = False
+    elif action == "add-wr":
+        written_form = correction["new_lemma"]
+        if not written_form or any(c.isspace() for c in written_form):
+            errors.append(f"{correction.where}: an add-wr needs the written form in new_lemma, one word without spaces")
+            ok = False
+        if correction["new_pos"] or correction["new_gender"]:
+            errors.append(f"{correction.where}: an add-wr keeps the part of speech and gender; leave new_pos and "
+                          f"new_gender empty")
             ok = False
     elif any(correction[c] for c in ("new_lemma", "new_pos", "new_gender")):
         errors.append(f"{correction.where}: a {action} has no new values; leave new_lemma, new_pos and new_gender empty")
@@ -158,6 +167,7 @@ def apply_corrections(final_lemmas, variants, lv_groups, active, corrections):
         for key in keys:
             groups_of.setdefault(key, []).append(group)
     ids_key = {id_lemma: key for key, id_lemma in active.items()}
+    next_group = max((int(group) for group in result.lv_groups), default=0) + 1
     first_key, state = {}, {}
 
     def key_of_id(id_lemma):
@@ -182,6 +192,28 @@ def apply_corrections(final_lemmas, variants, lv_groups, active, corrections):
         for group in groups_of.pop(old, []):
             keys = result.lv_groups[group]
             keys[:] = [k for k in keys if k != old]
+
+    def link_variants(old, other):
+        nonlocal next_group
+        old_groups, other_groups = groups_of.get(old, []), groups_of.get(other, [])
+        if set(old_groups) & set(other_groups):
+            return False
+        if old_groups:
+            group = old_groups[0]
+        elif other_groups:
+            group = other_groups[0]
+        else:
+            group = str(next_group)
+            next_group += 1
+            result.lv_groups[group] = []
+        members = [old, other]
+        for absorbed in {*old_groups, *other_groups} - {group}:
+            members += result.lv_groups.pop(absorbed)
+        for key in members:
+            if key not in result.lv_groups[group]:
+                result.lv_groups[group].append(key)
+            groups_of[key] = [group]
+        return True
 
     for correction in corrections:
         if not check_row(correction, result.errors):
@@ -223,6 +255,23 @@ def apply_corrections(final_lemmas, variants, lv_groups, active, corrections):
             state[id_lemma] = new
             result.pos_tags.add(new[1])
             result.applied.append((correction, old, new))
+        elif action == "add-wr":
+            written_form = correction["new_lemma"]
+            if written_form == old[0] or written_form in result.variants.get(old, []):
+                result.errors.append(f"{correction.where}: lemma {id_lemma} already has the written form {written_form}")
+                continue
+            result.variants.setdefault(old, []).append(written_form)
+            result.applied.append((correction, old, old))
+        elif action == "add-variant":
+            other = key_of(correction, "new_")
+            if other not in current:
+                result.errors.append(f"{correction.where}: there is no lemma {other} to link as lemma variant (add it "
+                                     f"in an earlier row)")
+                continue
+            if not link_variants(old, other):
+                result.errors.append(f"{correction.where}: {old} and {other} are already lemma variants")
+                continue
+            result.applied.append((correction, old, other))
         elif action == "merge":
             target_id = int(correction["replaced_by"])
             target = key_of_id(target_id)
