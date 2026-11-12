@@ -413,6 +413,7 @@ release from the Zenodo record:
 | Version | DOI                                       |
 |---|-------------------------------------------|
 | All versions (concept DOI) | <https://doi.org/10.5281/zenodo.24085996> |
+| 0.4.0 | <https://doi.org/10.5281/zenodo.24160509> |
 | 0.3.0 | <https://doi.org/10.5281/zenodo.24153619> |
 | 0.2.0 | <https://doi.org/10.5281/zenodo.24101759> |
 | 0.1.1 | <https://doi.org/10.5281/zenodo.24099796> |
