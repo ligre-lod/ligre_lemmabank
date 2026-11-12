@@ -9,6 +9,8 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-12
+
 ### Changed
 - A corpus token can link to several lemmas, as a crasis does in
   PapyGreek–LiGre 0.2.0 (κοὐκ: καί and οὐ): the links are in the new table
@@ -151,7 +153,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.1...v0.2.0

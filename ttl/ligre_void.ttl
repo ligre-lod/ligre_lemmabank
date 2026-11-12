@@ -52,7 +52,7 @@
     dcterms:description "The PapyGreek treebanks (558 documentary papyri in Postclassical Greek, ca. 300 BCE-700 CE, morphosyntactically annotated by the Digital Grammar of Greek Documentary Papyri project) as linked data, with every token linked to its lemma in the LiGre Lemma Bank for Ancient Greek, following the model of the LiLa Knowledge Base corpora."@en ;
     dcterms:identifier "https://doi.org/10.5281/zenodo.24089052" ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
-    dcterms:issued "2026-11-09"^^xsd:date ;
+    dcterms:issued "2026-11-12"^^xsd:date ;
     dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:publisher <https://ror.org/00cv9y106> ;
@@ -621,72 +621,72 @@
             void:entities 558 ],
         [ void:class powla:Corpus ;
             void:entities 1 ],
-        [ void:class powla:Terminal ;
-            void:entities 63628 ],
         [ void:class lila_corpus:citationUnit ;
             void:entities 15801 ],
+        [ void:class powla:Terminal ;
+            void:entities 63628 ],
         [ void:class lila_corpus:CitationStructure ;
             void:entities 1116 ] ;
     void:classes 5 ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/papygreek/v0.1.1/ttl/complete_papygreek.ttl.gz> ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/papygreek/v0.2.0/ttl/complete_papygreek.ttl.gz> ;
     void:entities 81104 ;
     void:exampleResource <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus/aegyptus.90.43> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 23 ;
-    void:propertyPartition [ void:property rdfs:seeAlso ;
-            void:triples 1122 ],
-        [ void:property lila_corpus:first ;
+    void:propertyPartition [ void:property lila_corpus:first ;
             void:triples 16917 ],
-        [ void:property powla:previous ;
-            void:triples 77003 ],
         [ void:property powla:hasStringValue ;
             void:triples 63628 ],
+        [ void:property lila:hasLemma ;
+            void:triples 45870 ],
+        [ void:property powla:hasChild ;
+            void:triples 127188 ],
+        [ void:property dc:title ;
+            void:triples 1675 ],
+        [ void:property lila_corpus:hasCitSubUnit ;
+            void:triples 10589 ],
+        [ void:property dcterms:identifier ;
+            void:triples 560 ],
+        [ void:property powla:hasSubDocument ;
+            void:triples 558 ],
+        [ void:property dc:description ;
+            void:triples 1116 ],
+        [ void:property rdfs:seeAlso ;
+            void:triples 1122 ],
         [ void:property lila_corpus:hasCitStructure ;
             void:triples 127188 ],
+        [ void:property powla:hasDocument ;
+            void:triples 1116 ],
+        [ void:property powla:next ;
+            void:triples 77003 ],
         [ void:property dcterms:source ;
             void:triples 1 ],
-        [ void:property rdf:type ;
-            void:triples 81104 ],
-        [ void:property powla:next ;
+        [ void:property lila_corpus:isLayer ;
+            void:triples 5212 ],
+        [ void:property powla:previous ;
             void:triples 77003 ],
         [ void:property rdfs:label ;
             void:triples 79429 ],
-        [ void:property lila_corpus:hasRefValue ;
-            void:triples 15801 ],
-        [ void:property lila_corpus:isLayer ;
-            void:triples 5212 ],
-        [ void:property dc:description ;
-            void:triples 1116 ],
-        [ void:property powla:hasChild ;
-            void:triples 127188 ],
-        [ void:property lila_corpus:last ;
-            void:triples 15801 ],
-        [ void:property dcterms:identifier ;
-            void:triples 560 ],
-        [ void:property lila:hasLemma ;
-            void:triples 44511 ],
-        [ void:property powla:hasSubDocument ;
-            void:triples 558 ],
-        [ void:property lila_corpus:hasCitSubUnit ;
-            void:triples 10589 ],
-        [ void:property powla:hasDocument ;
-            void:triples 1116 ],
-        [ void:property dcterms:license ;
-            void:triples 1 ],
-        [ void:property lila_corpus:hasCitLevel ;
-            void:triples 15801 ],
         [ void:property lila_corpus:hasRefType ;
             void:triples 15801 ],
-        [ void:property dc:title ;
-            void:triples 1675 ] ;
+        [ void:property lila_corpus:last ;
+            void:triples 15801 ],
+        [ void:property lila_corpus:hasCitLevel ;
+            void:triples 15801 ],
+        [ void:property rdf:type ;
+            void:triples 81104 ],
+        [ void:property dcterms:license ;
+            void:triples 1 ],
+        [ void:property lila_corpus:hasRefValue ;
+            void:triples 15801 ] ;
     void:subset [ a void:Linkset ;
             dcterms:title "PapyGreek tokens linked to LiGre lemmas"@en ;
-            void:distinctObjects 3173 ;
+            void:distinctObjects 3271 ;
             void:linkPredicate lila:hasLemma ;
             void:objectsTarget ligreLemma:LemmaBank ;
             void:subjectsTarget <https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus> ;
-            void:triples 44511 ] ;
-    void:triples 779125 ;
+            void:triples 45870 ] ;
+    void:triples 780484 ;
     void:uriSpace "https://w3id.org/ligre/data/corpora/PapyGreek/id/corpus/" ;
     void:vocabulary lila:,
         lila_corpus:,
@@ -696,12 +696,12 @@
     rdfs:seeAlso <https://papygreek.com/> ;
     dcat:distribution [ a dcat:Distribution ;
             dcterms:identifier "https://doi.org/10.5281/zenodo.24089052" ;
-            dcterms:issued "2026-11-09"^^xsd:date ;
+            dcterms:issued "2026-11-12"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "Complete corpus in Turtle (gzip)"@en ;
             dcat:accessURL <https://doi.org/10.5281/zenodo.24089052> ;
             dcat:compressFormat <https://www.iana.org/assignments/media-types/application/gzip> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/papygreek/v0.1.1/ttl/complete_papygreek.ttl.gz> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/papygreek/v0.2.0/ttl/complete_papygreek.ttl.gz> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ] ;
     dcat:keyword "Ancient Greek"@en,
         "LiGre"@en,
@@ -711,7 +711,7 @@
         "linked data"@en,
         "treebank"@en ;
     dcat:landingPage <https://github.com/ligre-lod/papygreek> ;
-    dcat:version "0.1.1" ;
+    dcat:version "0.2.0" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
 ligreLemma:LemmaBank a void:Dataset,
@@ -732,27 +732,27 @@ ligreLemma:LemmaBank a void:Dataset,
     void:classPartition [ void:class lila:Lemma ;
             void:entities 100114 ] ;
     void:classes 1 ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.4.0/ttl/ligre_lemmabank.ttl> ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.5.0/ttl/ligre_lemmabank.ttl> ;
     void:entities 100117 ;
     void:exampleResource ligreLemma:15308 ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 9 ;
-    void:propertyPartition [ void:property ontolex:writtenRep ;
-            void:triples 100182 ],
-        [ void:property owl:deprecated ;
-            void:triples 3 ],
-        [ void:property lila:hasGender ;
+    void:propertyPartition [ void:property lila:hasGender ;
             void:triples 40863 ],
-        [ void:property lila:lemmaVariant ;
-            void:triples 2 ],
+        [ void:property ontolex:writtenRep ;
+            void:triples 100182 ],
+        [ void:property dcterms:isReplacedBy ;
+            void:triples 3 ],
         [ void:property rdfs:label ;
             void:triples 100117 ],
-        [ void:property dcterms:isReplacedBy ;
+        [ void:property owl:deprecated ;
             void:triples 3 ],
         [ void:property rdf:type ;
             void:triples 100114 ],
         [ void:property lila:hasPOS ;
             void:triples 100114 ],
+        [ void:property lila:lemmaVariant ;
+            void:triples 2 ],
         [ void:property dcterms:isPartOf ;
             void:triples 100114 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
@@ -766,8 +766,8 @@ ligreLemma:LemmaBank a void:Dataset,
             dcterms:issued "2026-11-12"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "All lemmas in Turtle"@en ;
-            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.4.0> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.4.0/ttl/ligre_lemmabank.ttl> ;
+            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.5.0> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.5.0/ttl/ligre_lemmabank.ttl> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
         [ a dcat:Distribution ;
             dcterms:title "SPARQL endpoint"@en ;
@@ -780,7 +780,7 @@ ligreLemma:LemmaBank a void:Dataset,
         "lemmatization"@en,
         "linked data"@en ;
     dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> ;
-    dcat:version "0.4.0" ;
+    dcat:version "0.5.0" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
 <https://creativecommons.org/licenses/by-sa/4.0/> a dcterms:LicenseDocument ;
