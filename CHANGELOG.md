@@ -9,6 +9,20 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- Linksets from other lexical resources to the lemmas, served by the endpoint
+  as static facts next to `ttl/ligre_void.ttl` (see *Linksets in the endpoint*
+  in the README): `ttl/linksets/` holds each released linkset and its
+  description, `ontop/entrypoint.sh` joins them into the facts of Ontop, and
+  `scripts/generate_release.py` adds their descriptions to
+  `ttl/ligre_void.ttl` and refuses links to lemmas that are not in the dump or
+  are deprecated.
+- The IGVLL–LiGre linkset 0.1.0: the Greek words of the Index Graecorum
+  Vocabulorum in Linguam Latinam linked to their LiGre lemma
+  (`ontolex:canonicalForm`), 1,381 links, a subset of the LiGre Knowledge Base,
+  licensed under CC BY-NC-SA 4.0 like IGVLL.
+- No database change: deploying the new image is enough.
+
 ## [0.5.0] - 2026-11-12
 
 ### Changed

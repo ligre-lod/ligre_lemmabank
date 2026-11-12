@@ -76,6 +76,7 @@ services:
       - ./ontop/input:/opt/ontop/input
       - ./ontop/jdbc:/opt/ontop/jdbc
       - ./ttl/ligre_void.ttl:/opt/ontop/facts/ligre_void.ttl:ro
+      - ./ttl/linksets:/opt/ontop/facts/linksets:ro
     ports:
       - "8081:8080"
     command: ./ontop endpoint

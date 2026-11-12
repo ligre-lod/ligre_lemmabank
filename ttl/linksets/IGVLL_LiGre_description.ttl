@@ -1,0 +1,46 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/ligre/data/linksets/IGVLL/id/linkset> a void:Linkset,
+        dcat:Dataset ;
+    dcterms:creator <https://orcid.org/0009-0004-2388-9233> ;
+    dcterms:description "Links from the Greek source words (etymons) of the Index Graecorum Vocabulorum in Linguam Latinam (IGVLL), an index of Latin loanwords from Greek, to their lemmas in the LiGre Lemma Bank for Ancient Greek: one link for every Greek word whose spelling matches exactly one LiGre lemma."@en ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
+    dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
+    dcterms:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
+    dcterms:publisher <https://ror.org/00cv9y106> ;
+    dcterms:source <https://github.com/CIRCSE/index-graecorum-vocabulorum> ;
+    dcterms:title "IGVLL–LiGre linkset"@en ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/igvll/v0.1.0/ttl/IGVLL_LiGre.ttl> ;
+    void:distinctObjects 1349 ;
+    void:distinctSubjects 1381 ;
+    void:exampleResource <http://lila-erc.eu/data/lexicalResources/IGVLL/id/etymon/1> ;
+    void:feature <http://www.w3.org/ns/formats/Turtle> ;
+    void:linkPredicate ontolex:canonicalForm ;
+    void:objectsTarget <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    void:subjectsTarget <http://lila-erc.eu/data/lexicalResources/IGVLL/Lexicon> ;
+    void:triples 1381 ;
+    void:vocabulary ontolex: ;
+    dcat:distribution <https://w3id.org/ligre/data/linksets/IGVLL/id/distribution> ;
+    dcat:landingPage <https://github.com/ligre-lod/igvll> ;
+    dcat:version "0.1.0" ;
+    foaf:homepage <https://ligre-lod.github.io/> .
+
+<https://orcid.org/0009-0004-2388-9233> a foaf:Agent ;
+    foaf:name "Paulien Lemay" .
+
+<https://ror.org/00cv9y106> a foaf:Agent ;
+    foaf:name "Ghent University" .
+
+<https://w3id.org/ligre/data/linksets/IGVLL/id/distribution> a dcat:Distribution ;
+    dcterms:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
+    dcterms:title "Linkset in Turtle"@en ;
+    dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/igvll/v0.1.0/ttl/IGVLL_LiGre.ttl> ;
+    dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
+
+<https://creativecommons.org/licenses/by-nc-sa/4.0/> a dcterms:LicenseDocument ;
+    dcterms:title "Creative Commons Attribution Non Commercial Share Alike 4.0 International"@en .
