@@ -47,7 +47,14 @@ The version and release date are set in one place, `CITATION.cff`, by
    released corpora in `ttl/corpora/`. When a corpus is released, copy its
    description from that release into `ttl/corpora/` (for PapyGreek–LiGre,
    `ttl/corpora/PapyGreek_corpus.ttl`); a new corpus also goes into `dcat:dataset`
-   and `void:subset` in `ttl/knowledge_base_description.ttl`.
+   and `void:subset` in `ttl/knowledge_base_description.ttl`. It includes the
+   descriptions of the released linksets in `ttl/linksets/` too, and `prepare`
+   refuses a linkset that links to a lemma that is not in the dump or is
+   deprecated. When a linkset is released, copy its Turtle file and its
+   description from that release into `ttl/linksets/` (for IGVLL–LiGre,
+   `IGVLL_LiGre.ttl` and `IGVLL_LiGre_description.ttl`); a new linkset also
+   goes into `dcat:dataset` and `void:subset` in
+   `ttl/knowledge_base_description.ttl`.
 4. **Check** that the example queries in `queries/` still run.
 5. **Commit, tag and push:**
 
@@ -102,7 +109,8 @@ The version and release date are set in one place, `CITATION.cff`, by
    It refuses to run without any description in `ttl/corpora/`, and warns
    when a corpus links tokens to lemmas that were merged or retired.
 7. **Deploy.** Redeploy the endpoint with the new image (it contains the new
-   `ttl/ligre_void.ttl` as static facts) and check that a lemma IRI, e.g.
+   `ttl/ligre_void.ttl` and the linksets in `ttl/linksets/` as static facts;
+   they need no database change) and check that a lemma IRI, e.g.
    <https://w3id.org/ligre/data/id/lemma/15308>, and the SPARQL UI load.
    Copy `ttl/ligre_void.ttl` of the release to `.well-known/void` and
    `.well-known/void.ttl` in the

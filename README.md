@@ -36,6 +36,10 @@ linked to its lemmas: so far
 Treebanks linked to LiGre (<https://doi.org/10.5281/zenodo.24089052>).
 The endpoint serves the corpus as well, so its tokens can be queried together
 with the lemmas they are linked to (see [Corpora in the endpoint](#corpora-in-the-endpoint)).
+The knowledge base also holds linksets from other lexical resources to the
+lemmas: so far the IGVLL–LiGre linkset, which links the Greek words of the
+[Index Graecorum Vocabulorum in Linguam Latinam](https://github.com/CIRCSE/index-graecorum-vocabulorum)
+to LiGre lemmas (see [Linksets in the endpoint](#linksets-in-the-endpoint)).
 
 ## Data files
 
@@ -45,6 +49,7 @@ with the lemmas they are linked to (see [Corpora in the endpoint](#corpora-in-th
 | `ttl/lemmabank_void.ttl` | The VoID/DCAT description of the lemma bank on its own, with statistics (triples, entities, class and property partitions).                                                                                                     |
 | `ttl/ligre_void.ttl` | The VoID/DCAT description of the whole LiGre Knowledge Base (lemma bank and linked corpora), published at <https://ligre-lod.github.io/.well-known/void>.                                                                       |
 | `ttl/corpora/` | The dataset descriptions of the released corpora of the knowledge base, copied from their releases, which are included in `ttl/ligre_void.ttl`. |
+| `ttl/linksets/` | The released linksets of the knowledge base, copied from their releases: each linkset (`IGVLL_LiGre.ttl`), which the endpoint serves, and its description (`IGVLL_LiGre_description.ttl`), which is included in `ttl/ligre_void.ttl`. |
 | `ttl/lemmabank_description.ttl`, `ttl/knowledge_base_description.ttl` | Dataset descriptions (Dublin Core, DCAT, VoID) that `scripts/export_ttl.py` merges into the files above.                                                                                                                            |
 | `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
@@ -165,9 +170,10 @@ or with the *Correction* form in the
   [Corpora in the endpoint](#corpora-in-the-endpoint)).
 - **`ontop/`**: an [Ontop](https://ontop-vkg.org/) configuration that maps
   the Postgres database to RDF on the fly and exposes it as a SPARQL endpoint.
-  The endpoint also serves `ttl/ligre_void.ttl` as static facts, so that the
-  IRIs of the knowledge base, the lemma bank and the corpora resolve to their
-  descriptions and the VoID statistics can be queried with SPARQL. The image
+  The endpoint also serves `ttl/ligre_void.ttl` and the linksets in
+  `ttl/linksets/` as static facts, so that the IRIs of the knowledge base, the
+  lemma bank, the corpora and the linksets resolve to their descriptions, the
+  VoID statistics can be queried with SPARQL, and so can the links. The image
   is built from the repository root (`docker build -f ontop/Dockerfile .`).
 - **`ttl/`**: the data dump, exported from the endpoint, and the dataset
   descriptions.
@@ -275,6 +281,47 @@ SELECT ?lemma ?writtenRep (COUNT(?token) AS ?tokens) WHERE {
 } GROUP BY ?lemma ?writtenRep ORDER BY DESC(?tokens) LIMIT 10
 ```
 
+## Linksets in the endpoint
+
+A linkset links the entries of another lexical resource to LiGre lemmas. Like a
+corpus, it is published in its own repository, and the endpoint serves one of
+its releases. Unlike a corpus, it is small, so it is not loaded into Postgres:
+the endpoint serves it as static facts, next to `ttl/ligre_void.ttl`.
+
+- `ttl/linksets/` holds, for each linkset the endpoint serves, the Turtle file
+  of its release (e.g. `IGVLL_LiGre.ttl`: the links with their description)
+  and its description on its own (`IGVLL_LiGre_description.ttl`), both copied
+  from the release.
+- `ontop/entrypoint.sh` joins `ttl/ligre_void.ttl` and every linkset in
+  `ttl/linksets/` (not the `*_description.ttl` files) into the facts file of
+  Ontop, with `https://w3id.org/ligre` replaced by `LIGRE_BASE_URL`, as for the
+  lemmas. The links point to LiGre lemmas, so they can be followed to the
+  lemmas and to the corpus tokens linked to them.
+- `scripts/generate_release.py` adds the description of each linkset to
+  `ttl/ligre_void.ttl`, and refuses a release in which a linkset links to a
+  lemma that is not in the dump or is deprecated.
+
+The [IGVLL–LiGre linkset](https://github.com/ligre-lod/igvll)
+(<https://w3id.org/ligre/data/linksets/IGVLL/id/linkset>) links the Greek
+words (`lemonEty:Etymon`) of IGVLL to their LiGre lemma with
+`ontolex:canonicalForm`, the property IGVLL uses for the citation form of an
+etymon. Like IGVLL, it is licensed under CC BY-NC-SA 4.0. IGVLL itself is not served by the endpoint. For example, the IGVLL
+Greek words that occur in PapyGreek–LiGre, with their number of tokens:
+
+```sparql
+PREFIX lila: <http://lila-erc.eu/ontologies/lila/>
+PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+SELECT ?etymon ?writtenRep (COUNT(?token) AS ?tokens) WHERE {
+  ?etymon ontolex:canonicalForm ?lemma .
+  ?lemma ontolex:writtenRep ?writtenRep .
+  ?token lila:hasLemma ?lemma .
+} GROUP BY ?etymon ?writtenRep ORDER BY DESC(?tokens) LIMIT 10
+```
+
+To serve a new release of a linkset, copy its two files into `ttl/linksets/`
+and build a new image. A new linkset also goes into `dcat:dataset` and
+`void:subset` in `ttl/knowledge_base_description.ttl`.
+
 ## Dataset description
 
 `ttl/lemmabank_description.ttl` describes the Lemma Bank
@@ -286,12 +333,13 @@ own to `ttl/lemmabank_void.ttl` (or `VOID_OUTPUT`). `VOID_INCLUDE` adds other
 descriptions to that file (paths separated by `:`). The VoID file of the whole
 knowledge base, published at https://ligre-lod.github.io/.well-known/void,
 combines `ttl/knowledge_base_description.ttl` (the LiGre Knowledge Base, with
-the lemma bank and the corpora as subsets) and the description of each
-released corpus in `ttl/corpora/`:
+the lemma bank, the corpora and the linksets as subsets), the description of
+each released corpus in `ttl/corpora/` and of each released linkset in
+`ttl/linksets/`:
 
 ```bash
 TTL_INPUT=ttl/ligre_lemmabank.ttl TTL_OUTPUT=ttl/ligre_lemmabank.ttl VOID_OUTPUT=ttl/ligre_void.ttl \
-  VOID_INCLUDE=ttl/knowledge_base_description.ttl:ttl/corpora/PapyGreek_corpus.ttl \
+  VOID_INCLUDE=ttl/knowledge_base_description.ttl:ttl/corpora/PapyGreek_corpus.ttl:ttl/linksets/IGVLL_LiGre_description.ttl \
   python scripts/export_ttl.py
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void
 cp ttl/ligre_void.ttl ../ligre-lod/.well-known/void.ttl
@@ -322,8 +370,8 @@ This starts:
   corpora described in `ttl/corpora/` (re-run with
   `docker compose run --rm --no-deps corpus-loader`)
 - `ontop`: the SPARQL endpoint, backed by the local Postgres instance, with
-  `ttl/ligre_void.ttl` mounted as static facts (minted under `LIGRE_BASE_URL`,
-  like the lemmas)
+  `ttl/ligre_void.ttl` and `ttl/linksets/` mounted as static facts (minted
+  under `LIGRE_BASE_URL`, like the lemmas)
 - `lodview`: a browsable UI for individual RDF resources, backed by `ontop`
 
 Once it's up, the SPARQL endpoint is available at `http://localhost:8081`

@@ -6,6 +6,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+from rdflib import Graph, Literal, Namespace, URIRef
+from rdflib.namespace import OWL, RDF
+
 ROOT = Path(__file__).resolve().parent.parent
 USAGE = """usage:
     python scripts/generate_release.py prepare X.Y.Z
@@ -19,6 +22,11 @@ from lemma_corrections import correction_files, read_releases, write_releases
 VOID_FILES = [ROOT / "ttl" / "lemmabank_void.ttl", ROOT / "ttl" / "ligre_void.ttl"]
 DUMP = "ttl/ligre_lemmabank.ttl"
 CORPORA = [str(path.relative_to(ROOT)) for path in sorted((ROOT / "ttl" / "corpora").glob("*.ttl"))]
+LINKSET_DIRECTORY = ROOT / "ttl" / "linksets"
+LINKSET_DESCRIPTIONS = [str(path.relative_to(ROOT)) for path in sorted(LINKSET_DIRECTORY.glob("*_description.ttl"))]
+LINKSETS = [path for path in sorted(LINKSET_DIRECTORY.glob("*.ttl")) if not path.name.endswith("_description.ttl")]
+LEMMA = "https://w3id.org/ligre/data/id/lemma/"
+LILA = Namespace("http://lila-erc.eu/ontologies/lila/")
 
 
 def fail(message):
@@ -33,6 +41,24 @@ def citation_field(name):
 def changelog_section(version):
     match = re.search(rf"^## \[{re.escape(version)}\] - (\S+)\n(.*?)(?=^## |^\[)", CHANGELOG.read_text(), re.M | re.S)
     return match and (match.group(1), match.group(2).strip())
+
+
+def linkset_errors():
+    dump = Graph().parse(ROOT / DUMP, format="turtle")
+    lemmas = set(dump.subjects(RDF.type, LILA.Lemma))
+    deprecated = set(dump.subjects(OWL.deprecated, Literal(True)))
+    errors = []
+    for path in LINKSETS:
+        linked = {term for term in Graph().parse(path, format="turtle").objects()
+                  if isinstance(term, URIRef) and str(term).startswith(LEMMA) and str(term)[len(LEMMA):].isdigit()}
+        missing, retired = sorted(linked - lemmas - deprecated, key=str), sorted(linked & deprecated, key=str)
+        if missing:
+            errors.append(f"{path.relative_to(ROOT)} links to {len(missing)} lemmas that are not in {DUMP}, "
+                          f"e.g. {[str(lemma) for lemma in missing[:3]]}")
+        if retired:
+            errors.append(f"{path.relative_to(ROOT)} links to {len(retired)} deprecated lemmas, e.g. "
+                          f"{[str(lemma) for lemma in retired[:3]]}; link to the lemmas that replace them")
+    return errors
 
 
 def mark_corrections(version):
@@ -85,11 +111,15 @@ def write_release(version, date, changelog, link):
     env = {**os.environ, "TTL_INPUT": DUMP, "TTL_OUTPUT": DUMP}
     subprocess.run(export, cwd=ROOT, check=True, env={
         **env, "VOID_OUTPUT": "ttl/ligre_void.ttl",
-        "VOID_INCLUDE": os.pathsep.join(["ttl/knowledge_base_description.ttl", *CORPORA])})
+        "VOID_INCLUDE": os.pathsep.join(["ttl/knowledge_base_description.ttl", *CORPORA, *LINKSET_DESCRIPTIONS])})
     subprocess.run(export, cwd=ROOT, check=True, env=env)
     print("validating the dump against data/ and the changed lemmas against shapes/lemma.shacl.ttl...")
     subprocess.run([sys.executable, "scripts/check_corrections.py", "--dump", DUMP, "--save-hashes"], cwd=ROOT,
                    check=True)
+    print("checking that the linksets in ttl/linksets/ link to lemmas of the dump...")
+    errors = linkset_errors()
+    if errors:
+        raise RuntimeError("; ".join(errors))
 
 
 def check(version):
@@ -108,6 +138,7 @@ def check(version):
     for path in correction_files(CORRECTIONS):
         if path.name not in releases:
             errors.append(f"data/corrections/{path.name} is not in data/corrections/RELEASES.tsv; run 'prepare'")
+    errors += linkset_errors()
     if errors:
         fail("release metadata does not match v" + version + ":\n  " + "\n  ".join(errors))
     print(section[1])
