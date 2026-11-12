@@ -21,10 +21,22 @@ BASE = "https://w3id.org/ligre/"
 LEMMA = BASE + "data/id/lemma/"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DESCRIPTIONS = REPO_ROOT / "ttl" / "corpora"
-TABLES = ["corpus", "document", "document_identifier", "document_see_also", "citation_structure", "citation_unit",
-          "token", "unit_token", "token_structure"]
+COLUMNS = {
+    "corpus": ["corpus_id", "iri", "release", "source_url", "dump_sha256"],
+    "document": ["iri", "corpus_id", "title"],
+    "document_identifier": ["iri", "identifier"],
+    "document_see_also": ["iri", "url"],
+    "citation_structure": ["iri", "corpus_id", "document_iri", "title", "description", "first_iri"],
+    "citation_unit": ["iri", "corpus_id", "structure_iri", "parent_iri", "label", "ref_type", "cit_level", "ref_value",
+                      "first_iri", "last_iri", "next_iri"],
+    "token": ["iri", "corpus_id", "string_value", "label", "next_iri"],
+    "token_lemma": ["token_iri", "id_lemma"],
+    "unit_token": ["unit_iri", "token_iri"],
+    "token_structure": ["token_iri", "structure_iri"],
+}
+TABLES = list(COLUMNS)
 IRI_COLUMNS = {"corpus": [1], "document": [0], "document_identifier": [0], "document_see_also": [0],
-               "citation_structure": [0, 2, 5], "citation_unit": [0, 2, 3, 8, 9, 10], "token": [0, 5],
+               "citation_structure": [0, 2, 5], "citation_unit": [0, 2, 3, 8, 9, 10], "token": [0, 4], "token_lemma": [0],
                "unit_token": [0, 1], "token_structure": [0, 1]}
 SUPPORTED = {
     POWLA.Document: {RDF.type, DC.title, DCTERMS.identifier, RDFS.seeAlso},
@@ -165,12 +177,13 @@ def build_rows(graph, corpus):
     structure_of_unit = {row[0]: row[2] for row in rows["citation_unit"]}
     rows["token_structure"] = sorted({(token, structure_of_unit[unit]) for unit, token in rows["unit_token"]})
     for token in of_kind[POWLA.Terminal]:
-        lemma, following = one(graph, token, LILA.hasLemma), one(graph, token, POWLA.next)
-        if lemma is not None and not (str(lemma).startswith(LEMMA) and str(lemma)[len(LEMMA):].isdigit()):
-            raise Refused(f"{token} links to {lemma}, which is not a LiGre lemma")
+        following = one(graph, token, POWLA.next)
+        for lemma in sorted(graph.objects(token, LILA.hasLemma), key=str):
+            if not (str(lemma).startswith(LEMMA) and str(lemma)[len(LEMMA):].isdigit()):
+                raise Refused(f"{token} links to {lemma}, which is not a LiGre lemma")
+            rows["token_lemma"].append((path_of(token), int(str(lemma)[len(LEMMA):])))
         rows["token"].append((path_of(token), corpus_id, text(one(graph, token, POWLA.hasStringValue)),
                               text(one(graph, token, RDFS.label)),
-                              None if lemma is None else int(str(lemma)[len(LEMMA):]),
                               None if following is None else path_of(following)))
     return rows
 
@@ -214,14 +227,15 @@ def reproduce(rows):
             add(structure, LC.isLayer, iri_of(path))
         else:
             add(parent, LC.hasCitSubUnit, iri_of(path))
-    for path, _corpus, value, label, lemma, following in rows["token"]:
+    for path, _corpus, value, label, following in rows["token"]:
         add(path, RDF.type, POWLA.Terminal)
         add(path, POWLA.hasStringValue, lit(value))
         add(path, RDFS.label, lit(label))
-        add(path, LILA.hasLemma, None if lemma is None else URIRef(f"{LEMMA}{lemma}"))
         add(path, POWLA.next, iri_of(following))
         if following is not None:
             add(following, POWLA.previous, iri_of(path))
+    for token, lemma in rows["token_lemma"]:
+        add(token, LILA.hasLemma, URIRef(f"{LEMMA}{lemma}"))
     for unit, token in rows["unit_token"]:
         add(unit, POWLA.hasChild, iri_of(token))
     for token, structure in rows["token_structure"]:
@@ -264,7 +278,7 @@ def copy_rows(cursor, table, rows, base):
         buffer.write("\t".join("\\N" if v is None else str(v).replace("\\", "\\\\").replace("\t", "\\t")
                                .replace("\n", "\\n").replace("\r", "\\r") for v in row) + "\n")
     buffer.seek(0)
-    cursor.copy_expert(f"COPY corpus.{table} FROM STDIN", buffer)
+    cursor.copy_expert(f"COPY corpus.{table} ({', '.join(COLUMNS[table])}) FROM STDIN", buffer)
 
 
 def loaded_releases(conn):
@@ -281,12 +295,13 @@ def load(conn, loaded, described, base):
             for table in TABLES:
                 copy_rows(cur, table, rows[table], base)
         cur.execute("""
-            SELECT t.corpus_id, t.id_lemma, r.id_lemma IS NOT NULL AS retired, count(*)
-            FROM corpus.token t
-            LEFT JOIN lemma l ON l.id_lemma = t.id_lemma
-            LEFT JOIN lemma_replaced r ON r.id_lemma = t.id_lemma
-            WHERE t.id_lemma IS NOT NULL AND l.id_lemma IS NULL
-            GROUP BY t.corpus_id, t.id_lemma, r.id_lemma""")
+            SELECT t.corpus_id, tl.id_lemma, r.id_lemma IS NOT NULL AS retired, count(*)
+            FROM corpus.token_lemma tl
+            JOIN corpus.token t ON t.iri = tl.token_iri
+            LEFT JOIN lemma l ON l.id_lemma = tl.id_lemma
+            LEFT JOIN lemma_replaced r ON r.id_lemma = tl.id_lemma
+            WHERE l.id_lemma IS NULL
+            GROUP BY t.corpus_id, tl.id_lemma, r.id_lemma""")
         dangling = cur.fetchall()
     unknown = [(c, i) for c, i, retired, _n in dangling if not retired]
     if unknown:

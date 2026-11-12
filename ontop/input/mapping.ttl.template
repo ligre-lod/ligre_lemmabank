@@ -300,17 +300,22 @@ corpus:UNIT-CHILD
 
 corpus:TOKEN
     a                     rr:TriplesMap ;
-    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, string_value, label, id_lemma, CAST(next_iri AS TEXT) AS next_iri FROM corpus.token""" ] ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(iri AS TEXT) AS iri, string_value, label, CAST(next_iri AS TEXT) AS next_iri FROM corpus.token""" ] ;
     rr:subjectMap         [ rr:column "iri" ;
                             rr:class    powla:Terminal ] ;
     rr:predicateObjectMap [ rr:predicate powla:hasStringValue ;
                             rr:objectMap [ rr:column "string_value" ] ] ;
     rr:predicateObjectMap [ rr:predicate rdfs:label ;
                             rr:objectMap [ rr:column "label" ] ] ;
-    rr:predicateObjectMap [ rr:predicate lila:hasLemma ;
-                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ; rr:termType rr:IRI ] ] ;
     rr:predicateObjectMap [ rr:predicate powla:next ;
                             rr:objectMap [ rr:column "next_iri" ; rr:termType rr:IRI ] ] .
+
+corpus:TOKEN-LEMMA
+    a                     rr:TriplesMap ;
+    rr:logicalTable       [ rr:sqlQuery """SELECT CAST(token_iri AS TEXT) AS iri, id_lemma FROM corpus.token_lemma""" ] ;
+    rr:subjectMap         [ rr:column "iri" ] ;
+    rr:predicateObjectMap [ rr:predicate lila:hasLemma ;
+                            rr:objectMap [ rr:template "__LIGRE_BASE_URL__/data/id/lemma/{id_lemma}" ; rr:termType rr:IRI ] ] .
 
 corpus:TOKEN-PREVIOUS
     a                     rr:TriplesMap ;

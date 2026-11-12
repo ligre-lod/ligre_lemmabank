@@ -9,6 +9,32 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Changed
+- A corpus token can link to several lemmas, as a crasis does in
+  PapyGreek–LiGre 0.2.0 (κοὐκ: καί and οὐ): the links are in the new table
+  `corpus.token_lemma` (one row per token and lemma) instead of the column
+  `corpus.token.id_lemma`, and the loader and the Ontop mapping use it. The
+  loader names the columns it copies.
+- Schema change for existing databases, in two steps, so that the endpoint
+  keeps working in between:
+  1. **before** deploying the new Ontop image:
+     ```sql
+     BEGIN;
+     CREATE TABLE IF NOT EXISTS corpus.token_lemma (
+       token_iri text NOT NULL REFERENCES corpus.token (iri) ON DELETE CASCADE,
+       id_lemma int NOT NULL,
+       PRIMARY KEY (token_iri, id_lemma)
+     );
+     CREATE INDEX IF NOT EXISTS ix_token_lemma_lemma ON corpus.token_lemma (id_lemma);
+     INSERT INTO corpus.token_lemma (token_iri, id_lemma)
+       SELECT iri, id_lemma FROM corpus.token WHERE id_lemma IS NOT NULL
+       ON CONFLICT DO NOTHING;
+     COMMIT;
+     ```
+     (grant `SELECT` on `corpus.token_lemma` if Ontop connects as another user);
+  2. deploy the new image, load the corpora (`loader/load_corpora.py`), and
+     then drop the old column: `ALTER TABLE corpus.token DROP COLUMN IF EXISTS id_lemma;`
+
 ## [0.4.0] - 2026-11-12
 ### Added
 - Two correction actions: `add-wr` gives a lemma another written
