@@ -1,0 +1,74 @@
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix lila:    <http://lila-erc.eu/ontologies/lila/> .
+@prefix ligre:   <https://w3id.org/ligre/shapes#> .
+
+ligre:LemmaShape
+    a sh:NodeShape ;
+    sh:targetClass lila:Lemma ;
+    sh:message "Nouns and proper nouns have exactly one gender; other parts of speech have none." ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A lemma has exactly one label." ] ;
+    sh:property [
+        sh:path ontolex:writtenRep ;
+        sh:minCount 1 ;
+        sh:languageIn ( "grc" ) ;
+        sh:message "A lemma has at least one written representation, in Ancient Greek (@grc)." ] ;
+    sh:property [
+        sh:path lila:hasPOS ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( lila:adjective lila:adposition lila:adverb lila:auxiliary lila:coordinating_conjunction
+                lila:determiner lila:interjection lila:noun lila:numeral lila:particle lila:pronoun
+                lila:proper_noun lila:punctuation lila:subordinating_conjunction lila:symbol lila:verb lila:other ) ;
+        sh:message "A lemma has exactly one part of speech from the LiLa list." ] ;
+    sh:property [
+        sh:path lila:hasGender ;
+        sh:in ( lila:masculine lila:feminine lila:neuter ) ;
+        sh:message "A gender is masculine, feminine or neuter." ] ;
+    sh:property [
+        sh:path dcterms:isPartOf ;
+        sh:hasValue <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+        sh:message "A lemma is part of the LiGre Lemma Bank." ] ;
+    sh:property [
+        sh:path owl:deprecated ;
+        sh:maxCount 0 ;
+        sh:message "A current lemma is not deprecated." ] ;
+    sh:or (
+        [ sh:property [ sh:path lila:hasPOS ; sh:in ( lila:noun lila:proper_noun ) ] ;
+          sh:property [ sh:path lila:hasGender ; sh:minCount 1 ; sh:maxCount 1 ] ]
+        [ sh:property [ sh:path lila:hasPOS ;
+                        sh:in ( lila:adjective lila:adposition lila:adverb lila:auxiliary lila:coordinating_conjunction
+                                lila:determiner lila:interjection lila:numeral lila:particle lila:pronoun
+                                lila:punctuation lila:subordinating_conjunction lila:symbol lila:verb lila:other ) ] ;
+          sh:property [ sh:path lila:hasGender ; sh:maxCount 0 ] ]
+    ) .
+
+ligre:RetiredLemmaShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf owl:deprecated ;
+    sh:property [
+        sh:path owl:deprecated ;
+        sh:hasValue true ;
+        sh:maxCount 1 ;
+        sh:message "A retired lemma is owl:deprecated true." ] ;
+    sh:property [
+        sh:path dcterms:isReplacedBy ;
+        sh:maxCount 1 ;
+        sh:class lila:Lemma ;
+        sh:message "A retired lemma is replaced by at most one lemma, which is a current lemma." ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A retired lemma keeps its label, so that its IRI still shows which lemma it was." ] ;
+    sh:property [
+        sh:path lila:hasPOS ;
+        sh:maxCount 0 ;
+        sh:message "A retired lemma has no part of speech." ] .

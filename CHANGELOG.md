@@ -9,6 +9,47 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- Corrections: anyone can correct the lemmas with a pull request that adds a
+  file to `data/corrections/` (one row per change: correct, add, merge or
+  retire), with its reason, evidence and author. The loader applies them on
+  top of the unchanged source list; corrected lemmas keep their id, merged
+  and retired lemmas stay as deprecated. See `CONTRIBUTING.md` and
+  `data/corrections/README.md`.
+- `scripts/check_corrections.py` and the *Check corrections* workflow check
+  every correction pull request, with SHACL shapes for the lemmas
+  (`shapes/lemma.shacl.ttl`). An issue form for corrections and a pull
+  request template.
+- `generate_release.py prepare` records the release of every new correction
+  file in `data/corrections/RELEASES.tsv`.
+- Retired and merged lemmas keep their `rdfs:label`, so that their IRI still
+  shows which lemma it was.
+
+### Changed
+- Corpora are loaded generically: `loader/load_corpora.py` loads every corpus
+  described in `ttl/corpora/` into one `corpus` schema
+  (`database/schema_corpora.sql`), and one part of the mapping serves them
+  all, so a new corpus needs no code. It replaces `data/load_papygreek.py` and
+  the `papygreek` schema. The endpoint serves the same PapyGreek–LiGre triples.
+- The repository is organised by role: `data/` holds only data, `database/`
+  the Postgres schema and `loader/` the loaders with their Docker image
+  (`data/generate_lemma_data.py` is now `loader/load_lemmas.py`). The Compose
+  service `papygreek-loader` is now `corpus-loader`.
+- The release check compares the dump with the data in `data/` (lemmas,
+  ids, retired lemmas), and validates with SHACL only the lemmas that changed
+  since the previous release, using a hash per lemma in
+  `ttl/ligre_lemmabank.hashes.tsv`. `prepare` restores every file when a step
+  fails.
+- The loaders load in one transaction with `COPY`; reading `lemma_ids.tsv` is
+  no longer quadratic (43 s to 0.3 s for 100,000 lemmas). The corpus loader
+  skips corpora whose release is already loaded, records the SHA-256 of each
+  dump, and refuses to run without corpus descriptions.
+- Database changes for existing databases, **before** deploying the new Ontop
+  image (without them Ontop does not start):
+  `ALTER TABLE lemma_replaced ADD COLUMN IF NOT EXISTS label varchar(64);`,
+  then `psql -f database/schema_corpora.sql` and `python loader/load_corpora.py`.
+  Afterwards the old schema can be dropped: `DROP SCHEMA papygreek CASCADE;`
+
 ## [0.2.0] - 2026-11-10
 
 ### Added

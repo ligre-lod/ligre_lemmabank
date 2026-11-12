@@ -49,8 +49,9 @@ with the lemmas they are linked to (see [Corpora in the endpoint](#corpora-in-th
 | `data/ligre_lemmas.tsv` | Source list of lemmas: `lemma`, `pos` (Universal Dependencies tag) and `gender` (`m`, `f`, `n`).                                                                                                                                |
 | `data/ligre_wr_lv.csv` | Clusters of lemma entries. Clusters of type WR are spellings of the same lemma and become extra `ontolex:writtenRep` values of one lemma; clusters of type LV are distinct but related lemmas, linked with `lila:lemmaVariant`. |
 | `data/lemma_ids.tsv` | The fixed id of every lemma, and so its IRI (see [IRIs](#iris)), including retired ids and the lemma that replaces them.                                                                                                        |
-| `data/schema.sql` | The Postgres schema.                                                                                                                                                                                                            |
-| `data/schema_papygreek.sql`, `data/load_papygreek.py` | The Postgres schema of the PapyGreek–LiGre corpus and its loader (see [Corpora in the endpoint](#corpora-in-the-endpoint)). |
+| `data/corrections/` | The corrections to the source list, one file per pull request (see [Corrections](#corrections)). |
+| `database/schema.sql`, `database/schema_corpora.sql` | The Postgres schema of the lemma bank and of the corpora. |
+| `loader/` | The loaders that fill Postgres: `load_lemmas.py` (the lemma bank, with the corrections) and `load_corpora.py` (the corpora in `ttl/corpora/`), with their Docker image. |
 | `ontop/input/mapping.ttl.template` | The R2RML mapping from Postgres to RDF used by Ontop.                                                                                                                                                                           |
 | `queries/*.rq` | Example SPARQL queries (see [Example queries](#example-queries)).                                                                                                                                                               |
 
@@ -125,23 +126,32 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
   Passarotti (2026), without corrections.
 - Proper nouns are not distinguished from common nouns: personal and place
   names are tagged `lila:noun`.
-- Every noun has a gender: the loader (`data/generate_lemma_data.py`) refuses
+- Every noun has a gender: the loader (`loader/load_lemmas.py`) refuses
   to load nouns without one.
 
 ### Corrections
 
-Errors can be reported through the
-[issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues).
-The current release contains no corrections; future corrections will be
-handled as follows:
+Anyone can correct LiGre: with a pull request that adds a correction file,
+or with the *Correction* form in the
+[issue tracker](https://github.com/ligre-lod/ligre_lemmabank/issues) (see
+[CONTRIBUTING.md](CONTRIBUTING.md)). Corrections are handled as follows:
 
 - **Only in new releases.** A published release is never changed. Corrections
   are published in a new release and listed in [CHANGELOG.md](CHANGELOG.md),
   and every release stays available on Zenodo with its own DOI.
 - **The source list is not edited.** `data/ligre_lemmas.tsv` stays as its
-  authors published it. Corrections will be recorded in a separate file, one
-  row per corrected lemma, applied by the loader, so every change to the
-  source data is documented and can be traced.
+  authors published it. Corrections are files in `data/corrections/`, one per
+  merged pull request with one row per change (correct, add, merge or
+  retire a lemma), each with its reason, evidence and author;
+  `data/corrections/RELEASES.tsv` records the release that first contains
+  each file. The loader applies them on top of the source list.
+  The folder is the complete history of changes to LiGre (see
+  [data/corrections/README.md](data/corrections/README.md)).
+- **Checked automatically.** On every pull request,
+  `scripts/check_corrections.py` checks that every correction applies, shows
+  each change (now → after) and the ids it will get, and validates the
+  lemmas it touches against the SHACL shapes in `shapes/lemma.shacl.ttl`.
+  Reviewers only judge the content.
 - **IRIs stay stable.** A corrected lemma keeps its IRI. A lemma that is
   merged into another one or removed is not deleted: its IRI keeps resolving,
   marked `owl:deprecated true` and, if it was merged, `dcterms:isReplacedBy`
@@ -149,9 +159,10 @@ handled as follows:
 
 ## Project components
 
-- **`data/`**: a Postgres schema and a loader script that populate the
-  lemma bank from the source tables, and a schema and loader for each corpus
-  served by the endpoint.
+- **`data/`**: the source data of the lemma bank and its corrections.
+- **`database/`** and **`loader/`**: the Postgres schema and the loaders that
+  fill it with the lemma bank and the corpora served by the endpoint (see
+  [Corpora in the endpoint](#corpora-in-the-endpoint)).
 - **`ontop/`**: an [Ontop](https://ontop-vkg.org/) configuration that maps
   the Postgres database to RDF on the fly and exposes it as a SPARQL endpoint.
   The endpoint also serves `ttl/ligre_void.ttl` as static facts, so that the
@@ -173,23 +184,83 @@ handled as follows:
 Like the [LiLa Knowledge Base](https://lila-erc.eu/sparql/), the endpoint
 serves the corpora linked to the lemma bank, so a query can combine the
 tokens of a corpus with the lemmas they are linked to. A corpus is published
-in its own repository; the endpoint serves one of its releases:
+in its own repository, as a Turtle dump; the endpoint serves one of its
+releases. So far this is PapyGreek–LiGre.
 
-- `ttl/corpora/PapyGreek_corpus.ttl` is the description of the release
-  (copied from it), with the URL of its data dump (`dcat:downloadURL`).
-- `data/load_papygreek.py` downloads that dump and loads it into the
-  `papygreek` schema of Postgres (`data/schema_papygreek.sql`): documents,
-  citation structures, parts, lines, sentences and tokens. It refuses a dump
-  whose triples the tables cannot reproduce, and lemma links to lemmas that
-  are not loaded.
-- The PapyGreek part of `ontop/input/mapping.ttl.template` maps the tables
-  back to the triples of the dump, with the same IRIs. The corpus itself
-  (`powla:Corpus`, its description and documents) comes from
-  `ttl/ligre_void.ttl`.
+### Which releases are served
 
-The triples the endpoint serves for the corpus are the same as those in the
-release's dump. To serve a new release, copy its description into
-`ttl/corpora/` and load it again.
+`ttl/corpora/` holds the description of each corpus release the endpoint
+serves, copied from the release (e.g. `PapyGreek_corpus.ttl`). Each
+`powla:Corpus` in it needs one `dcat:downloadURL` (the dump, plain or
+gzipped Turtle) and a `dcat:version`. The corpus id is the name after
+`data/corpora/` in its IRI (`PapyGreek`). The corpus itself, its description
+and its `powla:hasSubDocument` links are not loaded into Postgres: the
+endpoint serves them from `ttl/ligre_void.ttl`, which includes these
+descriptions.
+
+### From the dump to the tables
+
+`loader/load_corpora.py` converts each dump into the tables of the `corpus`
+schema (`database/schema_corpora.sql`), shared by all corpora. It knows no
+corpus by name: it reads every resource under the corpus IRI by its type in
+the LiLa corpus model.
+
+| Type in the dump | Tables | Properties |
+|---|---|---|
+| `powla:Document` | `document`, `document_identifier`, `document_see_also` | `dc:title`; `dcterms:identifier` and `rdfs:seeAlso` (any number) |
+| `lila_corpus:CitationStructure` | `citation_structure` | `dc:title`, `dc:description`, `powla:hasDocument`, `lila_corpus:first`; `lila_corpus:isLayer` is the units without a parent |
+| `lila_corpus:citationUnit` | `citation_unit`, `unit_token` | `rdfs:label`, `lila_corpus:hasRefType`, `lila_corpus:hasCitLevel`, `lila_corpus:hasRefValue`, `lila_corpus:first`, `lila_corpus:last`, `powla:next`; `lila_corpus:hasCitSubUnit` becomes the parent of the sub-unit, `powla:hasChild` a row in `unit_token` |
+| `powla:Terminal` | `token`, `token_structure` | `powla:hasStringValue`, `rdfs:label`, `lila:hasLemma` (the lemma id), `powla:next`; `lila_corpus:hasCitStructure` is the structures of the units that contain the token |
+
+`powla:previous` is not stored: the mapping derives it from `powla:next`. The
+conversion refuses a dump it cannot store without loss:
+
+- a resource with none or more than one of these types, or with a property
+  not in the table;
+- more than one value for a property the tables hold once (all except
+  `dcterms:identifier`, `rdfs:seeAlso`, `powla:hasChild` and
+  `lila_corpus:hasCitSubUnit`);
+- an IRI that is not under `https://w3id.org/ligre/`, a unit that is in no
+  citation structure, or a `lila:hasLemma` that is not a LiGre lemma IRI.
+
+It then rebuilds the triples from the rows, as the mapping will serve them,
+and compares them with the triples of the dump under the corpus IRI. If they
+differ in a single triple, nothing is loaded. So the endpoint serves exactly
+the triples of the release.
+
+### IRIs
+
+The tables store the IRIs of the release with `https://w3id.org/ligre`
+replaced by `LIGRE_BASE_URL` (as for Ontop), so in production they are the
+IRIs of the release and locally they open in the local LodView. Lemma links
+are stored as the lemma id, and the mapping mints the lemma IRI under the
+same base URL.
+
+### Loading
+
+All corpora are loaded in one transaction:
+
+- a corpus whose release and download URL are already loaded is skipped, so
+  only new releases are downloaded (`--force` reloads them);
+- a corpus that is loaded but no longer described in `ttl/corpora/` is
+  removed, and the loader refuses to run if no corpus is described;
+- tokens linked to a lemma id that is not in the lemma bank roll back the
+  whole load (load the lemma bank first); tokens linked to a retired lemma
+  are loaded with a warning, and resolve as deprecated until the corpus
+  links to the lemma that replaces it.
+
+The SHA-256 of each dump is recorded in `corpus.corpus`. To check a dump
+without a database, or to use a local copy instead of downloading it:
+
+```bash
+python loader/load_corpora.py --check-only --input PapyGreek=path/to/PapyGreek.ttl.gz
+```
+
+`ontop/input/mapping.ttl.template` maps the tables of all corpora back to
+their triples, so a new corpus needs no code. To serve a new release, copy
+its description into `ttl/corpora/` and run the loader again.
+
+### Querying
 
 For example, the most frequent lemmas of PapyGreek–LiGre with their written
 form:
@@ -243,26 +314,26 @@ docker compose up
 
 This starts:
 
-- `postgres`: a local Postgres instance, initialized with `data/schema.sql`
-  and `data/schema_papygreek.sql`
+- `postgres`: a local Postgres instance, initialized with
+  `database/schema.sql` and `database/schema_corpora.sql`
 - `lemma-loader`: a one-shot job that populates the database from the
   source data (re-run with `docker compose run --rm lemma-loader`)
-- `papygreek-loader`: a one-shot job, after `lemma-loader`, that loads the
-  PapyGreek–LiGre release described in `ttl/corpora/PapyGreek_corpus.ttl`
-  (re-run with `docker compose run --rm --no-deps papygreek-loader`)
-
-The schema files only run on an empty database volume. To add the corpus to an
-existing local database, recreate `postgres` (`docker compose up -d postgres`)
-and run
-`docker compose exec postgres psql -U ligre -d ligre_db -f /docker-entrypoint-initdb.d/02_schema_papygreek.sql`
-before loading it.
+- `corpus-loader`: a one-shot job, after `lemma-loader`, that loads the
+  corpora described in `ttl/corpora/` (re-run with
+  `docker compose run --rm --no-deps corpus-loader`)
 - `ontop`: the SPARQL endpoint, backed by the local Postgres instance, with
   `ttl/ligre_void.ttl` mounted as static facts (minted under `LIGRE_BASE_URL`,
   like the lemmas)
 - `lodview`: a browsable UI for individual RDF resources, backed by `ontop`
 
 Once it's up, the SPARQL endpoint is available at `http://localhost:8081`
-and LodView at `http://localhost:8082`. Launch the
+and LodView at `http://localhost:8082`.
+
+The schema files only run on an empty database volume. To add the corpora to an
+existing local database, recreate `postgres` (`docker compose up -d postgres`)
+and run
+`docker compose exec postgres psql -U ligre -d ligre_db -f /docker-entrypoint-initdb.d/02_schema_corpora.sql`
+before loading them. Launch the
 [query-interface](https://github.com/ligre-lod/query-interface) for the full
 local stack.
 
@@ -280,7 +351,7 @@ Lemma IRIs are persistent. The id of every lemma is fixed in
 change between releases. After changing the source data, run
 
 ```bash
-python data/generate_lemma_data.py --assign-ids
+python loader/load_lemmas.py --assign-ids
 ```
 
 to update the file (the loader refuses to load data that does not match it):

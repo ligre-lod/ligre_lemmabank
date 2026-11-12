@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 import argparse
 import csv
+import io
 import os
 import sys
 import time
+from dataclasses import dataclass
 from pathlib import Path
 
+from lemma_corrections import apply_corrections, correction_files, read_corrections
+
 GENDERS = ("*", "f", "m", "n")
-CHUNK_SIZE = 1000
 IDS_HEADER = ["id_lemma", "lemma", "pos", "gen", "status", "replaced_by"]
 
 def gen_for(pos, tsv_gender):
@@ -16,10 +19,6 @@ def gen_for(pos, tsv_gender):
     if pos == "ADJ":
         return "*"
     return None
-
-def chunked(seq, size):
-    for i in range(0, len(seq), size):
-        yield seq[i:i + size]
 
 def load_tsv_rows(tsv_path):
     rows = []
@@ -126,7 +125,7 @@ def final_key(key):
     return label, pos, gen_for(pos, gender)
 
 def load_ids(ids_path):
-    active, retired = {}, {}
+    active, retired, seen = {}, {}, set()
     if not ids_path.exists():
         return active, retired
     with open(ids_path, newline="", encoding="utf-8") as f:
@@ -135,7 +134,8 @@ def load_ids(ids_path):
         for row in reader:
             id_lemma = int(row["id_lemma"])
             key = (row["lemma"], row["pos"], row["gen"] or None)
-            assert id_lemma not in retired and id_lemma not in active.values(), f"duplicate id {id_lemma}"
+            assert id_lemma not in seen, f"duplicate id {id_lemma}"
+            seen.add(id_lemma)
             if row["status"] == "active":
                 assert key not in active, f"two active ids for {key}"
                 active[key] = id_lemma
@@ -203,7 +203,7 @@ def check_ids(final_lemmas, active):
             "the lemmas do not match data/lemma_ids.tsv: "
             f"{len(missing)} lemmas without an id (e.g. {missing[:3]}), "
             f"{len(stale)} active ids without a lemma (e.g. {stale[:3]}). "
-            "Run `python data/generate_lemma_data.py --assign-ids` and commit data/lemma_ids.tsv."
+            "Run `python loader/load_lemmas.py --assign-ids` and commit data/lemma_ids.tsv."
         )
 
 def connect(retries=30, delay=2):
@@ -224,10 +224,22 @@ def connect(retries=30, delay=2):
             time.sleep(delay)
     raise last_err
 
+def copy_rows(cursor, table, columns, rows):
+    buffer = io.StringIO()
+    for row in rows:
+        buffer.write("\t".join("\\N" if v is None else str(v).replace("\\", "\\\\").replace("\t", "\\t")
+                               .replace("\n", "\\n").replace("\r", "\\r") for v in row) + "\n")
+    buffer.seek(0)
+    cursor.copy_expert(f"COPY {table} ({', '.join(columns)}) FROM STDIN", buffer)
+
+
 def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags, id_map, retired):
+    wr_rows = [(id_map[key], key[0]) for key in final_lemmas]
+    wr_rows += [(id_map[key], label) for key, labels in variants.items() for label in labels]
+    variant_group_rows = [(id_map[key], str(int(cluster_id)))
+                          for cluster_id, keys in lv_variant_groups.items() for key in keys]
     with conn.cursor() as cur:
         cur.execute("TRUNCATE TABLE lemma_replaced, variant_group, lemma_wr, lemma RESTART IDENTITY CASCADE")
-
         cur.executemany(
             "INSERT INTO universal_pos_tag (upostag) VALUES (%s) "
             "ON CONFLICT (upostag) DO UPDATE SET upostag = EXCLUDED.upostag",
@@ -238,71 +250,38 @@ def load_into_db(conn, final_lemmas, variants, lv_variant_groups, pos_tags, id_m
             "ON CONFLICT (gen) DO UPDATE SET gen = EXCLUDED.gen",
             [(g,) for g in GENDERS],
         )
-
-        lemma_rows = [(id_map[key], *key) for key in final_lemmas]
-        for chunk in chunked(lemma_rows, CHUNK_SIZE):
-            cur.executemany(
-                "INSERT INTO lemma (id_lemma, label, upostag, gen) VALUES (%s, %s, %s, %s)",
-                chunk,
-            )
+        copy_rows(cur, "lemma", ["id_lemma", "label", "upostag", "gen"], [(id_map[key], *key) for key in final_lemmas])
         cur.execute("SELECT setval(pg_get_serial_sequence('lemma', 'id_lemma'), "
                     "GREATEST((SELECT MAX(id_lemma) FROM lemma), 1))")
-        cur.executemany(
-            "INSERT INTO lemma_replaced (id_lemma, replaced_by) VALUES (%s, %s)",
-            [(id_lemma, replaced_by) for id_lemma, (_key, replaced_by) in sorted(retired.items())],
-        )
+        copy_rows(cur, "lemma_replaced", ["id_lemma", "replaced_by", "label"],
+                  [(id_lemma, replaced_by, key[0]) for id_lemma, (key, replaced_by) in sorted(retired.items())])
+        copy_rows(cur, "lemma_wr", ["id_lemma", "wr"], wr_rows)
+        copy_rows(cur, "variant_group", ["id_lemma", "id_variant"], variant_group_rows)
     conn.commit()
-
-    wr_rows = []
-    for label, pos, gen in final_lemmas:
-        wr_rows.append((id_map[(label, pos, gen)], label))
-    for (label, pos, gen), variant_labels in variants.items():
-        id_lemma = id_map[(label, pos, gen)]
-        for variant_label in variant_labels:
-            wr_rows.append((id_lemma, variant_label))
-
-    with conn.cursor() as cur:
-        for chunk in chunked(wr_rows, CHUNK_SIZE):
-            cur.executemany(
-                "INSERT INTO lemma_wr (id_lemma, wr) VALUES (%s, %s)", chunk
-            )
-    conn.commit()
-
-    variant_group_rows = []
-    for cluster_id, keys in lv_variant_groups.items():
-        group_key = str(int(cluster_id))
-        for key in keys:
-            variant_group_rows.append((id_map[key], group_key))
-
-    with conn.cursor() as cur:
-        for chunk in chunked(variant_group_rows, CHUNK_SIZE):
-            cur.executemany(
-                "INSERT INTO variant_group (id_lemma, id_variant) VALUES (%s, %s)",
-                chunk,
-            )
-    conn.commit()
-
     return len(wr_rows), len(variant_group_rows)
 
 
-def main():
-    repo_root = Path(__file__).resolve().parent.parent
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
-    parser.add_argument("--wr-lv-csv", type=Path,
-                         default=repo_root / "data" / "ligre_wr_lv.csv")
-    parser.add_argument("--ids", type=Path, default=repo_root / "data" / "lemma_ids.tsv")
-    parser.add_argument("--assign-ids", action="store_true",
-                        help="update the ids file for the current data, without loading the database")
-    args = parser.parse_args()
+@dataclass
+class LemmaData:
+    final_lemmas: list
+    variants: dict
+    lv_groups: dict
+    pos_tags: list
+    id_moves: dict
+    active: dict
+    retired: dict
+    corrections: object
 
-    raw_rows = load_tsv_rows(args.tsv)
+
+def build_lemma_data(tsv, wr_lv_csv, ids, corrections_directory, verbose=True):
+    say = print if verbose else (lambda *args, **kwargs: None)
+    raw_rows = load_tsv_rows(tsv)
     check_noun_genders(raw_rows)
     pos_tags = sorted({pos for _rn, _label, pos, _gender in raw_rows})
-    lemma_entries, skipped = dedup(raw_rows)
+    lemma_entries, skipped = dedup(raw_rows) if verbose else dedup_quietly(raw_rows)
     lemma_keys = {(label, pos, gender) for _rn, label, pos, gender in lemma_entries}
 
-    clusters = load_clusters(args.wr_lv_csv)
+    clusters = load_clusters(wr_lv_csv)
     wr_groups = list(type_groups(clusters, "WR").values())
     variants, absorbed = build_wr_variants(wr_groups, lemma_keys)
 
@@ -320,36 +299,70 @@ def main():
         for cluster_id, keys in lv_variant_groups.items()
     }
 
-    print(f"tsv data rows: {len(raw_rows)}")
-    print(f"distinct POS tags found: {len(pos_tags)} -> {pos_tags}")
-    print(f"WR merge groups applied: {len(variants)} "
-          f"({sum(len(v) for v in variants.values())} lemmas absorbed as wr variants)")
-    print(f"LV variant groups found: {len(lv_variant_groups_final)} "
-          f"({sum(len(v) for v in lv_variant_groups_final.values())} lemmas linked as lemma variants)")
-    print(f"final lemma rows: {len(final_lemmas)}")
+    say(f"tsv data rows: {len(raw_rows)}")
+    say(f"distinct POS tags found: {len(pos_tags)} -> {pos_tags}")
+    say(f"WR merge groups applied: {len(variants)} "
+        f"({sum(len(v) for v in variants.values())} lemmas absorbed as wr variants)")
+    say(f"LV variant groups found: {len(lv_variant_groups_final)} "
+        f"({sum(len(v) for v in lv_variant_groups_final.values())} lemmas linked as lemma variants)")
 
-    active, retired = load_ids(args.ids)
+    active, retired = load_ids(ids)
+    corrections, errors = read_corrections(corrections_directory)
+    corrected = apply_corrections(final_lemmas, variants_by_final_key, lv_variant_groups_final, active, corrections)
+    errors += corrected.errors
+    if errors:
+        sys.exit("the corrections in data/corrections/ cannot be applied:\n  " + "\n  ".join(errors))
+    say(f"corrections applied: {len(corrected.applied)} from {len(correction_files(corrections_directory))} files")
+    say(f"final lemma rows: {len(corrected.final_lemmas)}")
+
+    id_moves = {}
+    for canonical, variant_labels in variants.items():
+        for label in variant_labels:
+            id_moves[final_key((label, *canonical[1:]))] = final_key(canonical)
+    id_moves.update(corrected.moves)
+    id_moves.update(corrected.merges)
+    return LemmaData(corrected.final_lemmas, corrected.variants, corrected.lv_groups,
+                     sorted(set(pos_tags) | corrected.pos_tags), id_moves, active, retired, corrected)
+
+
+def dedup_quietly(rows):
+    import contextlib
+    import io
+    with contextlib.redirect_stdout(io.StringIO()):
+        return dedup(rows)
+
+
+def main():
+    repo_root = Path(__file__).resolve().parent.parent
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--tsv", type=Path, default=repo_root / "data" / "ligre_lemmas.tsv")
+    parser.add_argument("--wr-lv-csv", type=Path,
+                         default=repo_root / "data" / "ligre_wr_lv.csv")
+    parser.add_argument("--ids", type=Path, default=repo_root / "data" / "lemma_ids.tsv")
+    parser.add_argument("--corrections", type=Path, default=repo_root / "data" / "corrections")
+    parser.add_argument("--assign-ids", action="store_true",
+                        help="update the ids file for the current data, without loading the database")
+    args = parser.parse_args()
+
+    data = build_lemma_data(args.tsv, args.wr_lv_csv, args.ids, args.corrections)
+    active, retired = data.active, data.retired
     if args.assign_ids:
-        moves = {}
-        for canonical, variant_labels in variants.items():
-            for label in variant_labels:
-                moves[final_key((label, *canonical[1:]))] = final_key(canonical)
-        active, retired, changes = assign_ids(final_lemmas, active, retired, moves)
+        active, retired, changes = assign_ids(data.final_lemmas, active, retired, data.id_moves)
         for change in changes:
             print(change)
         write_ids(args.ids, active, retired)
         print(f"wrote {args.ids}: {len(active)} active and {len(retired)} retired ids, {len(changes)} changes")
         return
-    check_ids(final_lemmas, active)
+    check_ids(data.final_lemmas, active)
 
     print("connecting to Postgres...")
     conn = connect()
     try:
         wr_count, variant_count = load_into_db(
-            conn, final_lemmas, variants_by_final_key, lv_variant_groups_final, pos_tags,
+            conn, data.final_lemmas, data.variants, data.lv_groups, data.pos_tags,
             active, retired,
         )
-        print(f"loaded {len(final_lemmas)} lemma rows, {wr_count} lemma_wr rows, "
+        print(f"loaded {len(data.final_lemmas)} lemma rows, {wr_count} lemma_wr rows, "
               f"and {variant_count} variant_group rows")
     finally:
         conn.close()

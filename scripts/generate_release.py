@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""Prepare or check a release.
-
-    python scripts/generate_release.py prepare 0.1.0   # set version and date, regenerate the descriptions
-    python scripts/generate_release.py check 0.1.0     # check that everything says 0.1.0, print the release notes
-"""
 import datetime
 import os
 import re
@@ -12,10 +7,17 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+USAGE = """usage:
+    python scripts/generate_release.py prepare X.Y.Z
+    python scripts/generate_release.py check X.Y.Z"""
 CHANGELOG = ROOT / "CHANGELOG.md"
 CITATION = ROOT / "CITATION.cff"
 COMPARE = "https://github.com/ligre-lod/ligre_lemmabank/compare"
+CORRECTIONS = ROOT / "data" / "corrections"
+sys.path.insert(0, str(ROOT / "loader"))
+from lemma_corrections import correction_files, read_releases, write_releases
 VOID_FILES = [ROOT / "ttl" / "lemmabank_void.ttl", ROOT / "ttl" / "ligre_void.ttl"]
+DUMP = "ttl/ligre_lemmabank.ttl"
 CORPORA = [str(path.relative_to(ROOT)) for path in sorted((ROOT / "ttl" / "corpora").glob("*.ttl"))]
 
 
@@ -33,6 +35,14 @@ def changelog_section(version):
     return match and (match.group(1), match.group(2).strip())
 
 
+def mark_corrections(version):
+    releases = read_releases(CORRECTIONS)
+    new = [path.name for path in correction_files(CORRECTIONS) if path.name not in releases]
+    releases.update({name: version for name in new})
+    write_releases(releases, CORRECTIONS)
+    return len(new)
+
+
 def prepare(version):
     date = datetime.date.today().isoformat()
     changelog = CHANGELOG.read_text()
@@ -43,6 +53,21 @@ def prepare(version):
     link = re.search(rf"^\[Unreleased\]: {re.escape(COMPARE)}/(v\S+)\.\.\.HEAD$", changelog, re.M)
     if not link:
         fail("CHANGELOG.md has no '[Unreleased]: .../compare/vX.Y.Z...HEAD' link")
+    changed = [CHANGELOG, CITATION, CORRECTIONS / "RELEASES.tsv", *VOID_FILES, ROOT / DUMP,
+               (ROOT / DUMP).with_suffix(".hashes.tsv")]
+    snapshot = {path: path.read_bytes() if path.exists() else None for path in changed}
+    try:
+        write_release(version, date, changelog, link)
+    except BaseException as error:
+        for path, content in snapshot.items():
+            if content is None:
+                path.unlink(missing_ok=True)
+            else:
+                path.write_bytes(content)
+        fail(f"prepare stopped ({error}); every file is back as it was, so you can run it again")
+
+
+def write_release(version, date, changelog, link):
     changelog = changelog.replace("## [Unreleased]", f"## [Unreleased]\n\n## [{version}] - {date}", 1)
     changelog = changelog.replace(link.group(0), f"[Unreleased]: {COMPARE}/v{version}...HEAD\n"
                                                  f"[{version}]: {COMPARE}/{link.group(1)}...v{version}")
@@ -53,14 +78,18 @@ def prepare(version):
     citation = re.sub(r"^date-released: .*$", f"date-released: {date}", citation, flags=re.M)
     CITATION.write_text(citation)
     print(f"set version {version} and date {date} in CHANGELOG.md and CITATION.cff")
+    print(f"recorded release {version} for {mark_corrections(version)} new correction files in "
+          f"data/corrections/RELEASES.tsv")
 
-    dump = "ttl/ligre_lemmabank.ttl"
     export = [sys.executable, "scripts/export_ttl.py"]
-    env = {**os.environ, "TTL_INPUT": dump, "TTL_OUTPUT": dump}
+    env = {**os.environ, "TTL_INPUT": DUMP, "TTL_OUTPUT": DUMP}
     subprocess.run(export, cwd=ROOT, check=True, env={
         **env, "VOID_OUTPUT": "ttl/ligre_void.ttl",
         "VOID_INCLUDE": os.pathsep.join(["ttl/knowledge_base_description.ttl", *CORPORA])})
     subprocess.run(export, cwd=ROOT, check=True, env=env)
+    print("validating the dump against data/ and the changed lemmas against shapes/lemma.shacl.ttl...")
+    subprocess.run([sys.executable, "scripts/check_corrections.py", "--dump", DUMP, "--save-hashes"], cwd=ROOT,
+                   check=True)
 
 
 def check(version):
@@ -75,6 +104,10 @@ def check(version):
     for path in VOID_FILES:
         if f'dcat:version "{version}"' not in path.read_text():
             errors.append(f"{path.relative_to(ROOT)} does not describe version {version}; run 'prepare'")
+    releases = read_releases(CORRECTIONS)
+    for path in correction_files(CORRECTIONS):
+        if path.name not in releases:
+            errors.append(f"data/corrections/{path.name} is not in data/corrections/RELEASES.tsv; run 'prepare'")
     if errors:
         fail("release metadata does not match v" + version + ":\n  " + "\n  ".join(errors))
     print(section[1])
@@ -82,7 +115,7 @@ def check(version):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3 or sys.argv[1] not in ("prepare", "check"):
-        fail(__doc__.strip())
+        fail(USAGE)
     command, version = sys.argv[1], sys.argv[2].removeprefix("v")
     if not re.fullmatch(r"\d+\.\d+\.\d+", version):
         fail(f"'{version}' is not MAJOR.MINOR.PATCH")
