@@ -140,8 +140,9 @@ def main():
     if shown:
         lines += ["| File | Action | Id | Now | After | Reason | Evidence | By |", "|---|---|---|---|---|---|---|---|"]
         for c, old, new in shown:
-            after = {"retire": "retired", "merge": f"merged into {c['replaced_by']} ({describe(new)})"}.get(
-                c["action"], describe(new))
+            after = {"retire": "retired", "merge": f"merged into {c['replaced_by']} ({describe(new)})",
+                     "add-wr": f"{describe(new)}, also written {c['new_lemma']}",
+                     "add-variant": f"lemma variant of {describe(new)}"}.get(c["action"], describe(new))
             lines.append(f"| {c.where} | {c['action']} | {c['ligre_id'] or 'new'} | {describe(old)} | {after} | "
                          f"{c['reason']} | {c['evidence']} | {c['submitted_by']} |")
         lines.append("")

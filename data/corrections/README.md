@@ -25,10 +25,10 @@ action	ligre_id	lemma	pos	gender	new_lemma	new_pos	new_gender	replaced_by	reason
 
 | Column | Content |
 |---|---|
-| `action` | `correct`, `add`, `merge` or `retire` (see below) |
+| `action` | `correct`, `add`, `merge`, `retire`, `add-wr` or `add-variant` (see below) |
 | `ligre_id` | the id of the lemma: the number in its IRI, e.g. `61173` for <https://w3id.org/ligre/data/id/lemma/61173>; empty for `add` |
 | `lemma`, `pos`, `gender` | the lemma as it is in LiGre now (after earlier corrections); empty for `add` |
-| `new_lemma`, `new_pos`, `new_gender` | the lemma as it should be; only for `correct` and `add` |
+| `new_lemma`, `new_pos`, `new_gender` | the lemma as it should be (`correct`, `add`); for `add-wr` only `new_lemma`, the written form to add; for `add-variant` the other lemma |
 | `replaced_by` | only for `merge`: the id of the lemma that replaces this one |
 | `reason` | why: one sentence |
 | `evidence` | where this can be checked: a URL (an issue, a dictionary entry such as LSJ, a corpus passage) or a reference |
@@ -47,6 +47,16 @@ for `NOUN` and `PROPN`, and empty for every other part of speech.
   label, as `owl:deprecated` with `dcterms:isReplacedBy`, and its written forms become written forms of
   `replaced_by`.
 - **`retire`**: a lemma that should not be in LiGre. Its IRI keeps resolving, with its label, as `owl:deprecated`.
+- **`add-wr`**: the lemma gets another written representation (`ontolex:writtenRep`), `new_lemma`: a spelling
+  that differs only in orthography and leaves the inflection unchanged (θάλασσα, θάλαττα). It keeps its id, label,
+  part of speech and gender.
+- **`add-variant`**: the lemma and the lemma in `new_lemma`, `new_pos`, `new_gender` become lemma variants
+  (`lila:lemmaVariant`): different inflected forms of the same word that resources use as lemma (γράφω,
+  γράφομαι). The other lemma must exist: add it in an earlier row if it is new. If either lemma already has lemma
+  variants, they all become variants of each other.
+
+The definitions of written representations and lemma variants follow Swaelens, Mambrini & Passarotti (2026),
+*From Lemmas to Links: A Lemma Bank for Ancient Greek* (LT4HALA).
 
 Ids are never reused and IRIs never disappear.
 
@@ -56,6 +66,9 @@ Ids are never reused and IRIs never disappear.
 action	ligre_id	lemma	pos	gender	new_lemma	new_pos	new_gender	replaced_by	reason	evidence	submitted_by
 correct	61173	ὁ	NOUN	m	ὁ	DET			the article is a determiner	https://github.com/ligre-lod/ligre_lemmabank/issues/1	Paulien Lemay
 add					α	NUM			letter numeral α (1), distinct from the letter name	PapyGreek–LiGre review	Paulien Lemay
+add-wr	9747	ἀπαλλάσσω	VERB		ἀπαλλάττω				Attic spelling, attested in the papyri	https://lsj.gr/wiki/ἀπαλλάσσω	Paulien Lemay
+add					ἀσφαλίζομαι	VERB			PapyGreek lemmatises the verb under the middle	https://lsj.gr/wiki/ἀσφαλίζω	Paulien Lemay
+add-variant	14541	ἀσφαλίζω	VERB		ἀσφαλίζομαι	VERB			active and middle of the same verb	https://lsj.gr/wiki/ἀσφαλίζω	Paulien Lemay
 ```
 
 ## Checks

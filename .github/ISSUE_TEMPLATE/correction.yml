@@ -17,6 +17,8 @@ body:
         - Add a missing lemma
         - Merge two lemmas that are the same
         - Remove a lemma that should not be in LiGre
+        - Add a spelling (written representation) to a lemma
+        - Link two lemmas as lemma variants (e.g. active and middle of a verb)
     validations:
       required: true
   - type: input
