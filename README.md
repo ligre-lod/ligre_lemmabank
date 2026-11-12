@@ -210,7 +210,7 @@ the LiLa corpus model.
 | `powla:Document` | `document`, `document_identifier`, `document_see_also` | `dc:title`; `dcterms:identifier` and `rdfs:seeAlso` (any number) |
 | `lila_corpus:CitationStructure` | `citation_structure` | `dc:title`, `dc:description`, `powla:hasDocument`, `lila_corpus:first`; `lila_corpus:isLayer` is the units without a parent |
 | `lila_corpus:citationUnit` | `citation_unit`, `unit_token` | `rdfs:label`, `lila_corpus:hasRefType`, `lila_corpus:hasCitLevel`, `lila_corpus:hasRefValue`, `lila_corpus:first`, `lila_corpus:last`, `powla:next`; `lila_corpus:hasCitSubUnit` becomes the parent of the sub-unit, `powla:hasChild` a row in `unit_token` |
-| `powla:Terminal` | `token`, `token_structure` | `powla:hasStringValue`, `rdfs:label`, `lila:hasLemma` (the lemma id), `powla:next`; `lila_corpus:hasCitStructure` is the structures of the units that contain the token |
+| `powla:Terminal` | `token`, `token_lemma`, `token_structure` | `powla:hasStringValue`, `rdfs:label`, `powla:next`; `lila:hasLemma` from `token_lemma`, one row per lemma, so a token can link to several lemmas (a crasis such as κοὐκ: καί and οὐ); `lila_corpus:hasCitStructure` is the structures of the units that contain the token |
 
 `powla:previous` is not stored: the mapping derives it from `powla:next`. The
 conversion refuses a dump it cannot store without loss:

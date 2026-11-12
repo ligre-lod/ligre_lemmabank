@@ -58,9 +58,14 @@ CREATE TABLE IF NOT EXISTS corpus.token (
   corpus_id text NOT NULL REFERENCES corpus.corpus (corpus_id) ON DELETE CASCADE,
   string_value text,
   label text,
-  id_lemma int,
   next_iri text,
   PRIMARY KEY (iri)
+);
+
+CREATE TABLE IF NOT EXISTS corpus.token_lemma (
+  token_iri text NOT NULL REFERENCES corpus.token (iri) ON DELETE CASCADE,
+  id_lemma int NOT NULL,
+  PRIMARY KEY (token_iri, id_lemma)
 );
 
 CREATE TABLE IF NOT EXISTS corpus.unit_token (
@@ -82,7 +87,7 @@ CREATE INDEX IF NOT EXISTS ix_citation_unit_structure ON corpus.citation_unit (s
 CREATE INDEX IF NOT EXISTS ix_citation_unit_parent ON corpus.citation_unit (parent_iri);
 CREATE INDEX IF NOT EXISTS ix_citation_unit_next ON corpus.citation_unit (next_iri);
 CREATE INDEX IF NOT EXISTS ix_token_corpus ON corpus.token (corpus_id);
-CREATE INDEX IF NOT EXISTS ix_token_lemma ON corpus.token (id_lemma);
+CREATE INDEX IF NOT EXISTS ix_token_lemma_lemma ON corpus.token_lemma (id_lemma);
 CREATE INDEX IF NOT EXISTS ix_token_next ON corpus.token (next_iri);
 CREATE INDEX IF NOT EXISTS ix_unit_token_token ON corpus.unit_token (token_iri);
 CREATE INDEX IF NOT EXISTS ix_token_structure_structure ON corpus.token_structure (structure_iri);
