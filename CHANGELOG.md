@@ -9,6 +9,8 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-12
+
 ### Added
 - Corrections: anyone can correct the lemmas with a pull request that adds a
   file to `data/corrections/` (one row per change: correct, add, merge or
@@ -115,7 +117,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.0.6...v0.1.0
