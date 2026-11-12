@@ -191,7 +191,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 190	ἀγαθοποίησις	NOUN	f	active	
 191	ἀγαθοποιία	NOUN	f	active	
 192	ἀγαθοποιός	ADJ	*	active	
-193	ἀγαθός	NOUN	n	active	
+193	ἀγαθός	ADJ	*	active	
 194	ἀγαθότης	NOUN	f	active	
 195	ἀγαθοτυχέω	VERB		active	
 196	ἀγαθουργέω	VERB		active	
@@ -405,7 +405,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 404	ἀγινέω	VERB		active	
 405	ἁγιολόγος	ADJ	*	active	
 406	ἁγιοποιέω	VERB		active	
-407	ἅγιος	NOUN	n	active	
+407	ἅγιος	ADJ	*	active	
 408	ἁγιότης	NOUN	f	active	
 409	ἁγισμός	NOUN	m	active	
 410	ἁγιστεία	NOUN	f	active	
@@ -2336,7 +2336,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 2335	αἰτιολογητέον	ADJ	*	active	
 2336	αἰτιολογία	NOUN	f	active	
 2337	αἰτιολογικός	ADJ	*	active	
-2338	αἴτιος	NOUN	m	active	
+2338	αἴτιος	ADJ	*	active	
 2339	αἰτιώδης	ADJ	*	active	
 2340	αἰτίωμα	NOUN	n	active	
 2341	αἰτιώνυμος	ADJ	*	active	
@@ -2788,7 +2788,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 2787	ἀκολλύβιστος	ADJ	*	active	
 2788	ἀκολόβωτος	ADJ	*	active	
 2789	ἄκολος	NOUN	f	active	
-2790	ἀκολουθέω	NOUN	m	active	
+2790	ἀκολουθέω	VERB		active	
 2791	ἀκολούθησις	NOUN	f	active	
 2792	ἀκολουθητέον	VERB		active	
 2793	ἀκολουθητικός	ADJ	*	active	
@@ -2841,7 +2841,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 2840	ἀκοπία	NOUN	f	active	
 2841	ἀκοπίαστος	ADJ	*	active	
 2842	ἀκοπίατος	ADJ	*	active	
-2843	ἄκοπος	NOUN	n	active	
+2843	ἄκοπος	ADJ	*	active	
 2844	ἀκόπριστος	ADJ	*	active	
 2845	ἄκοπρος	ADJ	*	active	
 2846	ἀκοπρώδης	ADJ	*	active	
@@ -3921,7 +3921,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 3920	ἄλοχος	NOUN	f	active	
 3921	ἀλόω	VERB		active	
 3922	ἄλπνιστος	ADJ	*	active	
-3923	ἅλς	ADJ	*	active	
+3923	ἅλς	NOUN	m	active	
 3924	Ἄλσειος	NOUN	m	active	
 3925	ἀλσίνη	NOUN	f	active	
 3926	ἅλσις	NOUN	f	active	
@@ -4058,8 +4058,8 @@ id_lemma	lemma	pos	gen	status	replaced_by
 4057	ἅλωσις	NOUN	f	active	
 4058	ἁλωτός	ADJ	*	active	
 4059	ἀλώφητος	ADJ	*	active	
-4060	ἅμα	ADJ	*	active	
-4061	ἅμα	PRON		active	
+4060	ἅμα	ADV		active	
+4061	ἅμα	PRON		retired	4060
 4062	ἁμαδέον	NOUN	n	active	
 4063	ἀμάδις	ADV		active	
 4064	Ἀμαζονομαχία	NOUN	f	active	
@@ -5251,7 +5251,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 5250	ἀναγκαίη	NOUN	f	active	
 5251	ἀναγκαῖον	NOUN	n	active	
 5252	ἀναγκαιοπότης	NOUN	m	active	
-5253	ἀναγκαῖος	NOUN	n	active	
+5253	ἀναγκαῖος	ADJ	*	active	
 5254	ἀναγκαιότης	NOUN	f	active	
 5255	ἀναγκαιώδης	ADJ	*	active	
 5256	ἀνάγκασμα	NOUN	n	active	
@@ -5861,7 +5861,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 5860	ἀναμικτέον	ADJ	*	active	
 5861	ἀναμίλλητος	ADJ	*	active	
 5862	ἀναμιμέομαι	VERB		active	
-5863	ἀναμιμνήσκω	NOUN	m	active	
+5863	ἀναμιμνήσκω	VERB		active	
 5864	ἀναμίμνω	VERB		active	
 5865	ἀναμινυρίζω	VERB		active	
 5866	ἀναμίξ	ADV		active	
@@ -6369,7 +6369,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 6368	ἀναστρατοπεδεύω	VERB		active	
 6369	ἀνάστρεμμα	NOUN	n	active	
 6370	ἀναστρεπτέον	VERB		active	
-6371	ἀναστρέφω	NOUN	n	active	
+6371	ἀναστρέφω	VERB		active	
 6372	ἀναστρολόγητος	ADJ	*	active	
 6373	ἄναστρος	ADJ	*	active	
 6374	ἀναστροφάδην	ADV		active	
@@ -7876,7 +7876,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 7875	ἀνομοιόω	VERB		active	
 7876	ἀνομοιώδης	ADJ	*	active	
 7877	ἀνομοίωσις	NOUN	f	active	
-7878	ἀνομολογέομαι	NOUN	n	active	
+7878	ἀνομολογέομαι	VERB		active	
 7879	ἀνομολογητέον	VERB		active	
 7880	ἀνομολόγητος	ADJ	*	active	
 7881	ἀνομολογία	NOUN	f	active	
@@ -8573,7 +8573,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 8572	ἀντικατηγορία	NOUN	f	active	
 8573	ἀντικάτημαι	VERB		active	
 8574	ἀντικατολισθαίνω	VERB		active	
-8575	ἀντίκειμαι	NOUN	m	active	
+8575	ἀντίκειμαι	VERB		active	
 8576	ἀντικέλευθος	ADJ	*	active	
 8577	ἀντικελεύω	VERB		active	
 8578	ἀντίκεντρον	NOUN	n	active	
@@ -9829,7 +9829,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 9828	ἀπανθρωπέομαι	VERB		active	
 9829	ἀπανθρωπία	NOUN	f	active	
 9830	ἀπανθρωπίζομαι	VERB		active	
-9831	ἀπάνθρωπος	NOUN	n	active	
+9831	ἀπάνθρωπος	ADJ	*	active	
 9832	ἀπανίστημι	VERB		active	
 9833	ἀπάνουργος	ADV		active	
 9834	ἁπανταχῆ	ADV		active	
@@ -11255,7 +11255,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 11254	ἀπολάκτισμα	NOUN	n	active	
 11255	ἀπολακτισμός	NOUN	m	active	
 11256	ἀπολαλέω	VERB		active	
-11257	ἀπολαμβάνω	NOUN	f	active	
+11257	ἀπολαμβάνω	VERB		active	
 11258	ἀπολαμπρύνω	VERB		active	
 11259	ἀπολάμπω	VERB		active	
 11260	ἀπόλαμψις	NOUN	f	active	
@@ -11941,7 +11941,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 11940	ἀποσπασμός	NOUN	m	active	
 11941	ἀποσπαστέον	ADJ	*	active	
 11942	ἀπόσπαστος	ADJ	*	active	
-11943	ἀποσπάω	NOUN	m	active	
+11943	ἀποσπάω	VERB		active	
 11944	ἀποσπείρω	VERB		active	
 11945	ἀποσπένδω	VERB		active	
 11946	ἀποσπερμαίνω	VERB		active	
@@ -12130,7 +12130,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 12129	ἀποτακτέον	ADJ	*	active	
 12130	ἀποτακτήρ	NOUN	m	active	
 12131	ἀποτακτικός	NOUN	m	active	
-12132	ἀπότακτος	NOUN	n	active	
+12132	ἀπότακτος	ADJ	*	active	
 12133	ἀποταμία	NOUN	f	active	
 12134	ἀποταμιεύομαι	VERB		active	
 12135	ἀποτάμνω	VERB		active	
@@ -12721,8 +12721,8 @@ id_lemma	lemma	pos	gen	status	replaced_by
 12720	ἄπωτος	ADJ	*	active	
 12721	ἀπωχραίνω	VERB		active	
 12722	ἄρ	PART		active	
-12723	ἄρα	ADJ	*	active	
-12724	ἆρα	PRON		active	
+12723	ἄρα	PART		active	
+12724	ἆρα	PART		active	
 12725	ἀρά	NOUN	f	active	
 12726	Ἀραβαρχία	NOUN	f	active	
 12727	ἀραβέω	VERB		active	
@@ -12852,7 +12852,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 12851	Ἀργοναύτης	NOUN	m	active	
 12852	ἀργοποιός	ADJ	*	active	
 12853	ἀργόπρακτος	ADJ	*	active	
-12854	ἀργός	NOUN	m	active	
+12854	ἀργός	ADJ	*	active	
 12855	ἀργυράγχη	NOUN	f	active	
 12856	ἀργυραμοιβικός	ADJ	*	active	
 12857	ἀργυραμοιβός	NOUN	m	active	
@@ -13034,7 +13034,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 13033	ἀρίθμησις	NOUN	f	active	
 13034	ἀριθμητέος	ADJ	*	active	
 13035	ἀριθμητής	NOUN	m	active	
-13036	ἀριθμητικός	NOUN	n	active	
+13036	ἀριθμητικός	ADJ	*	active	
 13037	ἀριθμητός	ADJ	*	active	
 13038	ἀρίθμιος	NOUN	n	active	
 13039	ἀριθμός	NOUN	m	active	
@@ -13063,7 +13063,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 13062	ἀριστερεών	NOUN	f	active	
 13063	ἀριστερομάχος	ADJ	*	active	
 13064	ἀριστερόπηρος	ADJ	*	active	
-13065	ἀριστερός	NOUN	f	active	
+13065	ἀριστερός	ADJ	*	active	
 13066	ἀριστεροστάτης	NOUN	m	active	
 13067	ἀριστερόχειρ	NOUN	m	active	
 13068	ἀρίστευμα	NOUN	n	active	
@@ -13670,7 +13670,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 13669	ἀρχαιοπινής	ADJ	*	active	
 13670	ἀρχαιόπλουτος	ADJ	*	active	
 13671	ἀρχαιοπρεπής	ADJ	*	active	
-13672	ἀρχαῖος	NOUN	f	active	
+13672	ἀρχαῖος	ADJ	*	active	
 13673	ἀρχαιότης	NOUN	f	active	
 13674	ἀρχαιοτροπία	NOUN	f	active	
 13675	ἀρχαιότροπος	ADJ	*	active	
@@ -13925,7 +13925,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 13924	ἀσήμαντρος	ADJ	*	active	
 13925	ἀσημείωτος	ADJ	*	active	
 13926	ἀσημοκλέπτης	NOUN	m	active	
-13927	ἄσημος	NOUN	m	active	
+13927	ἄσημος	ADJ	*	active	
 13928	ἀσήμων	ADJ	*	active	
 13929	ἀσημωνία	NOUN	f	active	
 13930	ἄσηπτος	ADJ	*	active	
@@ -14441,7 +14441,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 14440	ἀσυλληψία	NOUN	f	active	
 14441	ἀσυλλογιστία	NOUN	f	active	
 14442	ἀσυλλόγιστος	ADJ	*	active	
-14443	ἄσυλος	NOUN	n	active	
+14443	ἄσυλος	ADJ	*	active	
 14444	ἀσύμβαμα	NOUN	n	active	
 14445	ἀσύμβατος	ADJ	*	active	
 14446	ἀσύμβλητος	ADJ	*	active	
@@ -14538,7 +14538,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 14537	ἀσφάλαξ	NOUN	m	active	
 14538	ἀσφάλεια	NOUN	f	active	
 14539	ἀσφάλειος	ADJ	*	active	
-14540	ἀσφαλής	NOUN	n	active	
+14540	ἀσφαλής	ADJ	*	active	
 14541	ἀσφαλίζω	VERB		active	
 14542	ἀσφάλισμα	NOUN	n	active	
 14543	ἀσφαλιστός	ADJ	*	active	
@@ -15052,7 +15052,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 15051	αὐλωπός	NOUN	m	active	
 15052	αὐλωτός	ADJ	*	active	
 15053	αὐνή	NOUN	f	active	
-15054	αὐξάνω	NOUN	f	active	
+15054	αὐξάνω	VERB		active	
 15055	αὔξη	NOUN	f	active	
 15056	αὔξημα	NOUN	n	active	
 15057	αὐξηρός	ADJ	*	active	
@@ -16760,7 +16760,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 16759	βασιλεύω	VERB		active	
 16760	βασίλη	NOUN	f	active	
 16761	βασιλίζω	VERB		active	
-16762	βασιλικός	NOUN	f	active	
+16762	βασιλικός	ADJ	*	active	
 16763	βασιλίνδα	ADV		active	
 16764	βασιλίς	NOUN	f	active	
 16765	βασιλίσκος	NOUN	m	active	
@@ -18297,7 +18297,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 18296	γαμητέον	ADJ	*	active	
 18297	γαμητικῶς	ADV		active	
 18298	γαμίζω	VERB		active	
-18299	γαμικός	NOUN	n	active	
+18299	γαμικός	ADJ	*	active	
 18300	Γαμίλιος	NOUN	m	active	
 18301	γαμίσκω	VERB		active	
 18302	γάμμα	NOUN	n	active	
@@ -19457,7 +19457,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 19456	γυναικάνηρ	NOUN	m	active	
 19457	γυναικάνθη	NOUN	f	active	
 19458	γυναικάριον	NOUN	n	active	
-19459	γυναικεῖος	NOUN	n	active	
+19459	γυναικεῖος	ADJ	*	active	
 19460	γυναικεραστέω	NOUN	m	active	
 19461	γυναικήιος	ADJ	*	active	
 19462	γυναικηρός	ADJ	*	active	
@@ -19925,7 +19925,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 19924	δέησις	NOUN	f	active	
 19925	δεητέον	ADJ	*	active	
 19926	δεητικός	ADJ	*	active	
-19927	δεῖ	NOUN	n	active	
+19927	δεῖ	VERB		active	
 19928	δεῖγμα	NOUN	n	active	
 19929	δειγματίζω	VERB		active	
 19930	δειγματισμός	NOUN	m	active	
@@ -19985,7 +19985,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 19984	δειματώδης	ADJ	*	active	
 19985	δειμάτωσις	NOUN	f	active	
 19986	δειμός	NOUN	m	active	
-19987	δεῖνα	NOUN	m	active	
+19987	δεῖνα	PRON		active	
 19988	δεινάζω	VERB		active	
 19989	δειναυξῆσαι	VERB		active	
 19990	δεινιάς	NOUN	f	active	
@@ -20156,7 +20156,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 20155	δεκατημόριον	NOUN	n	active	
 20156	δεκατηφόρος	ADJ	*	active	
 20157	δεκατισμός	NOUN	m	active	
-20158	δέκατος	NOUN	f	active	
+20158	δέκατος	ADJ	*	active	
 20159	δεκατόσπορος	ADJ	*	active	
 20160	δεκατόω	VERB		active	
 20161	δεκατώνης	NOUN	m	active	
@@ -20446,7 +20446,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 20445	δευτεροπάθεια	NOUN	f	active	
 20446	δευτερόποτμος	ADJ	*	active	
 20447	δευτερόπρωτον	NOUN	n	active	
-20448	δεύτερος	NUM		active	
+20448	δεύτερος	ADJ	*	active	
 20449	δευτεροστάτης	NOUN	m	active	
 20450	δευτεροστολιστής	NOUN	m	active	
 20451	δευτεροταγής	ADJ	*	active	
@@ -20504,7 +20504,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 20503	Δήλιος	NOUN	m	active	
 20504	Δηλογενής	ADJ	*	active	
 20505	δήλομαι	VERB		active	
-20506	δηλονότι	VERB		active	
+20506	δηλονότι	ADV		active	
 20507	Δηλόπτης	NOUN	m	active	
 20508	Δῆλος	NOUN	f	active	
 20509	δῆλος	ADJ	*	active	
@@ -20597,7 +20597,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 20596	δημοσίᾳ	ADV		active	
 20597	δημοσιεύω	VERB		active	
 20598	δημοσιόπρακτος	ADJ	*	active	
-20599	δημόσιος	NOUN	m	active	
+20599	δημόσιος	ADJ	*	active	
 20600	δημοσιουργία	NOUN	f	active	
 20601	δημοσιοφύλαξ	NOUN	m	active	
 20602	δημοσιόω	VERB		active	
@@ -22415,7 +22415,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 22414	διδράσκω	VERB		active	
 22415	διδραχμία	NOUN	f	active	
 22416	διδραχμιαῖος	ADJ	*	active	
-22417	δίδραχμος	NOUN	n	active	
+22417	δίδραχμος	ADJ	*	active	
 22418	διδυμαῖον	NOUN	n	active	
 22419	Διδυμαῖος	NOUN	m	active	
 22420	διδυμάνωρ	NOUN	m	active	
@@ -22450,7 +22450,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 22449	διέδην	ADV		active	
 22450	διεδρεία	NOUN	f	active	
 22451	διέδριον	NOUN	n	active	
-22452	δίεδρος	NOUN	n	active	
+22452	δίεδρος	ADJ	*	active	
 22453	διεζευγμένως	ADV		active	
 22454	διεθίζω	VERB		active	
 22455	διειδής	ADJ	*	active	
@@ -22981,7 +22981,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 22980	διμέτωπος	ADJ	*	active	
 22981	διμηνία	NOUN	f	active	
 22982	διμηνιαῖος	ADJ	*	active	
-22983	δίμηνος	NOUN	f	active	
+22983	δίμηνος	ADJ	*	active	
 22984	διμήτωρ	NOUN	m	active	
 22985	δίμιτος	ADJ	*	active	
 22986	δίμιτρος	ADJ	*	active	
@@ -23232,7 +23232,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 23231	διπλασιολογία	NOUN	f	active	
 23232	διπλασιόομαι	VERB		active	
 23233	διπλασιόπλευρος	ADJ	*	active	
-23234	διπλάσιος	NOUN	n	active	
+23234	διπλάσιος	ADJ	*	active	
 23235	διπλασίων	ADJ	*	active	
 23236	διπλασμός	NOUN	m	active	
 23237	διπλεθρία	NOUN	f	active	
@@ -23252,7 +23252,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 23251	διπλοϊσότης	NOUN	f	active	
 23252	διπλοκάριος	NOUN	m	active	
 23253	διπλοκεράμιον	NOUN	n	active	
-23254	διπλόος	NOUN	n	active	
+23254	διπλόος	ADJ	*	active	
 23255	διπλός	ADJ	*	active	
 23256	διπλοσήμαντος	ADJ	*	active	
 23257	διπλόω	VERB		active	
@@ -23269,7 +23269,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 23268	δίπορος	ADJ	*	active	
 23269	διπόταμος	ADJ	*	active	
 23270	δίπους	NOUN	m	active	
-23271	διπρόσωπος	NOUN	f	active	
+23271	διπρόσωπος	ADJ	*	active	
 23272	δίπρυμνος	ADJ	*	active	
 23273	δίπρῳρος	ADJ	*	active	
 23274	δίπτερος	ADJ	*	active	
@@ -23456,8 +23456,8 @@ id_lemma	lemma	pos	gen	status	replaced_by
 23455	διφρυγής	NOUN	n	active	
 23456	διφυής	ADJ	*	active	
 23457	δίφωνος	ADJ	*	active	
-23458	δίχα	ADJ	*	active	
-23459	δίχα	PRON		active	
+23458	δίχα	ADV		active	
+23459	δίχα	PRON		retired	23458
 23460	διχάδε	ADV		active	
 23461	διχάζω	VERB		active	
 23462	διχαίω	VERB		active	
@@ -25252,7 +25252,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 25251	δυτῖνος	NOUN	m	active	
 25252	δύω	VERB		active	
 25253	δυωβολιαῖος	ADJ	*	active	
-25254	δυώδεκα	ADJ	*	active	
+25254	δυώδεκα	NUM		active	
 25255	δυωδεκαδικός	ADJ	*	active	
 25256	δυωδεκάδρομος	ADJ	*	active	
 25257	δυωδεκάμοιρος	ADJ	*	active	
@@ -25311,7 +25311,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 25310	δωδεκαταῖος	ADJ	*	active	
 25311	δωδεκατημόριον	NOUN	n	active	
 25312	δωδεκατημόριος	ADJ	*	active	
-25313	δωδέκατος	NOUN	f	active	
+25313	δωδέκατος	ADJ	*	active	
 25314	δωδεκάτροπος	NOUN	f	active	
 25315	δωδεκαφόρος	ADJ	*	active	
 25316	δωδεκάφυλλος	ADJ	*	active	
@@ -25502,7 +25502,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 25501	Ἐγγόνασιν	NOUN	m	active	
 25502	ἔγγονος	NOUN	m	active	
 25503	ἐγγράμματος	ADJ	*	active	
-25504	ἔγγραπτος	NOUN	n	active	
+25504	ἔγγραπτος	ADJ	*	active	
 25505	ἐγγραφεύς	NOUN	m	active	
 25506	ἐγγραφή	NOUN	f	active	
 25507	ἔγγραφος	ADJ	*	active	
@@ -25915,7 +25915,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 25914	ἐγκύκληθρον	NOUN	n	active	
 25915	ἐγκύκλημα	NOUN	n	active	
 25916	ἐγκυκλίζω	VERB		active	
-25917	ἐγκύκλιος	NOUN	n	active	
+25917	ἐγκύκλιος	ADJ	*	active	
 25918	ἔγκυκλος	NOUN	n	active	
 25919	ἐγκυκλόω	VERB		active	
 25920	ἐγκύκλωσις	NOUN	f	active	
@@ -26202,7 +26202,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 26201	ἐθνάρχης	NOUN	m	active	
 26202	ἐθναρχία	NOUN	f	active	
 26203	ἐθνηδόν	ADV		active	
-26204	ἐθνικός	NOUN	m	active	
+26204	ἐθνικός	ADJ	*	active	
 26205	ἐθνίτης	NOUN	m	active	
 26206	ἔθνος	NOUN	n	active	
 26207	ἔθος	NOUN	n	active	
@@ -26343,7 +26343,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 26342	εἰκοσέτης	NOUN	m	active	
 26343	εἰκοσήρης	ADJ	*	active	
 26344	εἴκοσι	NUM		active	
-26345	εἰκοσιδύω	VERB		active	
+26345	εἰκοσιδύω	NUM		active	
 26346	εἰκοσίεδρος	ADJ	*	active	
 26347	εἰκοσιεκταῖος	ADJ	*	active	
 26348	εἰκοσιεπταετής	NOUN	m	active	
@@ -26367,7 +26367,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 26366	εἰκοστολόγος	NOUN	m	active	
 26367	εἰκοστόπεμπτος	ADJ	*	active	
 26368	εἰκοστόπρωτος	ADJ	*	active	
-26369	εἰκοστός	NOUN	f	active	
+26369	εἰκοστός	ADJ	*	active	
 26370	εἰκοστοτέταρτος	ADJ	*	active	
 26371	εἰκοστώνης	NOUN	m	active	
 26372	εἰκοσώρυγος	ADJ	*	active	
@@ -26518,7 +26518,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 26517	εἰρωνικός	ADJ	*	active	
 26518	εἰρωτάω	VERB		active	
 26519	εἰς	ADP		active	
-26520	εἷς	NOUN	n	active	
+26520	εἷς	NUM		active	
 26521	εἰσάγαν	ADV		active	
 26522	εἰσαγγελεύς	NOUN	m	active	
 26523	εἰσαγγελία	NOUN	f	active	
@@ -28168,7 +28168,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 28167	ἐκτορμέω	VERB		active	
 28168	ἐκτορνεύω	VERB		active	
 28169	ἔκτορνος	ADJ	*	active	
-28170	ἕκτος	NOUN	m	active	
+28170	ἕκτος	ADJ	*	active	
 28171	ἑκτός	ADJ	*	active	
 28172	ἐκτός	ADP		active	
 28173	ἐκτός	ADV		active	
@@ -28646,7 +28646,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 28645	ἐλευθεροπρασίου	NOUN	f	active	
 28646	ἐλευθεροπρέπεια	NOUN	f	active	
 28647	ἐλευθεροπρεπής	ADJ	*	active	
-28648	ἐλεύθερος	NOUN	f	active	
+28648	ἐλεύθερος	ADJ	*	active	
 28649	ἐλευθεροστομέω	VERB		active	
 28650	ἐλευθεροστομία	NOUN	f	active	
 28651	ἐλευθερόστομος	ADJ	*	active	
@@ -28812,7 +28812,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 28811	ἔλλειμμα	NOUN	n	active	
 28812	ἐλλειπόντως	ADV		active	
 28813	ἐλλειπτικός	ADJ	*	active	
-28814	ἐλλείπω	NOUN	m	active	
+28814	ἐλλείπω	VERB		active	
 28815	ἐλλείχω	VERB		active	
 28816	ἔλλειψις	NOUN	f	active	
 28817	ἔλλεσχος	ADJ	*	active	
@@ -28821,7 +28821,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 28820	Ἕλλην	NOUN	m	active	
 28821	Ἑλληνάρχης	NOUN	m	active	
 28822	ἑλληνίζω	VERB		active	
-28823	Ἑλληνικός	NOUN	f	active	
+28823	Ἑλληνικός	ADJ	*	active	
 28824	Ἑλλήνιος	NOUN	n	active	
 28825	Ἑλληνίς	NOUN	f	active	
 28826	Ἑλληνισμός	NOUN	m	active	
@@ -29575,7 +29575,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 29574	ἔμψυχρος	ADJ	*	active	
 29575	ἐμψύχω	VERB		active	
 29576	ἐμψύχωσις	NOUN	f	active	
-29577	ἐν	NOUN	m	active	
+29577	ἐν	ADP		active	
 29578	ἐναβρύνομαι	VERB		active	
 29579	ἐνάγαμαι	VERB		active	
 29580	ἐναγγειόσπερμος	ADJ	*	active	
@@ -29959,7 +29959,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 29958	ἑνδεκάς	NOUN	f	active	
 29959	ἑνδεκασύλλαβος	ADJ	*	active	
 29960	ἑνδεκαταῖος	ADJ	*	active	
-29961	ἑνδέκατος	NOUN	f	active	
+29961	ἑνδέκατος	ADJ	*	active	
 29962	ἑνδεκάχορδος	ADJ	*	active	
 29963	ἑνδεκέτης	ADJ	*	active	
 29964	ἑνδεκήρης	ADJ	*	active	
@@ -30482,7 +30482,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 30481	ἐνναυλοχέομαι	VERB		active	
 30482	ἐνναυμαχέω	VERB		active	
 30483	ἐνναυπηγέομαι	VERB		active	
-30484	ἐννέα	ADJ	*	active	
+30484	ἐννέα	NUM		active	
 30485	ἐννεάβοιος	ADJ	*	active	
 30486	ἐννεάγηρα	ADJ	*	active	
 30487	ἐννεαγράμματον	NOUN	n	active	
@@ -30912,7 +30912,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 30911	ἐντολή	NOUN	f	active	
 30912	ἐντολίδιον	NOUN	n	active	
 30913	ἐντολικάριος	NOUN	m	active	
-30914	ἐντολικός	NOUN	n	active	
+30914	ἐντολικός	ADJ	*	active	
 30915	ἐντόλιος	NOUN	m	active	
 30916	ἐντολμάομαι	VERB		active	
 30917	ἐντομή	NOUN	f	active	
@@ -30931,8 +30931,8 @@ id_lemma	lemma	pos	gen	status	replaced_by
 30930	ἐντορνία	NOUN	f	active	
 30931	ἔντορνος	ADJ	*	active	
 30932	ἔντος	NOUN	n	active	
-30933	ἐντός	PRON		active	
-30934	ἐντός	VERB		active	
+30933	ἐντός	ADV		active	
+30934	ἐντός	VERB		retired	30933
 30935	ἔντοσθε	ADV		active	
 30936	ἐντόσθιος	ADJ	*	active	
 30937	ἐντότερος	ADJ	*	active	
@@ -31078,7 +31078,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 31077	ἐνώτισις	NOUN	f	active	
 31078	ἐνωτοκοίτης	NOUN	m	active	
 31079	ἔνωχρος	ADJ	*	active	
-31080	ἕξ	NOUN	n	active	
+31080	ἕξ	NUM		active	
 31081	ἑξάβιβλος	ADJ	*	active	
 31082	ἑξάβραχυς	ADJ	*	active	
 31083	ἐξαβρύνω	VERB		active	
@@ -31721,7 +31721,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 31720	ἐξέσθω	VERB		active	
 31721	ἐξεσία	NOUN	f	active	
 31722	ἔξεσις	NOUN	f	active	
-31723	ἔξεστι	ADJ	*	active	
+31723	ἔξεστι	VERB		active	
 31724	ἔξεστις	NOUN	f	active	
 31725	ἐξετάζω	VERB		active	
 31726	ἐξετασία	NOUN	f	active	
@@ -35387,7 +35387,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 35386	ἐπιτιμία	NOUN	f	active	
 35387	ἐπιτίμιον	NOUN	n	active	
 35388	ἐπιτίμιος	ADJ	*	active	
-35389	ἐπίτιμος	NOUN	n	active	
+35389	ἐπίτιμος	ADJ	*	active	
 35390	ἐπιτίνω	VERB		active	
 35391	ἐπιτίτθιος	NOUN	m	active	
 35392	ἐπιτιτράω	VERB		active	
@@ -35497,7 +35497,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 35496	ἐπιφαύσκω	VERB		active	
 35497	ἐπιφέρβομαι	VERB		active	
 35498	ἐπιφερής	ADJ	*	active	
-35499	ἐπιφέρω	NOUN	m	active	
+35499	ἐπιφέρω	VERB		active	
 35500	ἐπίφευκτος	ADJ	*	active	
 35501	ἐπίφημι	VERB		active	
 35502	ἐπιφημίζω	VERB		active	
@@ -35925,7 +35925,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 35924	ἑπταμερής	ADJ	*	active	
 35925	ἑπταμέριον	NOUN	n	active	
 35926	ἑπταμηνιαῖος	ADJ	*	active	
-35927	ἑπτάμηνος	NOUN	f	active	
+35927	ἑπτάμηνος	ADJ	*	active	
 35928	ἑπταμήτωρ	NOUN	f	active	
 35929	ἑπτάμιτος	ADJ	*	active	
 35930	ἑπταμναῖος	ADJ	*	active	
@@ -36258,7 +36258,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 36257	ἐρημοπλάνος	ADJ	*	active	
 36258	ἐρημοποιός	ADJ	*	active	
 36259	ἐρημοπολέω	VERB		active	
-36260	ἐρῆμος	NOUN	f	active	
+36260	ἐρῆμος	ADJ	*	active	
 36261	ἐρημοσκόπος	NOUN	m	active	
 36262	ἐρημοσύνη	NOUN	f	active	
 36263	ἐρημοτελωνία	NOUN	f	active	
@@ -36758,7 +36758,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 36757	ἐσχατιώτης	NOUN	m	active	
 36758	ἐσχατόγηρως	NOUN	m	active	
 36759	ἐσχατοκόλλιον	NOUN	n	active	
-36760	ἔσχατος	NOUN	f	active	
+36760	ἔσχατος	ADJ	*	active	
 36761	ἐσχηματισμένως	ADV		active	
 36762	ἔσω	ADP		active	
 36763	ἔσωθεν	ADV		active	
@@ -37684,7 +37684,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 37683	εὐθύρριζος	ADJ	*	active	
 37684	εὐθύρριν	NOUN	m	active	
 37685	εὔθυρσος	ADJ	*	active	
-37686	εὐθύς	NOUN	f	active	
+37686	εὐθύς	ADJ	*	active	
 37687	εὐθυσία	NOUN	f	active	
 37688	εὐθυσκόλιος	ADJ	*	active	
 37689	εὐθυσκοπέω	VERB		active	
@@ -39309,7 +39309,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 39308	ἐχθρόξενος	ADJ	*	active	
 39309	ἐχθροποιέω	VERB		active	
 39310	ἐχθροποιός	ADJ	*	active	
-39311	ἐχθρός	NOUN	m	active	
+39311	ἐχθρός	ADJ	*	active	
 39312	ἐχθρόφρων	ADJ	*	active	
 39313	ἐχθρωδέω	VERB		active	
 39314	ἐχθρώδης	ADJ	*	active	
@@ -39831,7 +39831,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 39830	ἡγεμόνιος	ADJ	*	active	
 39831	ἡγεμονίς	NOUN	f	active	
 39832	ἡγεμών	NOUN	m	active	
-39833	ἡγέομαι	NOUN	n	active	
+39833	ἡγέομαι	VERB		active	
 39834	ἠγερέθομαι	VERB		active	
 39835	ἤγερθεν	ADV		active	
 39836	ἡγεσία	NOUN	f	active	
@@ -39864,7 +39864,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 39863	ἡδονικός	ADJ	*	active	
 39864	ἡδονοκρασία	NOUN	f	active	
 39865	ἦδος	NOUN	n	active	
-39866	ὅς	NOUN	m	active	
+39866	ὅς	PRON		active	
 39867	ἡδοσύνη	NOUN	f	active	
 39868	ἡδύβιος	ADJ	*	active	
 39869	ἡδυβόης	NOUN	m	active	
@@ -40402,7 +40402,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 40401	ἡμισύδουλος	NOUN	m	active	
 40402	ἡμισύθλαστος	ADJ	*	active	
 40403	ἡμισύνθεσις	NOUN	f	active	
-40404	ἥμισυς	NOUN	n	active	
+40404	ἥμισυς	ADJ	*	active	
 40405	ἡμισύτριτον	NOUN	n	active	
 40406	ἡμισυχοῖνιξ	NOUN	f	active	
 40407	ἡμισφαγής	ADJ	*	active	
@@ -41018,7 +41018,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 41017	θειοπαγής	ADJ	*	active	
 41018	θειοπόλος	NOUN	m	active	
 41019	θειοπρόπος	NOUN	m	active	
-41020	θεῖος	NOUN	n	active	
+41020	θεῖος	ADJ	*	active	
 41021	θεῖος	NOUN	m	active	
 41022	θειότης	NOUN	f	active	
 41023	θειοφανής	ADJ	*	active	
@@ -42441,7 +42441,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 42440	ἰατρευτικός	ADJ	*	active	
 42441	ἰατρεύω	VERB		active	
 42442	ἰάτρια	NOUN	f	active	
-42443	ἰατρικός	NOUN	n	active	
+42443	ἰατρικός	ADJ	*	active	
 42444	ἰατρίνη	NOUN	f	active	
 42445	ἰατροκλύστης	NOUN	m	active	
 42446	ἰατρολογέω	VERB		active	
@@ -43568,7 +43568,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 43567	ἰσορροπία	NOUN	f	active	
 43568	ἰσόρροπος	ADJ	*	active	
 43569	ἰσόρυθμος	ADJ	*	active	
-43570	ἴσος	NOUN	n	active	
+43570	ἴσος	ADJ	*	active	
 43571	ἰσοσθένεια	NOUN	f	active	
 43572	ἰσοσθενέω	VERB		active	
 43573	ἰσοσθενής	ADJ	*	active	
@@ -43962,7 +43962,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 43961	καθαιρετικός	ADJ	*	active	
 43962	καθαιρετός	ADJ	*	active	
 43963	καθαιρέω	VERB		active	
-43964	καθαίρω	NOUN	m	active	
+43964	καθαίρω	VERB		active	
 43965	καθάλλομαι	VERB		active	
 43966	καθαλμάω	VERB		active	
 43967	καθαλμής	ADJ	*	active	
@@ -43998,7 +43998,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 43997	καθαρμός	NOUN	m	active	
 43998	καθάρμοσις	NOUN	f	active	
 43999	καθαρολογέω	VERB		active	
-44000	καθαροποιέω	NOUN	f	active	
+44000	καθαροποιέω	VERB		active	
 44001	καθαρός	ADJ	*	active	
 44002	καθαρότης	NOUN	f	active	
 44003	καθαρουργεῖον	NOUN	n	active	
@@ -44545,7 +44545,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 44544	κακόρρυγχος	ADJ	*	active	
 44545	κακόρρυθμος	ADJ	*	active	
 44546	κακόρρυπος	ADJ	*	active	
-44547	κακός	NOUN	n	active	
+44547	κακός	ADJ	*	active	
 44548	κακόσημος	ADJ	*	active	
 44549	κακόσινος	ADJ	*	active	
 44550	κακοσιτία	NOUN	f	active	
@@ -45247,7 +45247,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 45246	καπίθη	NOUN	f	active	
 45247	καπίστριον	NOUN	n	active	
 45248	καπναύγης	NOUN	m	active	
-45249	κάπνειος	NOUN	f	active	
+45249	κάπνειος	ADJ	*	active	
 45250	καπνείω	VERB		active	
 45251	καπνέλαιον	NOUN	n	active	
 45252	κάπνη	NOUN	f	active	
@@ -45794,7 +45794,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 45793	καταγυψόω	VERB		active	
 45794	κατάγχουσα	NOUN	f	active	
 45795	κατάγχω	VERB		active	
-45796	κατάγω	NOUN	f	active	
+45796	κατάγω	VERB		active	
 45797	καταγωγεύς	NOUN	m	active	
 45798	καταγωγή	NOUN	f	active	
 45799	καταγώγιμον	NOUN	n	active	
@@ -50003,7 +50003,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 50002	κολοβομάχη	NOUN	f	active	
 50003	κολοβόριν	NOUN	m	active	
 50004	κολοβόρινος	ADJ	*	active	
-50005	κολοβός	NOUN	n	active	
+50005	κολοβός	ADJ	*	active	
 50006	κολοβόσταχυς	ADJ	*	active	
 50007	κολοβότης	NOUN	f	active	
 50008	κολοβοῦρος	ADJ	*	active	
@@ -50560,7 +50560,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 50559	κοσμίζω	VERB		active	
 50560	κοσμικός	ADJ	*	active	
 50561	κόσμιον	NOUN	n	active	
-50562	κόσμιος	NOUN	m	active	
+50562	κόσμιος	ADJ	*	active	
 50563	κοσμιότης	NOUN	f	active	
 50564	κοσμογένεια	NOUN	f	active	
 50565	κοσμογονία	NOUN	f	active	
@@ -51986,7 +51986,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 51985	κύρημα	NOUN	n	active	
 51986	Κυρήνη	NOUN	f	active	
 51987	κυρία	NOUN	f	active	
-51988	κυριακός	NOUN	f	active	
+51988	κυριακός	ADJ	*	active	
 51989	κυριεία	NOUN	f	active	
 51990	κυριευτικός	ADJ	*	active	
 51991	κυριεύω	VERB		active	
@@ -53182,7 +53182,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 53181	λεπτόραμφος	ADJ	*	active	
 53182	λεπτόρριζος	ADJ	*	active	
 53183	λεπτόρρυτος	ADJ	*	active	
-53184	λεπτός	NOUN	n	active	
+53184	λεπτός	ADJ	*	active	
 53185	λεπτόσαρκος	ADJ	*	active	
 53186	λεπτοσίνιον	NOUN	n	active	
 53187	λεπτοσκελής	ADJ	*	active	
@@ -53350,7 +53350,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 53349	λευκόρυγχος	ADJ	*	active	
 53350	λεῦκος	NOUN	m	active	
 53351	Λεῦκος	NOUN	m	active	
-53352	λευκός	NOUN	f	active	
+53352	λευκός	ADJ	*	active	
 53353	λευκόσαρκος	ADJ	*	active	
 53354	λευκόσπανος	ADJ	*	active	
 53355	λευκόστερνος	ADJ	*	active	
@@ -54993,7 +54993,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 54992	μακρορριζία	NOUN	f	active	
 54993	μακρόρριζος	ADJ	*	active	
 54994	μακρόρρυγχος	ADJ	*	active	
-54995	μακρός	NOUN	f	active	
+54995	μακρός	ADJ	*	active	
 54996	μάκρος	NOUN	n	active	
 54997	μακρόσημος	ADJ	*	active	
 54998	μακροσκελής	ADJ	*	active	
@@ -56070,7 +56070,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 56069	μελανώδης	ADJ	*	active	
 56070	μελανῶπις	NOUN	f	active	
 56071	μελάρρινος	ADJ	*	active	
-56072	μέλας	NOUN	f	active	
+56072	μέλας	ADJ	*	active	
 56073	μέλασμα	NOUN	n	active	
 56074	μελασμός	NOUN	m	active	
 56075	μέλδω	VERB		active	
@@ -57260,7 +57260,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 57259	μετωποσώφρων	ADJ	*	active	
 57260	μέχρι	ADP		active	
 57261	μέχριπερ	ADJ	*	active	
-57262	μή	SCONJ		active	
+57262	μή	ADV		active	
 57263	μὴ	ADV		active	
 57264	μὴ	VERB		active	
 57265	μηδαμά	ADV		active	
@@ -57393,7 +57393,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 57392	πολλάκις	ADV		active	
 57393	μήποτε	ADV		active	
 57394	που	ADV		active	
-57395	μήπω	VERB		active	
+57395	μήπω	ADV		active	
 57396	πώποτε	ADV		active	
 57397	μηριαῖος	ADJ	*	active	
 57398	μῆριγξ	NOUN	f	active	
@@ -58543,7 +58543,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 58542	μοσχάριον	NOUN	n	active	
 58543	μοσχάς	NOUN	f	active	
 58544	μοσχεία	NOUN	f	active	
-58545	μόσχειος	NOUN	n	active	
+58545	μόσχειος	ADJ	*	active	
 58546	μοσχέλαιον	NOUN	n	active	
 58547	μόσχευμα	NOUN	n	active	
 58548	μόσχευσις	NOUN	f	active	
@@ -59450,7 +59450,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 59449	ναυτία	NOUN	f	active	
 59450	ναυτιασμός	NOUN	m	active	
 59451	ναυτιάω	VERB		active	
-59452	ναυτικός	NOUN	m	active	
+59452	ναυτικός	ADJ	*	active	
 59453	ναυτιλία	NOUN	f	active	
 59454	ναυτίλλομαι	VERB		active	
 59455	ναυτίλος	NOUN	m	active	
@@ -59618,7 +59618,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 59617	νεκρόπολις	NOUN	f	active	
 59618	νεκροπομπός	ADJ	*	active	
 59619	νεκρορύκτης	NOUN	m	active	
-59620	νεκρός	NOUN	m	active	
+59620	νεκρός	ADJ	*	active	
 59621	νεκροστολέω	VERB		active	
 59622	νεκροστόλος	ADJ	*	active	
 59623	νεκροσυλία	NOUN	f	active	
@@ -60168,7 +60168,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 60167	νήριτος	ADJ	*	active	
 60168	νηριτοτρόφος	ADJ	*	active	
 60169	νηριτόφυλλος	ADJ	*	active	
-60170	νηρός	NOUN	n	active	
+60170	νηρός	ADJ	*	active	
 60171	νῆς	ADV		active	
 60172	νησαῖος	ADJ	*	active	
 60173	νησεύομαι	VERB		active	
@@ -60877,7 +60877,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 60876	ξενοπολίτης	NOUN	m	active	
 60877	ξενοπρεπής	ADJ	*	active	
 60878	ξενοπρόσωπος	ADV		active	
-60879	ξένος	NOUN	m	active	
+60879	ξένος	ADJ	*	active	
 60880	ξενοσσόος	ADJ	*	active	
 60881	ξενόστασις	NOUN	f	active	
 60882	ξενόστομος	ADJ	*	active	
@@ -60942,7 +60942,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 60941	ξηροποιός	ADJ	*	active	
 60942	ξηροπυρία	NOUN	f	active	
 60943	ξηροπυρίτας	NOUN	m	active	
-60944	ξηρός	NOUN	f	active	
+60944	ξηρός	ADJ	*	active	
 60945	ξηρόσαρκος	ADJ	*	active	
 60946	ξηροσμύρνη	NOUN	f	active	
 60947	ξηροτήγανον	NOUN	n	active	
@@ -61018,7 +61018,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61017	ξυλήφιον	NOUN	n	active	
 61018	ξυλίζομαι	VERB		active	
 61019	ξυλικός	NOUN	f	active	
-61020	ξύλινος	NOUN	n	active	
+61020	ξύλινος	ADJ	*	active	
 61021	ξύλιον	NOUN	n	active	
 61022	ξυλισμός	NOUN	m	active	
 61023	ξυλιστής	NOUN	m	active	
@@ -61171,7 +61171,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61170	ξυστρωτός	ADJ	*	active	
 61171	ξύφος	NOUN	n	active	
 61172	ξύω	VERB		active	
-61173	ὁ	NOUN	m	active	
+61173	ὁ	DET		active	
 61174	ὅ	NOUN	m	active	
 61175	ὄα	NOUN	f	active	
 61176	ὄαρ	NOUN	f	active	
@@ -61222,7 +61222,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61221	ὀγδοάς	NOUN	f	active	
 61222	ὀγδοατικός	ADJ	*	active	
 61223	ὀγδόατος	ADJ	*	active	
-61224	ὀγδοήκοντα	ADJ	*	active	
+61224	ὀγδοήκοντα	NUM		active	
 61225	ὀγδοηκοντάδραχμος	ADJ	*	active	
 61226	ὀγδοηκοντάλιθος	NOUN	m	active	
 61227	ὀγδοηκοντάπηχυς	ADJ	*	active	
@@ -61273,7 +61273,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61272	ὀδάξω	VERB		active	
 61273	ὀδαξώδης	ADJ	*	active	
 61274	ὁδάω	VERB		active	
-61275	ὅδε	NOUN	m	active	
+61275	ὅδε	DET		active	
 61276	ὁδεία	NOUN	f	active	
 61277	ὀδελονόμος	NOUN	m	active	
 61278	ὅδευμα	NOUN	n	active	
@@ -61786,7 +61786,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 61785	οἰοπολέω	VERB		active	
 61786	οἰοπόλος	ADJ	*	active	
 61787	οἶος	ADJ	*	active	
-61788	οἷος	NOUN	m	active	
+61788	οἷος	DET		active	
 61789	ὄϊος	ADJ	*	active	
 61790	οἰόφρων	NOUN	m	active	
 61791	οἰοχίτων	NOUN	m	active	
@@ -62948,7 +62948,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 62947	ὁμωρόφιος	ADJ	*	active	
 62948	ὁμώροφος	ADJ	*	active	
 62949	ὁμῶς	ADV		active	
-62950	ὅμως	SCONJ		active	
+62950	ὅμως	ADV		active	
 62951	ὁμωχέτας	NOUN	m	active	
 62952	ὀναγός	NOUN	m	active	
 62953	ὀνάγρα	NOUN	f	active	
@@ -64296,7 +64296,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 64295	ὀσμύλη	NOUN	f	active	
 64296	ὀσμύλιον	NOUN	n	active	
 64297	ὀσμώδης	ADJ	*	active	
-64298	ὅσος	NOUN	m	active	
+64298	ὅσος	DET		active	
 64299	ὅσπερ	PRON		active	
 64300	ὄσπρεον	NOUN	n	active	
 64301	ὀσπρεύω	VERB		active	
@@ -64556,7 +64556,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 64555	Οὐρανιάς	NOUN	f	active	
 64556	Οὐρανίδης	NOUN	m	active	
 64557	οὐρανίζω	VERB		active	
-64558	οὐράνιος	NOUN	n	active	
+64558	οὐράνιος	ADJ	*	active	
 64559	οὐρανίς	NOUN	f	active	
 64560	οὐρανίσκος	NOUN	m	active	
 64561	οὐρανοβάμων	NOUN	m	active	
@@ -64657,7 +64657,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 64656	οὖσον	NOUN	n	active	
 64657	οὐτάζω	VERB		active	
 64658	οὐτάω	VERB		active	
-64659	οὔτε	ADV		active	
+64659	οὔτε	CCONJ		active	
 64660	οὔτησις	NOUN	f	active	
 64661	οὐτήτειρα	NOUN	f	active	
 64662	οὐτιδανός	ADJ	*	active	
@@ -64668,7 +64668,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 64667	οὔτις	NOUN	m	active	
 64668	οὐτίς	NOUN	f	active	
 64669	οὔτοι	ADV		active	
-64670	οὗτος	NOUN	m	active	
+64670	οὗτος	DET		active	
 64671	οὕτως	ADV		active	
 64672	οὑτωτρόπως	ADV		active	
 64673	ὄφ	NOUN	n	active	
@@ -67744,7 +67744,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 67743	παρέπομαι	VERB		active	
 67744	παρεργάτης	NOUN	m	active	
 67745	παρεργολαβέω	VERB		active	
-67746	πάρεργος	NOUN	n	active	
+67746	πάρεργος	ADJ	*	active	
 67747	παρερεθίζω	VERB		active	
 67748	παρερέττω	VERB		active	
 67749	παρερμηνεύω	VERB		active	
@@ -68243,7 +68243,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 68242	πατρικιότης	NOUN	f	active	
 68243	πατρικός	ADJ	*	active	
 68244	πατρίληκτος	ADJ	*	active	
-68245	πάτριος	NOUN	m	active	
+68245	πάτριος	ADJ	*	active	
 68246	πατριστί	ADV		active	
 68247	πατριώτης	NOUN	m	active	
 68248	πατριωτικός	ADJ	*	active	
@@ -70127,7 +70127,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 70126	περισσοπαθέω	VERB		active	
 70127	περισσοποιός	ADJ	*	active	
 70128	περισσόπους	NOUN	m	active	
-70129	περισσός	NOUN	n	active	
+70129	περισσός	ADJ	*	active	
 70130	περισσόσαρκος	ADJ	*	active	
 70131	περισσοσυλλαβέω	VERB		active	
 70132	περισσοσύλλαβος	ADJ	*	active	
@@ -71114,7 +71114,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 71113	πιστολογευτής	NOUN	m	active	
 71114	πιστόν	NOUN	n	active	
 71115	πιστοποιέω	VERB		active	
-71116	πιστός	NOUN	n	active	
+71116	πιστός	ADJ	*	active	
 71117	πιστότης	NOUN	f	active	
 71118	πιστόφρων	NOUN	m	active	
 71119	πιστοφύλαξ	NOUN	m	active	
@@ -71408,11 +71408,11 @@ id_lemma	lemma	pos	gen	status	replaced_by
 71407	πλειστολόχεια	NOUN	f	active	
 71408	πλειστόμβροτος	ADJ	*	active	
 71409	πλειστονίκης	NOUN	m	active	
-71410	πλεῖστος	NOUN	m	active	
+71410	πλεῖστος	ADJ	*	active	
 71411	πλειστοτόκος	ADJ	*	active	
 71412	πλειστοφόρος	ADJ	*	active	
 71413	πλείω	VERB		active	
-71414	πλείων	NOUN	m	active	
+71414	πλείων	ADJ	*	active	
 71415	πλειών	NOUN	m	active	
 71416	πλέκος	NOUN	n	active	
 71417	πλεκόω	VERB		active	
@@ -72166,7 +72166,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 72165	πολλαπλασίασις	NOUN	f	active	
 72166	πολλαπλασιασμός	NOUN	m	active	
 72167	πολλαπλασιεπιμερής	ADJ	*	active	
-72168	πολλαπλάσιος	NOUN	n	active	
+72168	πολλαπλάσιος	ADJ	*	active	
 72169	πολλαπλασιότης	NOUN	f	active	
 72170	πολλαπλασιόω	VERB		active	
 72171	πολλαπλασίων	ADJ	*	active	
@@ -73437,7 +73437,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 73436	πόσις	NOUN	m	active	
 73437	Ποσοιδαία	NOUN	f	active	
 73438	ποσοποιός	ADJ	*	active	
-73439	πόσος	NOUN	n	active	
+73439	πόσος	DET		active	
 73440	ποσότης	NOUN	f	active	
 73441	ποσόω	VERB		active	
 73442	ποσσαέτης	ADJ	*	active	
@@ -73484,7 +73484,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 73483	ποταρχέω	VERB		active	
 73484	ποταυδάω	VERB		active	
 73485	ποταυλέω	VERB		active	
-73486	πότε	PRON		active	
+73486	πότε	ADV		active	
 73487	Ποτείδαια	NOUN	f	active	
 73488	Ποτειδάνιον	NOUN	n	active	
 73489	ποτεξορκίζω	VERB		active	
@@ -73576,7 +73576,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 73575	ποτός	NOUN	n	active	
 73576	πότος	NOUN	m	active	
 73577	ποτόσδω	VERB		active	
-73578	ποῦ	PRON		active	
+73578	ποῦ	ADV		active	
 73579	πουλβῖνον	NOUN	n	active	
 73580	πούλιμος	NOUN	m	active	
 73581	πουλυβότειρα	NOUN	f	active	
@@ -78521,7 +78521,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 78520	πυκνόπτερος	ADJ	*	active	
 78521	πυκνορράξ	ADJ	*	active	
 78522	πυκνόρριζος	ADJ	*	active	
-78523	πυκνός	NOUN	n	active	
+78523	πυκνός	ADJ	*	active	
 78524	πυκνόσαρκος	ADJ	*	active	
 78525	πυκνοσπορέω	VERB		active	
 78526	πυκνόσπορος	ADJ	*	active	
@@ -78878,7 +78878,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 78877	πυρρόομαι	VERB		active	
 78878	πυρροποίκιλος	ADJ	*	active	
 78879	πυρροπτέρυξ	NOUN	m	active	
-78880	πυρρός	NOUN	m	active	
+78880	πυρρός	ADJ	*	active	
 78881	πυρρότης	NOUN	f	active	
 78882	πυρρότριχος	ADJ	*	active	
 78883	πυρρούλας	NOUN	m	active	
@@ -79006,7 +79006,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 79005	πωρώδης	ADJ	*	active	
 79006	πώρωμα	NOUN	n	active	
 79007	πώρωσις	NOUN	f	active	
-79008	πῶς	PRON		active	
+79008	πῶς	ADV		active	
 79009	πως	PART		active	
 79010	πωτάομαι	VERB		active	
 79011	πωτήεις	ADJ	*	active	
@@ -79494,7 +79494,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 79493	ῥοδεών	NOUN	m	active	
 79494	ῥοδῆ	NOUN	f	active	
 79495	ῥοδία	NOUN	f	active	
-79496	Ῥοδιακός	NOUN	n	active	
+79496	Ῥοδιακός	ADJ	*	active	
 79497	ῥοδίζω	VERB		active	
 79498	ῥόδινος	ADJ	*	active	
 79499	Ῥόδιος	ADJ	*	active	
@@ -82513,7 +82513,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 82512	στατίζω	VERB		active	
 82513	στατικός	ADJ	*	active	
 82514	στατιών	NOUN	f	active	
-82515	στατός	NOUN	m	active	
+82515	στατός	ADJ	*	active	
 82516	στάτωρ	NOUN	m	active	
 82517	σταυρικός	ADJ	*	active	
 82518	σταυρίον	NOUN	n	active	
@@ -84841,7 +84841,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 84840	συμφατικός	ADJ	*	active	
 84841	συμφερόντως	ADV		active	
 84842	συμφερτός	ADJ	*	active	
-84843	συμφέρω	NOUN	n	active	
+84843	συμφέρω	VERB		active	
 84844	συμφερώτερος	ADJ	*	active	
 84845	συμφεύγω	VERB		active	
 84846	σύμφημι	VERB		active	
@@ -86884,7 +86884,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 86883	συντρυγάω	VERB		active	
 86884	συντρυφάω	VERB		active	
 86885	συντρώγω	VERB		active	
-86886	συντυγχάνω	NOUN	m	active	
+86886	συντυγχάνω	VERB		active	
 86887	συντυλόω	VERB		active	
 86888	συντυμβωρυχέω	VERB		active	
 86889	συντυπόω	VERB		active	
@@ -88130,7 +88130,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 88129	ταυριάω	VERB		active	
 88130	ταυρίδιον	NOUN	n	active	
 88131	ταυρίζω	VERB		active	
-88132	ταυρικός	NOUN	n	active	
+88132	ταυρικός	ADJ	*	active	
 88133	ταυρίνη	NOUN	f	active	
 88134	ταυροβόας	NOUN	m	active	
 88135	ταυροβόλιον	NOUN	n	active	
@@ -88441,7 +88441,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 88440	τελειογονία	NOUN	f	active	
 88441	τελειοκαρπέω	VERB		active	
 88442	τελειοποιέω	VERB		active	
-88443	τέλειος	NOUN	n	active	
+88443	τέλειος	ADJ	*	active	
 88444	τελειότης	NOUN	f	active	
 88445	τελειοτοκέω	VERB		active	
 88446	τελειοτόκος	ADJ	*	active	
@@ -88727,7 +88727,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 88726	τεταρτομοιρία	NOUN	f	active	
 88727	τεταρτονεικοστή	NOUN	f	active	
 88728	τεταρτοπώλης	NOUN	m	active	
-88729	τέταρτος	NOUN	m	active	
+88729	τέταρτος	ADJ	*	active	
 88730	τετεχνημένως	ADV		active	
 88731	τετηρημένως	ADV		active	
 88732	τετίημαι	VERB		active	
@@ -89633,7 +89633,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 89632	τοσαυταχῶς	ADV		active	
 89633	τοσόσδε	PRON		active	
 89634	τοσοσδί	ADV		active	
-89635	τοσοῦτος	ADV		active	
+89635	τοσοῦτος	DET		active	
 89636	τοσουτοσί	ADV		active	
 89637	τοσσάτιος	ADJ	*	active	
 89638	τότε	ADV		active	
@@ -90022,7 +90022,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 90021	τριετηρικός	ADJ	*	active	
 90022	τριετηρίς	NOUN	f	active	
 90023	τριέτηρος	ADJ	*	active	
-90024	τριέτης	NOUN	n	active	
+90024	τριέτης	ADJ	*	active	
 90025	τριετία	NOUN	f	active	
 90026	τριετίζω	VERB		active	
 90027	τριζυγής	ADJ	*	active	
@@ -90260,7 +90260,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 90259	τρίρριζος	ADJ	*	active	
 90260	τρίρρυθμος	ADJ	*	active	
 90261	τρίρρυμος	ADJ	*	active	
-90262	τρίς	ADJ	*	active	
+90262	τρίς	ADV		active	
 90263	τρισάθλιος	ADJ	*	active	
 90264	τρισαλιτήριος	ADJ	*	active	
 90265	τρισάλυπος	ADJ	*	active	
@@ -90380,7 +90380,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 90379	τριτοκέω	VERB		active	
 90380	τριτολογέω	VERB		active	
 90381	τριτομηνίς	NOUN	f	active	
-90382	τρίτομος	NOUN	n	active	
+90382	τρίτομος	ADJ	*	active	
 90383	τρίτονος	NOUN	n	active	
 90384	τρίτος	ADJ	*	active	
 90385	τριτόσπονδος	ADJ	*	active	
@@ -91033,7 +91033,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 91032	τύχος	NOUN	m	active	
 91033	Τύχων	NOUN	m	active	
 91034	τύψις	NOUN	f	active	
-91035	τῷ	NOUN	m	active	
+91035	τῷ	ADV		active	
 91036	τωθάζω	VERB		active	
 91037	τώθασμα	NOUN	n	active	
 91038	τωθασμός	NOUN	m	active	
@@ -92026,7 +92026,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 92025	ὑπέραντλος	ADJ	*	active	
 92026	ὑπεράνω	ADV		active	
 92027	ὑπεράνωθεν	ADV		active	
-92028	ὑπεραπαιτέω	NOUN	f	active	
+92028	ὑπεραπαιτέω	VERB		active	
 92029	ὑπεραπατάομαι	VERB		active	
 92030	ὑπεραπλόομαι	VERB		active	
 92031	ὑπεραποδέχομαι	VERB		active	
@@ -94606,7 +94606,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 94605	φαινοπροσωπέω	VERB		active	
 94606	φαινοῦκλον	NOUN	n	active	
 94607	φαῖνοψ	NOUN	m	active	
-94608	φαίνω	NOUN	m	active	
+94608	φαίνω	VERB		active	
 94609	φαινῶπις	NOUN	f	active	
 94610	φαιός	NOUN	f	active	
 94611	φαιουρός	ADJ	*	active	
@@ -94661,7 +94661,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 94660	φαλάκρωμα	NOUN	n	active	
 94661	φαλάκρωσις	NOUN	f	active	
 94662	φαλάνθειος	NOUN	m	active	
-94663	φάλανθος	NOUN	n	active	
+94663	φάλανθος	ADJ	*	active	
 94664	φαλαντίας	NOUN	m	active	
 94665	φαλάντωμα	NOUN	n	active	
 94666	φαλαρίς	NOUN	f	active	
@@ -97154,7 +97154,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 97153	χαλκήλατος	ADJ	*	active	
 97154	χαλκήρης	ADJ	*	active	
 97155	χαλκήσιον	NOUN	n	active	
-97156	χαλκιαῖος	NOUN	f	active	
+97156	χαλκιαῖος	ADJ	*	active	
 97157	χαλκιδεύομαι	VERB		active	
 97158	χαλκιδίζω	VERB		active	
 97159	χαλκίδιον	NOUN	n	active	
@@ -98147,7 +98147,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 98146	χλωροκυρτίς	NOUN	f	active	
 98147	χλωροποιός	ADJ	*	active	
 98148	χλωρόπτιλος	ADJ	*	active	
-98149	χλωρός	NOUN	f	active	
+98149	χλωρός	ADJ	*	active	
 98150	χλωροσαῦρα	NOUN	f	active	
 98151	χλωροστρουθίον	NOUN	n	active	
 98152	χλωρότης	NOUN	f	active	
@@ -98983,7 +98983,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 98982	χωματεργολάβος	NOUN	m	active	
 98983	χωματίας	NOUN	m	active	
 98984	χωματίζω	VERB		active	
-98985	χωματικός	NOUN	n	active	
+98985	χωματικός	ADJ	*	active	
 98986	χωμάτιον	NOUN	n	active	
 98987	χωματισμός	NOUN	m	active	
 98988	χωματογραφία	NOUN	f	active	
@@ -99962,7 +99962,7 @@ id_lemma	lemma	pos	gen	status	replaced_by
 99961	ὤρυμα	NOUN	n	active	
 99962	ὠρύομαι	VERB		active	
 99963	ὠρυτός	NOUN	m	active	
-99964	ὡς	NOUN	m	active	
+99964	ὡς	ADV		active	
 99965	ὦς	NOUN	n	active	
 99966	ὡσάν	SCONJ		active	
 99967	ὡσανεί	ADV		active	
@@ -100045,3 +100045,74 @@ id_lemma	lemma	pos	gen	status	replaced_by
 100044	ὤχρωμα	NOUN	n	active	
 100045	ὤψ	NOUN	f	active	
 100046	ᾠώδης	ADJ	*	active	
+100047	Λυσίμαχος	PROPN	m	active	
+100048	Σεβαστός	PROPN	m	active	
+100049	α	NUM		active	
+100050	αὐθαιρέτως	ADV		active	
+100051	βαρέως	ADV		active	
+100052	βραδέως	ADV		active	
+100053	γενναίως	ADV		active	
+100054	δικαίως	ADV		active	
+100055	δυσχερῶς	ADV		active	
+100056	εὐκαίρως	ADV		active	
+100057	εὐμαρῶς	ADV		active	
+100058	εὐτάκτως	ADV		active	
+100059	εὐτυχῶς	ADV		active	
+100060	εὐτόνως	ADV		active	
+100061	εὐχερῶς	ADV		active	
+100062	θερμῶς	ADV		active	
+100063	θυμικῶς	ADV		active	
+100064	κ	NUM		active	
+100065	κακῶς	ADV		active	
+100066	καταξίως	ADV		active	
+100067	κομψῶς	ADV		active	
+100068	λ	NUM		active	
+100069	λαμπρῶς	ADV		active	
+100070	μ	NUM		active	
+100071	μήν	PART		active	
+100072	μαλακῶς	ADV		active	
+100073	μετρίως	ADV		active	
+100074	μικρῶς	ADV		active	
+100075	μισοπονήρως	ADV		active	
+100076	ν	NUM		active	
+100077	ξ	NUM		active	
+100078	παντελῶς	ADV		active	
+100079	παχυμερῶς	ADV		active	
+100080	περισσῶς	ADV		active	
+100081	σαφῶς	ADV		active	
+100082	σπουδαίως	ADV		active	
+100083	στενῶς	ADV		active	
+100084	συνήθως	ADV		active	
+100085	συντόμως	ADV		active	
+100086	τ	NUM		active	
+100087	φανερῶς	ADV		active	
+100088	ἀγνωμόνως	ADV		active	
+100089	ἀδίκως	ADV		active	
+100090	ἀδιαφόρως	ADV		active	
+100091	ἀηδῶς	ADV		active	
+100092	ἀκάλως	ADV		active	
+100093	ἀκεραίως	ADV		active	
+100094	ἀκολούθως	ADV		active	
+100095	ἀκριβῶς	ADV		active	
+100096	ἀλλοίως	ADV		active	
+100097	ἀλόγως	ADV		active	
+100098	ἀμέμπτως	ADV		active	
+100099	ἀναγκαίως	ADV		active	
+100100	ἀνοικονομήτως	ADV		active	
+100101	ἀνυπερθέτως	ADV		active	
+100102	ἀσθενῶς	ADV		active	
+100103	ἀσυνειδήτως	ADV		active	
+100104	ἀσυντάκτως	ADV		active	
+100105	ἀσφαλῶς	ADV		active	
+100106	ἐπιμελῶς	ADV		active	
+100107	ἑκουσίως	ADV		active	
+100108	ἑτοίμως	ADV		active	
+100109	ἱκανῶς	ADV		active	
+100110	ὀλιγώρως	ADV		active	
+100111	ὀρθῶς	ADV		active	
+100112	ὁμοίως	ADV		active	
+100113	ὁποτέρως	ADV		active	
+100114	ὁσίως	ADV		active	
+100115	ὅλως	ADV		active	
+100116	ὑγιῶς	ADV		active	
+100117	ῥᾳδίως	ADV		active	

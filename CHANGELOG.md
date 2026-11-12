@@ -9,11 +9,13 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-12
 ### Added
 - Two correction actions: `add-wr` gives a lemma another written
   representation, `add-variant` links two lemmas as lemma variants
   (`lila:lemmaVariant`), following the definitions of Swaelens, Mambrini &
   Passarotti (2026). See `data/corrections/README.md`.
+- The initial set of correction based upon PapyGreek linking
 
 ## [0.3.0] - 2026-11-12
 
@@ -123,7 +125,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.1.0...v0.1.1
