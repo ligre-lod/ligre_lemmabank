@@ -9,6 +9,15 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- Corrections from the review of the spelling variants in PapyGreek
+  (`data/corrections/2026-11-17_papygreek-spelling-variants.tsv`): 51
+  personal names that LiGre only had as an adjective, as new proper nouns
+  (Ἀλέξανδρος, Φίλιππος, Ὀνήσιμος, …); 6 middle verbs that LSJ treats as the
+  usual form of the verb, as new lemmas and lemma variants of their active
+  (δέομαι of δέω, χαρίζομαι of χαρίζω, …); and 3 spelling variants as written
+  representations (συμμίγνυμι, ἀρσενικός, ἀπαλλάττω).
+
 ## [0.6.2] - 2026-11-17
 
 ### Fixed
