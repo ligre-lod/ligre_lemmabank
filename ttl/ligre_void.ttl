@@ -25,7 +25,7 @@
 <https://w3id.org/ligre/data/linksets/IGVLL/id/distribution> a dcat:Distribution ;
     dcterms:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
     dcterms:title "Linkset in Turtle"@en ;
-    dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/igvll/v0.1.0/ttl/IGVLL_LiGre.ttl> ;
+    dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/igvll/v0.2.0/ttl/IGVLL_LiGre.ttl> ;
     dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 <https://creativecommons.org/licenses/by-nc-sa/4.0/> a dcterms:LicenseDocument ;
@@ -34,26 +34,26 @@
 <https://w3id.org/ligre/data/linksets/IGVLL/id/linkset> a void:Linkset,
         dcat:Dataset ;
     dcterms:creator <https://orcid.org/0009-0004-2388-9233> ;
-    dcterms:description "Links from the Greek source words (etymons) of the Index Graecorum Vocabulorum in Linguam Latinam (IGVLL), an index of Latin loanwords from Greek, to their lemmas in the LiGre Lemma Bank for Ancient Greek: one link for every Greek word whose spelling matches exactly one LiGre lemma."@en ;
+    dcterms:description "Links from the Greek source words (etymons) of the Index Graecorum Vocabulorum in Linguam Latinam (IGVLL), an index of Latin loanwords from Greek, to their lemmas in the LiGre Lemma Bank for Ancient Greek: one link for every Greek word whose spelling matches exactly one LiGre lemma, and for every Greek word linked to a LiGre lemma after manual review."@en ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
     dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
     dcterms:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
     dcterms:publisher <https://ror.org/00cv9y106> ;
     dcterms:source <https://github.com/CIRCSE/index-graecorum-vocabulorum> ;
     dcterms:title "IGVLL–LiGre linkset"@en ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/igvll/v0.1.0/ttl/IGVLL_LiGre.ttl> ;
-    void:distinctObjects 1349 ;
-    void:distinctSubjects 1381 ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/igvll/v0.2.0/ttl/IGVLL_LiGre.ttl> ;
+    void:distinctObjects 1422 ;
+    void:distinctSubjects 1456 ;
     void:exampleResource <http://lila-erc.eu/data/lexicalResources/IGVLL/id/etymon/1> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:linkPredicate ontolex:canonicalForm ;
     void:objectsTarget ligreLemma:LemmaBank ;
     void:subjectsTarget <http://lila-erc.eu/data/lexicalResources/IGVLL/Lexicon> ;
-    void:triples 1381 ;
+    void:triples 1456 ;
     void:vocabulary ontolex: ;
     dcat:distribution <https://w3id.org/ligre/data/linksets/IGVLL/id/distribution> ;
     dcat:landingPage <https://github.com/ligre-lod/igvll> ;
-    dcat:version "0.1.0" ;
+    dcat:version "0.2.0" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
 <https://orcid.org/0009-0004-2388-9233> a foaf:Agent,
@@ -773,33 +773,33 @@ ligreLemma:LemmaBank a void:Dataset,
     dcterms:publisher <https://ror.org/00cv9y106> ;
     dcterms:title "LiGre Lemma Bank"@en ;
     void:classPartition [ void:class lila:Lemma ;
-            void:entities 100114 ] ;
+            void:entities 100171 ] ;
     void:classes 1 ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.6.2/ttl/ligre_lemmabank.ttl> ;
-    void:entities 100117 ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.7.0/ttl/ligre_lemmabank.ttl> ;
+    void:entities 100174 ;
     void:exampleResource ligreLemma:15308 ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 9 ;
-    void:propertyPartition [ void:property dcterms:isReplacedBy ;
+    void:propertyPartition [ void:property rdf:type ;
+            void:triples 100171 ],
+        [ void:property lila:hasGender ;
+            void:triples 40914 ],
+        [ void:property rdfs:label ;
+            void:triples 100174 ],
+        [ void:property dcterms:isPartOf ;
+            void:triples 100171 ],
+        [ void:property lila:lemmaVariant ;
+            void:triples 14 ],
+        [ void:property dcterms:isReplacedBy ;
             void:triples 3 ],
-        [ void:property rdf:type ;
-            void:triples 100114 ],
+        [ void:property lila:hasPOS ;
+            void:triples 100171 ],
         [ void:property owl:deprecated ;
             void:triples 3 ],
-        [ void:property lila:lemmaVariant ;
-            void:triples 2 ],
-        [ void:property lila:hasPOS ;
-            void:triples 100114 ],
-        [ void:property dcterms:isPartOf ;
-            void:triples 100114 ],
-        [ void:property rdfs:label ;
-            void:triples 100117 ],
-        [ void:property lila:hasGender ;
-            void:triples 40863 ],
         [ void:property ontolex:writtenRep ;
-            void:triples 100182 ] ;
+            void:triples 100242 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
-    void:triples 541512 ;
+    void:triples 541863 ;
     void:uriSpace "https://w3id.org/ligre/data/id/" ;
     void:vocabulary lila:,
         dcterms:,
@@ -809,8 +809,8 @@ ligreLemma:LemmaBank a void:Dataset,
             dcterms:issued "2026-11-17"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "All lemmas in Turtle"@en ;
-            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.6.2> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.6.2/ttl/ligre_lemmabank.ttl> ;
+            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.7.0> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.7.0/ttl/ligre_lemmabank.ttl> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
         [ a dcat:Distribution ;
             dcterms:title "SPARQL endpoint"@en ;
@@ -823,7 +823,7 @@ ligreLemma:LemmaBank a void:Dataset,
         "lemmatization"@en,
         "linked data"@en ;
     dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> ;
-    dcat:version "0.6.2" ;
+    dcat:version "0.7.0" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
 <https://ligre.ugent.be/sparql> a dcat:DataService ;
