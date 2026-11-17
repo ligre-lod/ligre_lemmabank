@@ -9,6 +9,15 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-11-17
+
+### Changed
+- The endpoint serves PapyGreek–LiGre 0.3.0: `ttl/corpora/PapyGreek_corpus.ttl`
+  is copied from that release, so `ttl/ligre_void.ttl` describes it. Its
+  tokens and links are the same as in 0.2.0. The lemmas are unchanged.
+- No schema change. Reload the corpora (`loader/load_corpora.py`) and deploy
+  the new image.
+
 ## [0.6.0] - 2026-11-12
 
 ### Added
@@ -169,7 +178,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.3.0...v0.4.0
