@@ -9,6 +9,8 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-17
+
 ### Added
 - Corrections from the review of the spelling variants in PapyGreek
   (`data/corrections/2026-11-17_papygreek-spelling-variants.tsv`): 51
@@ -16,7 +18,11 @@ minted lemma IRIs under `https://w3id.org/ligre`.
   (Ἀλέξανδρος, Φίλιππος, Ὀνήσιμος, …); 6 middle verbs that LSJ treats as the
   usual form of the verb, as new lemmas and lemma variants of their active
   (δέομαι of δέω, χαρίζομαι of χαρίζω, …); and 3 spelling variants as written
-  representations (συμμίγνυμι, ἀρσενικός, ἀπαλλάττω).
+  representations (συμμίγνυμι, ἀρσενικός, ἀπαλλάττω). 57 new lemmas
+  (100118–100174); no lemma is changed, merged or retired.
+- The IGVLL–LiGre linkset 0.2.0: 1,456 links, of which 75 were added after
+  manual review.
+- No database change: load the lemmas and deploy the new image.
 
 ## [0.6.2] - 2026-11-17
 
@@ -199,7 +205,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.5.0...v0.6.0
