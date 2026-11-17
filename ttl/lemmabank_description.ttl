@@ -10,7 +10,8 @@
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:creator <https://orcid.org/0009-0004-2388-9233>,
         <https://orcid.org/0000-0002-3360-8093>,
-        <https://orcid.org/0000-0003-0834-7562> ;
+        <https://orcid.org/0000-0003-0834-7562>,
+        <https://orcid.org/0000-0002-9806-7187> ;
     dcterms:publisher <https://ror.org/00cv9y106> ;
     dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
     dcterms:conformsTo <http://lila-erc.eu/ontologies/lila> ;
@@ -43,6 +44,9 @@
     foaf:name "Colin Swaelens" .
 
 <https://orcid.org/0000-0003-0834-7562> a foaf:Person ;
+    foaf:name "Francesco Mambrini" .
+
+<https://orcid.org/0000-0002-9806-7187> a foaf:Person ;
     foaf:name "Marco Passarotti" .
 
 <https://ror.org/00cv9y106> a foaf:Agent ;

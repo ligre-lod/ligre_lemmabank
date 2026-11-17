@@ -454,7 +454,7 @@ To cite the data, use the Zenodo DOI. The concept DOI always resolves to the
 latest release; to cite the exact version you used, take the DOI of that
 release from the Zenodo record:
 
-> Lemay, P., Swaelens, C., & Passarotti, M. (2026). *LiGre Lemma Bank: a Lemma
+> Lemay, P., Swaelens, C., Mambrini, F., & Passarotti, M. (2026). *LiGre Lemma Bank: a Lemma
 > Bank for Ancient Greek as Linked Open Data* [Data set]. Zenodo.
 > https://doi.org/10.5281/zenodo.24085996
 

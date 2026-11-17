@@ -9,6 +9,18 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-11-17
+
+### Fixed
+- Authors of the dataset: Francesco Mambrini, co-author of the lemma list and
+  of Swaelens, Mambrini & Passarotti (2026), is added as creator in
+  `CITATION.cff`, `.zenodo.json` and the dataset description
+  (`dcterms:creator`). Marco Passarotti's ORCID was wrong: the descriptions
+  gave Francesco Mambrini's iD (0000-0003-0834-7562) for him; his own is
+  0000-0002-9806-7187. The Zenodo metadata no longer lists Francesco Mambrini
+  as data collector.
+- No data or schema change: the lemmas are unchanged. Deploy the new image.
+
 ## [0.6.1] - 2026-11-17
 
 ### Changed
@@ -178,7 +190,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.4.0...v0.5.0

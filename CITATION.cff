@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use the LiGre Lemma Bank, please cite it using the metadata below, and cite the paper in preferred-citation."
 type: dataset
 title: "LiGre Lemma Bank: a Lemma Bank for Ancient Greek as Linked Open Data"
-version: 0.6.1
+version: 0.6.2
 date-released: 2026-11-17
 doi: 10.5281/zenodo.24085996
 license: CC-BY-SA-4.0
@@ -17,9 +17,13 @@ authors:
     given-names: Colin
     orcid: "https://orcid.org/0000-0002-3360-8093"
     affiliation: Ghent University
+  - family-names: Mambrini
+    given-names: Francesco
+    orcid: "https://orcid.org/0000-0003-0834-7562"
+    affiliation: Università Cattolica del Sacro Cuore
   - family-names: Passarotti
     given-names: Marco
-    orcid: "https://orcid.org/0000-0003-0834-7562"
+    orcid: "https://orcid.org/0000-0002-9806-7187"
     affiliation: Università Cattolica del Sacro Cuore
 abstract: >-
   LiGre, the Lemma Bank for Ancient Greek, publishes about 100,000 Ancient Greek

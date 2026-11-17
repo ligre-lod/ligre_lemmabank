@@ -14,15 +14,13 @@
       "affiliation": "Ghent University"
     },
     {
-      "name": "Passarotti, Marco",
+      "name": "Mambrini, Francesco",
       "orcid": "0000-0003-0834-7562",
       "affiliation": "Università Cattolica del Sacro Cuore"
-    }
-  ],
-  "contributors": [
+    },
     {
-      "name": "Mambrini, Francesco",
-      "type": "DataCollector",
+      "name": "Passarotti, Marco",
+      "orcid": "0000-0002-9806-7187",
       "affiliation": "Università Cattolica del Sacro Cuore"
     }
   ],
