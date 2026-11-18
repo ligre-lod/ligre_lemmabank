@@ -9,6 +9,19 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Added
+- Lemmas that PapyGreek showed to be missing from LiGre
+  (`data/corrections/2026-11-18_papygreek-missing-lemmas.tsv`): the pronouns σύ
+  and σεαυτοῦ, the nouns ὄνομα and Σαραπιεῖον, the adjective δίδυμος and 24
+  personal and place names (Ζήνων, Σαραπίων, Ἀθηνόδωρος, Ὀξύρυγχος, …).
+
+### Changed
+- Proper nouns may be without a gender, for indeclinable names whose gender
+  cannot be given, such as the Egyptian months (Θώθ). Common nouns still need
+  exactly one. The SHACL shape (`shapes/lemma.shacl.ttl`), the loader and the
+  check of correction files accept a `PROPN` with an empty gender. As in LiLa,
+  where a gender is optional.
+
 ## [0.7.1] - 2026-11-17
 
 ### Changed

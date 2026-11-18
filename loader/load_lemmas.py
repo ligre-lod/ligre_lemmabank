@@ -33,8 +33,9 @@ def load_tsv_rows(tsv_path):
 
 def check_noun_genders(rows):
     missing = [(row_num, label, gender) for row_num, label, pos, gender in rows
-               if pos in ("NOUN", "PROPN") and gender not in ("f", "m", "n")]
-    assert not missing, f"nouns and proper nouns without gender f, m or n: {missing}"
+               if (pos == "NOUN" and gender not in ("f", "m", "n"))
+               or (pos == "PROPN" and gender not in ("", "f", "m", "n"))]
+    assert not missing, f"nouns without gender f, m or n, or proper nouns with another gender: {missing}"
 
 def dedup(rows):
     seen = {}
