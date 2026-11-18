@@ -9,6 +9,8 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-18
+
 ### Added
 - Lemmas that PapyGreek showed to be missing from LiGre
   (`data/corrections/2026-11-18_papygreek-missing-lemmas.tsv`): the pronouns σύ
@@ -21,6 +23,7 @@ minted lemma IRIs under `https://w3id.org/ligre`.
   exactly one. The SHACL shape (`shapes/lemma.shacl.ttl`), the loader and the
   check of correction files accept a `PROPN` with an empty gender. As in LiLa,
   where a gender is optional.
+- No database schema change: load the lemmas and deploy the new image.
 
 ## [0.7.1] - 2026-11-17
 
@@ -227,7 +230,8 @@ listed in the README.
   representations, `ligre_lu`, and the `lemma` columns `infl_cat`, `p` and
   `grad`). Existing databases keep working; the tables can be dropped.
 
-[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/ligre-lod/ligre_lemmabank/compare/v0.6.1...v0.6.2
