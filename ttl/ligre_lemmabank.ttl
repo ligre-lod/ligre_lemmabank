@@ -1244,11 +1244,113 @@
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "Ὀνήσιμος"@grc .
 
+<https://w3id.org/ligre/data/id/lemma/100175> a lila:Lemma ;
+    rdfs:label "Εἰρήνη" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Εἰρήνη"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100176> a lila:Lemma ;
+    rdfs:label "Μηνᾶς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Μηνᾶς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100177> a lila:Lemma ;
+    rdfs:label "Μῦς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Μῦς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100178> a lila:Lemma ;
+    rdfs:label "δίδυμος" ;
+    lila:hasPOS lila:adjective ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "δίδυμος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100179> a lila:Lemma ;
+    rdfs:label "Σαραπιεῖον" ;
+    lila:hasGender lila:neuter ;
+    lila:hasPOS lila:noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Σαραπιεῖον"@grc .
+
 <https://w3id.org/ligre/data/id/lemma/10018> a lila:Lemma ;
     rdfs:label "ἀπατμίζω" ;
     lila:hasPOS lila:verb ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ἀπατμίζω"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100180> a lila:Lemma ;
+    rdfs:label "ὄνομα" ;
+    lila:hasGender lila:neuter ;
+    lila:hasPOS lila:noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "ὄνομα"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100181> a lila:Lemma ;
+    rdfs:label "σεαυτοῦ" ;
+    lila:hasPOS lila:pronoun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "σεαυτοῦ"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100182> a lila:Lemma ;
+    rdfs:label "σύ" ;
+    lila:hasPOS lila:pronoun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "σύ"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100183> a lila:Lemma ;
+    rdfs:label "Αὐρήλιος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Αὐρήλιος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100184> a lila:Lemma ;
+    rdfs:label "Βησᾶς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Βησᾶς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100185> a lila:Lemma ;
+    rdfs:label "Δίδυμος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Δίδυμος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100186> a lila:Lemma ;
+    rdfs:label "Δημητρία" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Δημητρία"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100187> a lila:Lemma ;
+    rdfs:label "Διογενίς" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Διογενίς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100188> a lila:Lemma ;
+    rdfs:label "Διοσκουρίδης" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Διοσκουρίδης"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100189> a lila:Lemma ;
+    rdfs:label "Ζήνων" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ζήνων"@grc .
 
 <https://w3id.org/ligre/data/id/lemma/10019> a lila:Lemma ;
     rdfs:label "ἀπάτμισις" ;
@@ -1256,6 +1358,76 @@
     lila:hasPOS lila:noun ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ἀπάτμισις"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100190> a lila:Lemma ;
+    rdfs:label "Μάξιμος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Μάξιμος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100191> a lila:Lemma ;
+    rdfs:label "Μεγχῆς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Μεγχῆς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100192> a lila:Lemma ;
+    rdfs:label "Σαραπάς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Σαραπάς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100193> a lila:Lemma ;
+    rdfs:label "Σαραπίων" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Σαραπίων"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100194> a lila:Lemma ;
+    rdfs:label "Σερηνίλλα" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Σερηνίλλα"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100195> a lila:Lemma ;
+    rdfs:label "Φάβιος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Φάβιος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100196> a lila:Lemma ;
+    rdfs:label "Ἀθηνόδωρος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἀθηνόδωρος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100197> a lila:Lemma ;
+    rdfs:label "Ἀμμωνοῦς" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἀμμωνοῦς"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100198> a lila:Lemma ;
+    rdfs:label "Ἀμμώνιος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἀμμώνιος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100199> a lila:Lemma ;
+    rdfs:label "Ἀχιλλεύς" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἀχιλλεύς"@grc .
 
 <https://w3id.org/ligre/data/id/lemma/1002> a lila:Lemma ;
     rdfs:label "ἄδενδρος" ;
@@ -1268,6 +1440,34 @@
     lila:hasPOS lila:adjective ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
     ontolex:writtenRep "ἄπατος"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100200> a lila:Lemma ;
+    rdfs:label "Ἡρακλείδης" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἡρακλείδης"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100201> a lila:Lemma ;
+    rdfs:label "Ἰούδας" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἰούδας"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100202> a lila:Lemma ;
+    rdfs:label "Ἰσιδώρα" ;
+    lila:hasGender lila:feminine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ἰσιδώρα"@grc .
+
+<https://w3id.org/ligre/data/id/lemma/100203> a lila:Lemma ;
+    rdfs:label "Ὀξύρυγχος" ;
+    lila:hasGender lila:masculine ;
+    lila:hasPOS lila:proper_noun ;
+    dcterms:isPartOf <https://w3id.org/ligre/data/id/lemma/LemmaBank> ;
+    ontolex:writtenRep "Ὀξύρυγχος"@grc .
 
 <https://w3id.org/ligre/data/id/lemma/10021> a lila:Lemma ;
     rdfs:label "Ἀπατουρεών" ;
@@ -642081,50 +642281,50 @@
     dcterms:description "LiGre, the Lemma Bank for Ancient Greek: lemmatized Ancient Greek vocabulary published as linked open data. Each lemma is an instance of the LiLa Lemma class with its written representation (OntoLex-Lemon), part of speech and, for nouns, gender, so that Ancient Greek corpora and lexical resources can be linked through their lemmas as in the LiLa Knowledge Base for Latin."@en ;
     dcterms:identifier "https://doi.org/10.5281/zenodo.24085996" ;
     dcterms:isPartOf <https://w3id.org/ligre/data/id/KnowledgeBase> ;
-    dcterms:issued "2026-11-17"^^xsd:date ;
+    dcterms:issued "2026-11-18"^^xsd:date ;
     dcterms:language <http://lexvo.org/id/iso639-3/grc> ;
     dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
     dcterms:publisher <https://ror.org/00cv9y106> ;
     dcterms:title "LiGre Lemma Bank"@en ;
     void:classPartition [ void:class lila:Lemma ;
-            void:entities 100171 ] ;
+            void:entities 100200 ] ;
     void:classes 1 ;
-    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.7.1/ttl/ligre_lemmabank.ttl> ;
-    void:entities 100174 ;
+    void:dataDump <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.8.0/ttl/ligre_lemmabank.ttl> ;
+    void:entities 100203 ;
     void:exampleResource <https://w3id.org/ligre/data/id/lemma/15308> ;
     void:feature <http://www.w3.org/ns/formats/Turtle> ;
     void:properties 9 ;
-    void:propertyPartition [ void:property lila:lemmaVariant ;
-            void:triples 14 ],
-        [ void:property rdf:type ;
-            void:triples 100171 ],
-        [ void:property lila:hasGender ;
-            void:triples 40914 ],
+    void:propertyPartition [ void:property lila:hasPOS ;
+            void:triples 100200 ],
         [ void:property rdfs:label ;
-            void:triples 100174 ],
+            void:triples 100203 ],
         [ void:property dcterms:isReplacedBy ;
             void:triples 3 ],
-        [ void:property dcterms:isPartOf ;
-            void:triples 100171 ],
-        [ void:property ontolex:writtenRep ;
-            void:triples 100242 ],
+        [ void:property lila:lemmaVariant ;
+            void:triples 14 ],
         [ void:property owl:deprecated ;
             void:triples 3 ],
-        [ void:property lila:hasPOS ;
-            void:triples 100171 ] ;
+        [ void:property ontolex:writtenRep ;
+            void:triples 100271 ],
+        [ void:property rdf:type ;
+            void:triples 100200 ],
+        [ void:property dcterms:isPartOf ;
+            void:triples 100200 ],
+        [ void:property lila:hasGender ;
+            void:triples 40940 ] ;
     void:sparqlEndpoint <https://ligre.ugent.be/sparql> ;
-    void:triples 541863 ;
+    void:triples 542034 ;
     void:uriSpace "https://w3id.org/ligre/data/id/" ;
     void:vocabulary lila:,
         dcterms:,
         rdfs:,
         ontolex: ;
     dcat:distribution [ a dcat:Distribution ;
-            dcterms:issued "2026-11-17"^^xsd:date ;
+            dcterms:issued "2026-11-18"^^xsd:date ;
             dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
             dcterms:title "All lemmas in Turtle"@en ;
-            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.7.1> ;
-            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.7.1/ttl/ligre_lemmabank.ttl> ;
+            dcat:accessURL <https://github.com/ligre-lod/ligre_lemmabank/releases/tag/v0.8.0> ;
+            dcat:downloadURL <https://raw.githubusercontent.com/ligre-lod/ligre_lemmabank/v0.8.0/ttl/ligre_lemmabank.ttl> ;
             dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> ],
         [ a dcat:Distribution ;
             dcterms:title "SPARQL endpoint"@en ;
@@ -642137,6 +642337,6 @@
         "lemmatization"@en,
         "linked data"@en ;
     dcat:landingPage <https://github.com/ligre-lod/ligre_lemmabank> ;
-    dcat:version "0.7.1" ;
+    dcat:version "0.8.0" ;
     foaf:homepage <https://ligre-lod.github.io/> .
 
