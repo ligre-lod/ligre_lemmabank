@@ -36,7 +36,8 @@ action	ligre_id	lemma	pos	gender	new_lemma	new_pos	new_gender	replaced_by	reason
 
 `pos` and `new_pos` are Universal Dependencies tags (`ADJ`, `ADP`, `ADV`, `AUX`, `CCONJ`, `DET`, `INTJ`, `NOUN`,
 `NUM`, `PART`, `PRON`, `PROPN`, `PUNCT`, `SCONJ`, `SYM`, `VERB`, `X`). `gender` and `new_gender` are `m`, `f` or `n`
-for `NOUN` and `PROPN`, and empty for every other part of speech.
+for `NOUN`; for `PROPN` they are `m`, `f` or `n`, or empty when the name has no gender that can be given (an
+indeclinable name such as an Egyptian month, Θώθ); for every other part of speech they are empty.
 
 ## Actions
 

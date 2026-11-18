@@ -10,7 +10,7 @@
 ligre:LemmaShape
     a sh:NodeShape ;
     sh:targetClass lila:Lemma ;
-    sh:message "Nouns and proper nouns have exactly one gender; other parts of speech have none." ;
+    sh:message "Nouns have exactly one gender, proper nouns at most one; other parts of speech have none." ;
     sh:property [
         sh:path rdfs:label ;
         sh:minCount 1 ; sh:maxCount 1 ;
@@ -41,8 +41,10 @@ ligre:LemmaShape
         sh:maxCount 0 ;
         sh:message "A current lemma is not deprecated." ] ;
     sh:or (
-        [ sh:property [ sh:path lila:hasPOS ; sh:in ( lila:noun lila:proper_noun ) ] ;
+        [ sh:property [ sh:path lila:hasPOS ; sh:in ( lila:noun ) ] ;
           sh:property [ sh:path lila:hasGender ; sh:minCount 1 ; sh:maxCount 1 ] ]
+        [ sh:property [ sh:path lila:hasPOS ; sh:in ( lila:proper_noun ) ] ;
+          sh:property [ sh:path lila:hasGender ; sh:maxCount 1 ] ]
         [ sh:property [ sh:path lila:hasPOS ;
                         sh:in ( lila:adjective lila:adposition lila:adverb lila:auxiliary lila:coordinating_conjunction
                                 lila:determiner lila:interjection lila:numeral lila:particle lila:pronoun

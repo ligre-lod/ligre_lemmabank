@@ -102,8 +102,11 @@ def check_values(correction, prefix, errors):
     if pos not in POS_TAGS:
         errors.append(f"{correction.where}: {prefix}pos {pos!r} is not a Universal Dependencies tag {POS_TAGS}")
         ok = False
-    if pos in ("NOUN", "PROPN") and gender not in NOUN_GENDERS:
-        errors.append(f"{correction.where}: a {pos} needs {prefix}gender m, f or n")
+    if pos == "NOUN" and gender not in NOUN_GENDERS:
+        errors.append(f"{correction.where}: a NOUN needs {prefix}gender m, f or n")
+        ok = False
+    if pos == "PROPN" and gender and gender not in NOUN_GENDERS:
+        errors.append(f"{correction.where}: a PROPN has {prefix}gender m, f or n, or none")
         ok = False
     if pos not in ("NOUN", "PROPN") and gender:
         errors.append(f"{correction.where}: only NOUN and PROPN have a gender; leave {prefix}gender empty")

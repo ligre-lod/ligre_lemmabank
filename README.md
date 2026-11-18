@@ -76,7 +76,7 @@ Every lemma is a `lila:Lemma` with:
 | `rdfs:label` | the citation form, as a plain string | all |
 | `ontolex:writtenRep` | the citation form and any spelling variants, tagged `@grc` | all |
 | `lila:hasPOS` | a LiLa part-of-speech individual (`lila:noun`, `lila:verb`, …) | all |
-| `lila:hasGender` | `lila:masculine`, `lila:feminine` or `lila:neuter` | nouns and proper nouns |
+| `lila:hasGender` | `lila:masculine`, `lila:feminine` or `lila:neuter` | nouns, and proper nouns with a known gender |
 | `lila:lemmaVariant` | another LiGre lemma that is a variant of this one | some |
 | `dcterms:isPartOf` | the lemma bank, <https://w3id.org/ligre/data/id/lemma/LemmaBank> | all |
 
@@ -132,7 +132,8 @@ curl -H 'Accept: text/csv' --data-urlencode query@queries/02_lemmas_per_pos.rq \
 - Proper nouns are not distinguished from common nouns: personal and place
   names are tagged `lila:noun`.
 - Every noun has a gender: the loader (`loader/load_lemmas.py`) refuses
-  to load nouns without one.
+  to load nouns without one. Proper nouns have a gender when it can be given;
+  indeclinable names, such as the Egyptian months, may have none, as in LiLa.
 
 ### Corrections
 

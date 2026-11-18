@@ -9,6 +9,13 @@ minted lemma IRIs under `https://w3id.org/ligre`.
 
 ## [Unreleased]
 
+### Changed
+- Proper nouns may be without a gender, for indeclinable names whose gender
+  cannot be given, such as the Egyptian months (Θώθ). Common nouns still need
+  exactly one. The SHACL shape (`shapes/lemma.shacl.ttl`), the loader and the
+  check of correction files accept a `PROPN` with an empty gender. As in LiLa,
+  where a gender is optional.
+
 ## [0.7.1] - 2026-11-17
 
 ### Changed
